@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sample originated from http://www.sie.se/?p=293&filename=files/SIE_5_161209.pdf&description=SIE-formatet,%20utg%C3%A5va%205 -->
+<SieEntry
+    xmlns="http://www.sie.se/sie5"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:acompany="http://www.acompany.se/sie5extensions"
+    xsi:schemaLocation="http://www.acompany.se/sie5extensions http://www.sie.se/sie5extensions.xsd">
+  <FileInfo>
+    <SoftwareProduct name="Anonymous software Ltd" version="0.0.007B" />
+    <FileCreation time="2016-11-02T15:27:27.376893+01:00" by="LH" />
+    <Company xsi:type="acompany:CompanyType" organizationId="56334-3689" name="Universal Exports AB" extensionKey="extensionValue" />
+  </FileInfo>
+  <Accounts>
+    <Account id="1910" name="Kassa" type="asset" />
+    <Account id="1930" name="Bank" type="asset" />
+  </Accounts>
+  <FixedAssets primaryAccountId="1234">
+    <FixedAsset xsi:type="acompany:FixedAssetType" id="2345" extensionKey="extensionValue"/>
+  </FixedAssets>
+  <GeneralSubdividedAccount primaryAccountId="4567">
+    <GeneralObject xsi:type="acompany:GeneralObjectType" id="5678" extensionKey="extensionValue" />
+  </GeneralSubdividedAccount>
+  <Customers>
+    <Customer xsi:type="acompany:CustomerType"
+              id="7"
+              name="Kungliga Dramatiska Teatern"
+              organizationId="556334-3689"
+              extensionKey="extensionValue" />
+  </Customers>
+  <Suppliers>
+    <Supplier xsi:type="acompany:SupplierType"
+              id="7"
+              name="Kungliga Dramatiska Teatern"
+              organizationId="556334-3689"
+              extensionKey="extensionValue" />
+  </Suppliers>
+  <Journal id="6789">
+    <JournalEntry xsi:type="acompany:JournalEntryType" id="7890" journalDate="2014-01-31" text="Avskrivning enligt plan" extensionKey="extensionValue">
+      <OriginalEntryInfo date="2014-02-03" by="?" />
+      <LedgerEntry xsi:type="acompany:LedgerEntryType" accountId="8901" amount="402.9" extensionKey="extensionValue" />
+      <LedgerEntry accountId="9012" amount="-402.9" />
+    </JournalEntry>
+  </Journal>
+</SieEntry>
