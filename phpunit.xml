@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ SieSdk    PHP SDK for Sie5 export/import format
+           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+
+ This file is a part of DsigSdk.
+
+ Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ author    Kjell-Inge Gustafsson, kigkonsult
+ Link      https://kigkonsult.se
+ Version   0.95
+ License   Subject matter of licence is the software Sie5Sdk.
+           The above copyright, link, package and version notices,
+           this licence notice shall be included in all copies or substantial
+           portions of the Sie5Sdk.
+
+           Sie5Sdk is free software: you can redistribute it and/or modify
+           it under the terms of the GNU Lesser General Public License as published
+           by the Free Software Foundation, either version 3 of the License,
+           or (at your option) any later version.
+
+           Sie5Sdk is distributed in the hope that it will be useful,
+           but WITHOUT ANY WARRANTY; without even the implied warranty of
+           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+           GNU Lesser General Public License for more details.
+
+           You should have received a copy of the GNU Lesser General Public License
+           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+-->
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         syntaxCheck="false"
+         bootstrap="autoload.php"
+        >
+    <testsuites>
+        <testsuite name="Sie Tests">
+            <file>./test/TestSie.php</file>
+        </testsuite>
+        <testsuite name="SieEntry Tests">
+            <file>./test/TestSieEntry.php</file>
+        </testsuite>
+        <testsuite name="File Tests">
+            <file>./test/TestFiles.php</file>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist='true' processUncoveredFilesFromWhitelist="true">
+            <file>./src/Sie5Interface.php</file>
+            <file>./src/Sie5XMLAttributesInterface.php</file>
+            <file>./src/Dto/AccountAggregationsType.php</file>
+            <file>./src/Dto/AccountAggregationType.php</file>
+            <file>./src/Dto/AccountingCurrencyType.php</file>
+            <file>./src/Dto/AccountsTypeEntry.php</file>
+            <file>./src/Dto/AccountsType.php</file>
+            <file>./src/Dto/AccountTypeEntry.php</file>
+            <file>./src/Dto/AccountType.php</file>
+            <file>./src/Dto/AccountTypesInterface.php</file>
+            <file>./src/Dto/BalancesType.php</file>
+            <file>./src/Dto/BaseBalanceMultidimType.php</file>
+            <file>./src/Dto/BaseBalanceType.php</file>
+            <file>./src/Dto/BaseBalanceTypesInterface.php</file>
+            <file>./src/Dto/BaseSubdividedAccountType.php</file>
+            <file>./src/Dto/BaseSubdividedAccountTypeEntry.php</file>
+            <file>./src/Dto/BudgetMultidimType.php</file>
+            <file>./src/Dto/BudgetType.php</file>
+            <file>./src/Dto/CompanyType.php</file>
+            <file>./src/Dto/CompanyTypeEntry.php</file>
+            <file>./src/Dto/CorrectedByType.php</file>
+            <file>./src/Dto/CustomerInvoicesType.php</file>
+            <file>./src/Dto/CustomerInvoicesTypeEntry.php</file>
+            <file>./src/Dto/CustomerInvoiceType.php</file>
+            <file>./src/Dto/CustomerInvoiceTypeEntry.php</file>
+            <file>./src/Dto/CustomersType.php</file>
+            <file>./src/Dto/CustomerType.php</file>
+            <file>./src/Dto/DimensionsTypeEntry.php</file>
+            <file>./src/Dto/DimensionsType.php</file>
+            <file>./src/Dto/DimensionTypeEntry.php</file>
+            <file>./src/Dto/DimensionType.php</file>
+            <file>./src/Dto/DocumentsType.php</file>
+            <file>./src/Dto/DocumentsTypesInterface.php</file>
+            <file>./src/Dto/EmbeddedFileType.php</file>
+            <file>./src/Dto/EntryInfoType.php</file>
+            <file>./src/Dto/FileCreationType.php</file>
+            <file>./src/Dto/FileInfoTypeEntry.php</file>
+            <file>./src/Dto/FileInfoType.php</file>
+            <file>./src/Dto/FileReferenceType.php</file>
+            <file>./src/Dto/FiscalYearsType.php</file>
+            <file>./src/Dto/FiscalYearType.php</file>
+            <file>./src/Dto/FixedAssetsType.php</file>
+            <file>./src/Dto/FixedAssetsTypeEntry.php</file>
+            <file>./src/Dto/FixedAssetType.php</file>
+            <file>./src/Dto/FixedAssetTypeEntry.php</file>
+            <file>./src/Dto/ForeignCurrencyAmountType.php</file>
+            <file>./src/Dto/GeneralObjectType.php</file>
+            <file>./src/Dto/GeneralObjectTypeEntry.php</file>
+            <file>./src/Dto/GeneralSubdividedAccountType.php</file>
+            <file>./src/Dto/GeneralSubdividedAccountTypeEntry.php</file>
+            <file>./src/Dto/JournalEntryTypeEntry.php</file>
+            <file>./src/Dto/JournalEntryType.php</file>
+            <file>./src/Dto/JournalTypeEntry.php</file>
+            <file>./src/Dto/JournalType.php</file>
+            <file>./src/Dto/LedgerEntryType.php</file>
+            <file>./src/Dto/LedgerEntryTypeEntriesInterface.php</file>
+            <file>./src/Dto/LedgerEntryTypeEntry.php</file>
+            <file>./src/Dto/LedgerEntryTypesInterface.php</file>
+            <file>./src/Dto/LockingInfoType.php</file>
+            <file>./src/Dto/ObjectReferenceType.php</file>
+            <file>./src/Dto/ObjectType.php</file>
+            <file>./src/Dto/OriginalAmountType.php</file>
+            <file>./src/Dto/OriginalEntryInfoType.php</file>
+            <file>./src/Dto/OverstrikeType.php</file>
+            <file>./src/Dto/Sie.php</file>
+            <file>./src/Dto/Sie5DtoBase.php</file>
+            <file>./src/Dto/Sie5DtoExtAttrBase.php</file>
+            <file>./src/Dto/Sie5DtoInterface.php</file>
+            <file>./src/Dto/SieEntry.php</file>
+            <file>./src/Dto/SoftwareProductType.php</file>
+            <file>./src/Dto/SubdividedAccountObjectReferenceType.php</file>
+            <file>./src/Dto/SubdividedAccountObjectType.php</file>
+            <file>./src/Dto/SubdividedAccountObjectTypeEntry.php</file>
+            <file>./src/Dto/SupplierInvoicesType.php</file>
+            <file>./src/Dto/SupplierInvoicesTypeEntry.php</file>
+            <file>./src/Dto/SupplierInvoiceType.php</file>
+            <file>./src/Dto/SupplierInvoiceTypeEntry.php</file>
+            <file>./src/Dto/SuppliersType.php</file>
+            <file>./src/Dto/SupplierType.php</file>
+            <file>./src/Dto/TagType.php</file>
+            <file>./src/Dto/VoucherReferenceType.php</file>
+            <file>./src/Impl/CommonFactory.php</file>
+            <file>./src/Impl/SortFactory.php</file>
+            <file>./src/XMLParse/AccountAggregationsTypeParser.php</file>
+            <file>./src/XMLParse/AccountAggregationTypeParser.php</file>
+            <file>./src/XMLParse/AccountingCurrencyTypeParser.php</file>
+            <file>./src/XMLParse/AccountsTypeEntryParser.php</file>
+            <file>./src/XMLParse/AccountsTypeParser.php</file>
+            <file>./src/XMLParse/AccountTypeEntryParser.php</file>
+            <file>./src/XMLParse/AccountTypeParser.php</file>
+            <file>./src/XMLParse/BalancesTypeParser.php</file>
+            <file>./src/XMLParse/BaseBalanceMultidimTypeParser.php</file>
+            <file>./src/XMLParse/BaseBalanceTypeParser.php</file>
+            <file>./src/XMLParse/BudgetMultidimTypeParser.php</file>
+            <file>./src/XMLParse/BudgetTypeParser.php</file>
+            <file>./src/XMLParse/CompanyTypeEntryParser.php</file>
+            <file>./src/XMLParse/CompanyTypeParser.php</file>
+            <file>./src/XMLParse/CorrectedByTypeParser.php</file>
+            <file>./src/XMLParse/CustomerInvoicesTypeEntryParser.php</file>
+            <file>./src/XMLParse/CustomerInvoicesTypeParser.php</file>
+            <file>./src/XMLParse/CustomerInvoiceTypeEntryParser.php</file>
+            <file>./src/XMLParse/CustomerInvoiceTypeParser.php</file>
+            <file>./src/XMLParse/CustomersTypeParser.php</file>
+            <file>./src/XMLParse/CustomerTypeParser.php</file>
+            <file>./src/XMLParse/DimensionsTypeEntryParser.php</file>
+            <file>./src/XMLParse/DimensionsTypeParser.php</file>
+            <file>./src/XMLParse/DimensionTypeEntryParser.php</file>
+            <file>./src/XMLParse/DimensionTypeParser.php</file>
+            <file>./src/XMLParse/DocumentsTypeParser.php</file>
+            <file>./src/XMLParse/EmbeddedFileTypeParser.php</file>
+            <file>./src/XMLParse/EntryInfoTypeParser.php</file>
+            <file>./src/XMLParse/FileCreationTypeParser.php</file>
+            <file>./src/XMLParse/FileInfoTypeEntryParser.php</file>
+            <file>./src/XMLParse/FileInfoTypeParser.php</file>
+            <file>./src/XMLParse/FileReferenceTypeParser.php</file>
+            <file>./src/XMLParse/FiscalYearsTypeParser.php</file>
+            <file>./src/XMLParse/FiscalYearTypeParser.php</file>
+            <file>./src/XMLParse/FixedAssetsTypeEntryParser.php</file>
+            <file>./src/XMLParse/FixedAssetsTypeParser.php</file>
+            <file>./src/XMLParse/FixedAssetTypeEntryParser.php</file>
+            <file>./src/XMLParse/FixedAssetTypeParser.php</file>
+            <file>./src/XMLParse/ForeignCurrencyAmountTypeParser.php</file>
+            <file>./src/XMLParse/GeneralObjectTypeEntryParser.php</file>
+            <file>./src/XMLParse/GeneralObjectTypeParser.php</file>
+            <file>./src/XMLParse/GeneralSubdividedAccountTypeEntryParser.php</file>
+            <file>./src/XMLParse/GeneralSubdividedAccountTypeParser.php</file>
+            <file>./src/XMLParse/JournalEntryTypeEntryParser.php</file>
+            <file>./src/XMLParse/JournalEntryTypeParser.php</file>
+            <file>./src/XMLParse/JournalTypeEntryParser.php</file>
+            <file>./src/XMLParse/JournalTypeParser.php</file>
+            <file>./src/XMLParse/LedgerEntryTypeEntryParser.php</file>
+            <file>./src/XMLParse/LedgerEntryTypeParser.php</file>
+            <file>./src/XMLParse/LibXmlUtilTrait.php</file>
+            <file>./src/XMLParse/LockingInfoTypeParser.php</file>
+            <file>./src/XMLParse/ObjectReferenceTypeParser.php</file>
+            <file>./src/XMLParse/ObjectTypeParser.php</file>
+            <file>./src/XMLParse/OriginalAmountTypeParser.php</file>
+            <file>./src/XMLParse/OriginalEntryInfoTypeParser.php</file>
+            <file>./src/XMLParse/OverstrikeTypeParser.php</file>
+            <file>./src/XMLParse/RootSieEntryParser.php</file>
+            <file>./src/XMLParse/RootSieParser.php</file>
+            <file>./src/XMLParse/Sie5Parser.php</file>
+            <file>./src/XMLParse/Sie5ParserBase.php</file>
+            <file>./src/XMLParse/Sie5ParserInterface.php</file>
+            <file>./src/XMLParse/SoftwareProductTypeParser.php</file>
+            <file>./src/XMLParse/SubdividedAccountObjectReferenceTypeParser.php</file>
+            <file>./src/XMLParse/SupplierInvoicesTypeEntryParser.php</file>
+            <file>./src/XMLParse/SupplierInvoicesTypeParser.php</file>
+            <file>./src/XMLParse/SupplierInvoiceTypeEntryParser.php</file>
+            <file>./src/XMLParse/SupplierInvoiceTypeParser.php</file>
+            <file>./src/XMLParse/SuppliersTypeParser.php</file>
+            <file>./src/XMLParse/SupplierTypeParser.php</file>
+            <file>./src/XMLParse/TagTypeParser.php</file>
+            <file>./src/XMLParse/VoucherReferenceTypeParser.php</file>
+            <file>./src/XMLWrite/AccountAggregationsTypeWriter.php</file>
+            <file>./src/XMLWrite/AccountAggregationTypeWriter.php</file>
+            <file>./src/XMLWrite/AccountingCurrencyTypeWriter.php</file>
+            <file>./src/XMLWrite/AccountsTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/AccountsTypeWriter.php</file>
+            <file>./src/XMLWrite/AccountTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/AccountTypeWriter.php</file>
+            <file>./src/XMLWrite/BalancesTypeWriter.php</file>
+            <file>./src/XMLWrite/BaseBalanceMultidimTypeWriter.php</file>
+            <file>./src/XMLWrite/BaseBalanceTypeWriter.php</file>
+            <file>./src/XMLWrite/BudgetMultidimTypeWriter.php</file>
+            <file>./src/XMLWrite/BudgetTypeWriter.php</file>
+            <file>./src/XMLWrite/CompanyTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/CompanyTypeWriter.php</file>
+            <file>./src/XMLWrite/CorrectedByTypeWriter.php</file>
+            <file>./src/XMLWrite/CustomerInvoicesTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/CustomerInvoicesTypeWriter.php</file>
+            <file>./src/XMLWrite/CustomerInvoiceTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/CustomerInvoiceTypeWriter.php</file>
+            <file>./src/XMLWrite/CustomersTypeWriter.php</file>
+            <file>./src/XMLWrite/CustomerTypeWriter.php</file>
+            <file>./src/XMLWrite/DimensionsTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/DimensionsTypeWriter.php</file>
+            <file>./src/XMLWrite/DimensionTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/DimensionTypeWriter.php</file>
+            <file>./src/XMLWrite/DocumentsTypeWriter.php</file>
+            <file>./src/XMLWrite/EmbeddedFileTypeWriter.php</file>
+            <file>./src/XMLWrite/EntryInfoTypeWriter.php</file>
+            <file>./src/XMLWrite/FileCreationTypeWriter.php</file>
+            <file>./src/XMLWrite/FileInfoTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/FileInfoTypeWriter.php</file>
+            <file>./src/XMLWrite/FileReferenceTypeWriter.php</file>
+            <file>./src/XMLWrite/FiscalYearsTypeWriter.php</file>
+            <file>./src/XMLWrite/FiscalYearTypeWriter.php</file>
+            <file>./src/XMLWrite/FixedAssetsTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/FixedAssetsTypeWriter.php</file>
+            <file>./src/XMLWrite/FixedAssetTypeWriter.php</file>
+            <file>./src/XMLWrite/FixedAssetTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/ForeignCurrencyAmountTypeWriter.php</file>
+            <file>./src/XMLWrite/GeneralObjectTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/GeneralObjectTypeWriter.php</file>
+            <file>./src/XMLWrite/GeneralSubdividedAccountTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/GeneralSubdividedAccountTypeWriter.php</file>
+            <file>./src/XMLWrite/JournalEntryTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/JournalEntryTypeWriter.php</file>
+            <file>./src/XMLWrite/JournalTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/JournalTypeWriter.php</file>
+            <file>./src/XMLWrite/LedgerEntryTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/LedgerEntryTypeWriter.php</file>
+            <file>./src/XMLWrite/LockingInfoTypeWriter.php</file>
+            <file>./src/XMLWrite/ObjectReferenceTypeWriter.php</file>
+            <file>./src/XMLWrite/ObjectTypeWriter.php</file>
+            <file>./src/XMLWrite/OriginalAmountTypeWriter.php</file>
+            <file>./src/XMLWrite/OriginalEntryInfoTypeWriter.php</file>
+            <file>./src/XMLWrite/OverstrikeTypeWriter.php</file>
+            <file>./src/XMLWrite/RootSieEntryWriter.php</file>
+            <file>./src/XMLWrite/RootSieWriter.php</file>
+            <file>./src/XMLWrite/Sie5Writer.php</file>
+            <file>./src/XMLWrite/Sie5WriterBase.php</file>
+            <file>./src/XMLWrite/Sie5WriterInterface.php</file>
+            <file>./src/XMLWrite/SoftwareProductTypeWriter.php</file>
+            <file>./src/XMLWrite/SubdividedAccountObjectReferenceTypeWriter.php</file>
+            <file>./src/XMLWrite/SupplierInvoicesTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/SupplierInvoicesTypeWriter.php</file>
+            <file>./src/XMLWrite/SupplierInvoiceTypeWriter.php</file>
+            <file>./src/XMLWrite/SupplierInvoiceTypeEntryWriter.php</file>
+            <file>./src/XMLWrite/SuppliersTypeWriter.php</file>
+            <file>./src/XMLWrite/SupplierTypeWriter.php</file>
+            <file>./src/XMLWrite/TagTypeWriter.php</file>
+            <file>./src/XMLWrite/VoucherReferenceTypeWriter.php</file>
+        </whitelist>
+    </filter>
+  <logging>
+      <!-- Remove or comment after your own choice-->
+      <!-- Note, all 'logs' will be saved in 'testDocs' folder -->
+      <log type="coverage-html"
+           target="testDocs/PHPUnitCoverage"
+           lowUpperBound="35"
+           highLowerBound="70"/>
+      <!-- log type="coverage-clover"
+           target="testDocs/coverage.xml"/ -->
+      <!-- log type="coverage-php"
+           target="testDocs/coverage.serialized"/ -->
+      <!-- log type="coverage-text"
+           target="testDocs/PHPUnitReport.txt"
+           showUncoveredFiles="true"/ -->
+      <!-- log type="json"
+           target="testDocs/logfile.json"/ -->
+      <!-- log type="tap"
+           target="testDocs/logfile.tap"/ -->
+      <!-- log type="junit"
+           target="testDocs/logfile.xml"
+           logIncompleteSkipped="false"/ -->
+      <!-- log type="testdox-html"
+           target="testDocs/testdox.html"/ -->
+      <!-- log type="testdox-text"
+           target="testDocs/testdox.txt"/ -->
+  </logging>
+    <php>
+        <!-- if LOG set, will (test-)log to dir "testDocs", named 'testClass'.log -->
+        <const name="LOG" value="testDocs"/>
+        <!-- if SAVEXML set, will save xml-result from test(-methods) in "testDocs", named '__FUNCTION__'.xml-->
+        <const name="SAVEXML" value="testDocs"/>
+    </php>
+</phpunit>

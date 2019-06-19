@@ -1,0 +1,242 @@
+
+ SieSdk    PHP SDK for Sie5 export/import format
+           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+
+ This file is a part of Sie5Sdk.
+
+ Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ author    Kjell-Inge Gustafsson, kigkonsult
+ Link      https://kigkonsult.se
+ Version   0.95
+ License   Subject matter of licence is the software Sie5Sdk.
+           The above copyright, link, package and version notices,
+           this licence notice shall be included in all copies or substantial
+           portions of the Sie5Sdk.
+
+           Sie5Sdk is free software: you can redistribute it and/or modify
+           it under the terms of the GNU Lesser General Public License as
+           published by the Free Software Foundation, either version 3 of the
+           License, or (at your option) any later version.
+
+           Sie5Sdk is distributed in the hope that it will be useful,
+           but WITHOUT ANY WARRANTY; without even the implied warranty of
+           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+           GNU Lesser General Public License for more details.
+
+           You should have received a copy of the GNU Lesser General Public
+           License along with Sie5Sdk.
+           If not, see <https://www.gnu.org/licenses/>.
+
+
+Dto
+====
+The Dto class collection corresponds to Sie5 XSD Elements/ComplexTypes.
+
+Each class properties corresponds to Sie5 XSD ComplexType elements and
+attributes.
+
+For all class properties, get- and set-methods are implemented, ex. for class
+property 'id', methods 'getId()' and 'setId( <value> )' exist.
+All set-methods validates input and throw InvalidArgumentException on invalid
+input. The XML schema SimplexTypes correspond to Impl\CommonFactory class
+methods, used in set-methods for scalar value property validation.
+
+For 'type' properties restricted by enumeration, a class::typeEnumeration
+(static) property is available with valid contents for the 'type'.
+
+For array typed properties (derived from XML 'maxOccurs="unbounded"' elements),
+(the get-method return array, set-method expects array,) add-methods exist.
+Ex. the Sie::CustomerInvoices, defined as array( CustomerInvoices ), the
+addCustomerInvoices method accepts (a single) CustomerInvoice, to be appended
+as last item in the property array.
+
+Some array typed properties with multi-level items (Ex in class 'Account') are
+arranged in a [elementSet -] element [- 'type'] multi-array structure.
+
+All classes has a 'isValid()' method (returns bool true on success) that
+corresponds to the XML schema validation for required elements and attributes.
+
+Sie5Sdk support Sie5 extensions, attributes only, value type string (or any
+other scalar values, i.e. int, float, (string) date). The classes for the
+elements Account, Company, CustomerInvoice, Customer, FileInfo, FixedAsset,
+GeneralObject, JournalEntry, LedgerEntry, Supplier, has three methods:
+  getExtensionAttributes(), return array
+  addExtensionAttribute( (string) name, (string) value )
+  setExtensionAttributes( (array)((string) name => (string) value) )
+The extended XML attribute use-property is ignored, i.e. if 'required', it is
+not included in the class isValid-method.
+
+
+XSMParse
+=========
+The XSMParse classes corresponds to the Dto classes, the (default) entry is the
+Sie5Parser::parse( (string) xml ) method, returning Sie/SieEntry instances.
+Using bool true as 2:nd argument, Sie5Parser::parse( xml, true ), a DomNode is
+returned.
+
+
+XMLWrite
+=========
+The XMLWrite classes corresponds to the Dto classes, the (default) entry is the
+Sie5Writer::write() method, accepts Sie/SieEntry class instances as argument
+and returns (string) XML.
+
+Before 'Sie5Writer::write()', the XML root element attributes must be set
+
+$sie->setXMLattribute( Sie::XMLNS_XSI,          Sie:XMLSCHEMAINSTANCE )
+    ->setXMLattribute( Sie::XMLNS_XSD,          Sie::XMLSCHEMA )
+    ->setXMLattribute( Sie::XSI_SCHEMALOCATION, Sie::SIE5SCHEMALOCATION )
+    ->setXMLattribute( Sie::XMLNS,              Sie::SIE5URI );
+
+if not originating from 'Sie5Parser::parse()' method.
+
+The 'Sie5Writer::write()' method can also return a PHP DomNode :
+
+$domNode = Sie5Writer::factory()->write( $sieEntry, true );
+
+Misc.
+======
+You will find convenient constants in
+- Sie5Interface.php
+- XMLAttributesInterface.php
+
+Sie5Sdk uses
+  kigkonsult\DsigSdk for the Signature part,
+  kigkonsult\loggerdepot and Psr\Log for (parser-)logging
+
+
+Implemented logic
+==================
+
+The class properties
+  EntryInfoType::date
+  FileCreationType::time
+  JournalEntryType::journalDate
+  JournalEntryTypeEntry::journalDate
+  LockingInfoType::date
+  OriginalEntryInfoType::date
+  OriginalAmountType::date
+are default set to current date at class instance init.
+
+
+Sie::getAllAccountIds()
+SieEntry::getAllAccountIds()
+  Return array AccountsIds
+  Utilize corresponding method in Accounts classes
+
+Sie::getAllDimensionsIds()
+SieEntry::getAllDimensionsIds()
+  Return array DimensionIds
+  Utilize corresponding method in Dimensions classes
+
+Sie::getAllCustomerInvoicesCustomerIds()
+SieEntry::getAllCustomerInvoicesCustomerIds()
+  Return array CustomerInvoices CustomerIds
+  Utilize corresponding method in CustomerInvoices classes
+
+Sie::getAllCustomerInvoicesCustomerIds()
+SieEntry::getAllCustomerInvoicesCustomerIds()
+  Return array CustomerInvoices CustomerIds
+  Utilize corresponding method in CustomerInvoices classes
+
+Sie::getAllJournalEntryLedgerEntryAccountIds()
+SieEntry::getAllJournalEntryLedgerEntryAccountIds()
+  Return array with all journalEntry ledgerEntry (unique) AccountsIds
+  Utilize corresponding methods in Journal and JournalEntry classes
+
+Sie::getAllJournalEntryVoucherReferenceDocumentIds()
+SieEntry::getAllJournalEntryVoucherReferenceDocumentIds()
+  Return array with all journalEntry VoucherReference dokumentIds
+  Utilize corresponding methods in Journal and JournalEntry classes
+
+Sie::hasBalancedJournalLedgerEntries()
+SieEntry::hasBalancedJournalLedgerEntries()
+  Return bool true if sum of each journalEntry ledgerEntries amount is zero
+  Utilize corresponding methods in Journal and JournalEntry classes
+
+Sie::sortJournal()
+SieEntry::sortJournal()
+  Sort Journal on id, JournalEntries on id and journalDate
+  Utilize corresponding methods in Journal classes
+
+Sie::getAllDocumentsTypeIds()
+SieEntry::getAllDocumentsTypeIds()
+  Return array with all dokumentType ids
+  Utilize corresponding method in Document class
+
+
+AccountsType::getAccount( [(int) id] )
+AccountsTypeEntry::getAccount( [(int) id] )
+  Return AccountType if (AccountType-)id (AccountNumber) given,
+    (bool false on not found) otherwise array all
+
+DimensionsType::getDimension( [(int) id] )
+DimensionsTypeEntry::getDimension( [(int) id] )
+  Return DimensionType if (DimensionType-)id given.
+    (bool false on not found) otherwise array
+
+DocumentsType::getDocumentsTypes( [(int) id] )
+  Return EmbeddedFileType|FileReferenceType if id given,
+    (bool false on not found) otherwise array all
+
+
+The Impl\CommonFactory class manages assertions.
+The Impl\SortFactory class manages sorts.
+
+
+The XML schema xsd:unique constraints are implemented as follows
+(used in add-/set-methods, throws InvalidArgumentException on error) :
+
+
+Sie::isAccountIdUnique( (int) accountId )
+SieEntry::isAccountIdUnique( (int) accountId )
+  Return int index if Account id is set or bool true if not
+  Utilize corresponding method in Accounts classes
+
+Sie::isDimensionsIdUnique( (int) dimensionTypeId )
+SieEntry::isDimensionsIdUnique( (int) dimensionTypeId )
+  Return int index if DimensionType id is set or bool true if not
+  Utilize corresponding method in Dimensions classes
+
+Sie::isDocumentIdUnique( (int) id )
+SieEntry::isDocumentIdUnique( (int) id )
+  Return bool true if Document id is set
+  Utilize corresponding method in Document class
+
+
+AccountsType::isAccountIdUnique( (int) id )
+AccountsTypeEntry::isAccountIdUnique( (int) id )
+  Return int index if Account id is set or bool true if not
+
+
+DimensionsType::isDimensionsIdUnique( (int) id )
+DimensionsTypeEntry::isDimensionsIdUnique( (int) id )
+  Return int index if DimensionTypeEntry id is set or bool true if not
+
+
+DimensionType::isObjectIdUnique( (int) id )
+DimensionTypeEntry::isObjectIdUnique( (int) id )
+  Return int index if Object id is set or bool true if not
+
+
+DocumentsType::isDocumentIdUnique( (int) id )
+  Return bool true if Document id is set
+
+
+FiscalYearsType::isFiscalYearStartEndUnique( start, end )
+  start/end : xsd:gYearMonth
+  Return bool true if start/ends NOT overleap existing FiscalYears
+
+Test
+=====
+
+In the test/Dtoloaders folder are class instance loaders, using faker
+(https://github.com/fzaninotto/Faker), called from test files.
+
+In the phpunit.xml file, two constants are defined:
+LOG      will produce (parser-)logs on test(-case-)file basis
+SAVEXML  will save (write-)xml files from each Sie/SieEntry test case.
+
+The test/TestFiles.php test all files in the test/files directory and will
+result in errors, due to missing properties in (Sie) test files and the
+Sie XML schema inconsistencies.
