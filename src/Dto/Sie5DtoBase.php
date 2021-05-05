@@ -1,48 +1,57 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\LoggerDepot\LoggerDepot;
-use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 use Kigkonsult\Sie5Sdk\Sie5Interface;
 use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface;
 use Psr\Log\LogLevel;
 use XMLReader;
 
+use function get_called_class;
+use function get_class;
+use function get_class_vars;
+use function is_array;
+use function is_null;
+use function is_object;
+use function is_scalar;
+use function method_exists;
+use function str_replace;
+use function var_export;
+
 abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
 {
-
     /**
      * @var string
-     * @access protected
      */
     protected static $FMTERR1   = 'Unknown %s type #%s \'%s\'';
     protected static $FMTERR3   = '%s type \'%s\' requires 2+';
@@ -58,13 +67,11 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
 
     /**
      * @var mixed
-     * @access protected
      */
     protected $logger = null;
 
     /**
      * @var array
-     * @access protected
      */
     protected $XMLattributes = [];
 
@@ -72,13 +79,14 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * Class constructor
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         static $BS = '\\';
         $this->logger = LoggerDepot::getLogger( get_class( $this ));
         // assure localName is set, otherwise (re-)set in Sie5Writer*, if used
         $this->setXMLattribute(
             self::LOCALNAME,
-            str_replace( [ __NAMESPACE__, $BS ], null, get_class( $this ))
+            str_replace( [ __NAMESPACE__, $BS ], '', get_class( $this ))
         );
     }
 
@@ -86,9 +94,9 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * Class factory
      *
      * @return static
-     * @access static
      */
-    public static function factory() {
+    public static function factory() : self
+    {
         $class = get_called_class();
         return new $class();
     }
@@ -98,7 +106,8 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @return array
      */
-    public function getXMLattributes() {
+    public function getXMLattributes() : array
+    {
         return $this->XMLattributes;
     }
 
@@ -110,9 +119,9 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setXMLattribute( $name, $value ) {
-        CommonFactory::assertString( $name );
-        $this->XMLattributes[$name] = CommonFactory::assertString( $value );
+    public function setXMLattribute( string $name, string $value ) : self
+    {
+        $this->XMLattributes[$name] = $value;
         if( self::PREFIX == $name ) {
             self::traversPrefixDown( $this, $value );
         }
@@ -124,10 +133,10 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @param Sie5DtoBase $sie5DtoBase (if Sie5DtoBase ), if array, travers down
      * @param string $value
-     * @access protected
-     * @tatic
+     * @static
      */
-    protected static function traversPrefixDown( Sie5DtoBase $sie5DtoBase, $value ) {
+    protected static function traversPrefixDown( Sie5DtoBase $sie5DtoBase, string $value )
+    {
         foreach( get_object_vars( $sie5DtoBase ) as $propertyValue ) {
             if( $propertyValue instanceof Sie5DtoBase ) {
                 $propertyValue->setXMLattribute( self::PREFIX,  $value );
@@ -135,7 +144,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
             elseif( is_array( $propertyValue )) {
                 self::traversPrefixDownArray( $propertyValue, $value );
             } // end if
-        }
+        } // end foreach
     }
 
     /**
@@ -143,10 +152,10 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @param array $arrayValue
      * @param string $value
-     * @access protected
-     * @tatic
+     * @static
      */
-    protected static function traversPrefixDownArray( array $arrayValue, $value ) {
+    protected static function traversPrefixDownArray( array $arrayValue, string $value )
+    {
         foreach( $arrayValue as $array2Value ) {
             if( $array2Value instanceof Sie5DtoBase ) {
                 $array2Value->setXMLattribute( self::PREFIX,  $value );
@@ -154,7 +163,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
             elseif( is_array( $array2Value )) {
                 self::traversPrefixDownArray( $array2Value, $value );
             } // end if
-        }
+        } // end foreach
     }
 
     /**
@@ -163,7 +172,8 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * @param XMLReader $reader Element node
      * @return static
      */
-    public function setXMLattributes( XMLReader $reader ) {
+    public function setXMLattributes( XMLReader $reader ) : self
+    {
         $this->XMLattributes[self::BASEURI]      = $reader->baseURI;
         $this->XMLattributes[self::LOCALNAME]    = $reader->localName;
         $this->XMLattributes[self::NAME]         = $reader->name;
@@ -177,7 +187,8 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @return string
      */
-    public function toString() {
+    public function toString() : string
+    {
         return Sie5DtoBase::dispObject( $this );
     }
 
@@ -186,15 +197,15 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @param Sie5DtoBase $instance
      * @return string
-     * @access protected
      */
-    protected static function dispObject( Sie5DtoBase $instance ) {
+    protected static function dispObject( Sie5DtoBase $instance ) : string
+    {
         $class   = get_class( $instance );
         $string  = 'start ' . $class . ' -----v' . PHP_EOL;
         $string .= 'XMLattributes : ' .
-            str_replace( [PHP_EOL, ' '], null, var_export( $instance->getXMLattributes(), true )) .
+            str_replace( [PHP_EOL, ' '], '', var_export( $instance->getXMLattributes(), true )) .
             PHP_EOL;
-        foreach( $instance as $property => $value ) {
+        foreach( get_class_vars( $instance ) as $property => $value ) {
             if( 'XMLattributes' == $property ) {
                 continue;
             }
@@ -228,9 +239,9 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * @param string $property
      * @param array $value
      * @return string
-     * @access protected
      */
-    protected static function dispArray( $property, array $value ) {
+    protected static function dispArray( string $property, array $value ) : string
+    {
         $string = null;
         foreach( $value as $key2 => $value2 ) {
             switch( true ) {
@@ -256,5 +267,4 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
         } // end foreach
         return $string;
     }
-
 }

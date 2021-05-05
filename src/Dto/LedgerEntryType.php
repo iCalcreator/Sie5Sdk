@@ -1,32 +1,33 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use DateTime;
@@ -37,14 +38,12 @@ use function array_keys;
 use function current;
 use function get_class;
 use function is_array;
-use function is_null;
 use function key;
 use function reset;
 use function sprintf;
 
 class LedgerEntryType extends Sie5DtoExtAttrBase
 {
-
     /**
      * @var array
      *               elements are ( i.e. sets of [*(key => value)] )
@@ -54,63 +53,103 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      *                 EntryInfoType                         minOccurs="0"
      *                 OverstrikeType                        minOccurs="0"
      *                 LockingInfoType                       minOccurs="0"
-     * @access private
      */
     private $ledgerEntryTypes  = [];
+
+    /**
+     * @var string
+     */
     private $previousElement   = null;
+
+    /**
+     * @var int
+     */
     private $elementSetIndex   = 0;
+
+    /**
+     * @var array
+     */
     private static $PREVIOUS23 = [
         self::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
         self::ENTRYINFO,
         self::OVERSTRIKE,
         self::LOCKINGINFO
     ];
+
+    /**
+     * @var array
+     */
     private static $PREVIOUS4  = [ self::ENTRYINFO, self::OVERSTRIKE, self::LOCKINGINFO ];
+
+    /**
+     * @var array
+     */
     private static $PREVIOUS5  = [ self::OVERSTRIKE, self::LOCKINGINFO ];
+
+    /**
+     * @var array
+     */
     private static $PREVIOUS6  = [ self::LOCKINGINFO ];
 
     /**
-     * @var int
-     *            attribute name="accountId" type="sie:AccountNumber" use="required"
-     *            Account identifier. Must exist in the chart of accounts
-     * @access private
+     * @var string
+     *
+     * Attribute name="accountId" type="sie:AccountNumber" use="required"
+     * Account identifier. Must exist in the chart of accounts
      */
     private $accountId = null;
 
     /**
-     * @var string
-     *            attribute name="amount" type="xsd:decimal" use="required"
-     *            Amount. Positive for debit, negative for credit. May not be zero???
-     * @access private
+     * @var float
+     *
+     * Attribute name="amount" type="xsd:decimal" use="required"
+     * Amount. Positive for debit, negative for credit. May not be zero???
      */
     private $amount = null;
 
     /**
-     * @var string
-     *            attribute name="quantity" type="xsd:decimal"
-     * @access private
+     * @var float
      *
+     * Attribute name="quantity" type="xsd:decimal"
      */
     private $quantity = null;
 
     /**
      * @var string
-     *            attribute name="text" type="xsd:string"
-     *            Optional text describing the individual ledger entry.
-     * @access private
+     *
+     * Attribute name="text" type="xsd:string"
+     * Optional text describing the individual ledger entry.
      */
     private $text = null;
 
     /**
      * @var DateTime
-     *            attribute name="ledgerDate" type="xsd:date" use="optional"
-     *            The date used for posting to the general ledger if different from the
-     *            journal date specified for the entire journal entry.
-     * @access private
+     *
+     * Attribute name="ledgerDate" type="xsd:date" use="optional"
+     * The date used for posting to the general ledger if different from the
+     * journal date specified for the entire journal entry.
      */
     private $ledgerDate = null;
 
-
+    /**
+     * Factory method, set account, amount and, opt, quantity
+     *
+     * @param string $accountId
+     * @param mixed  $amount
+     * @param mixed  $quantity
+     * @return static
+     * @throws InvalidArgumentException
+     */
+    public static function factoryAccountAmount( string $accountId, $amount, $quantity = null ) : self
+    {
+        $instance = new self();
+        $instance->setAccountId( $accountId );
+        $instance->setAmount( $amount );
+        if( null !== $quantity ) {
+            $instance->setQuantity( $quantity );
+        }
+        return $instance;
+    }
 
     /**
      * Return bool true is instance is valid
@@ -118,7 +157,8 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = [];
         if( ! empty( $this->ledgerEntryTypes )) {
             foreach( array_keys( $this->ledgerEntryTypes ) as $ix1 ) { // elementSet ix1
@@ -129,13 +169,13 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
                     if( ! $this->ledgerEntryTypes[$ix1][$ix2][$key]->isValid( $inside )) {
                         $local[self::LEDGERENTRY][$ix1][$ix1][$key] = $inside;
                     }
-                }
-            }
+                } // end foreach
+            } // end foreach
         }
         if( empty( $this->accountId )) {
             $local[self::ACCOUNTID] = false;
         }
-        if( is_null( $this->amount )) {
+        if( null == $this->amount ) {
             $local[self::AMOUNT] = false;
         }
         if( ! empty( $local )) {
@@ -151,7 +191,8 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @return static
      * @throws InvalidArgumentException
      */
-    public function addLedgerEntryType( $key, LedgerEntryTypesInterface $ledgerEntryType ) {
+    public function addLedgerEntryType( string $key, LedgerEntryTypesInterface $ledgerEntryType ) : self
+    {
         switch( true ) {
             case (( self::FOREIGNCURRENCYAMOUNT == $key ) && $ledgerEntryType instanceof ForeignCurrencyAmountType ) :
                 if( ! empty( $this->previousElement )) {
@@ -198,24 +239,52 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @return array
      */
-    public function getLedgerEntryTypes() {
+    public function getLedgerEntryTypes() : array
+    {
         return $this->ledgerEntryTypes;
     }
 
     /**
+     * Set LedgerEntryTypes, array, *LedgerEntryTypesInterface OR *[ type => LedgerEntryTypesInterface ]
+     *
+     * Type : FOREIGNCURRENCYAMOUNT / OBJECTREFERENCE / SUBDIVIDEDACCOUNTOBJECTREFERENCE /
+     *        ENTRYINFO / OVERSTRIKE / LOCKINGINFO
+     *
      * @param array $ledgerEntryTypes
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setLedgerEntryTypes( array $ledgerEntryTypes ) {
+    public function setLedgerEntryTypes( array $ledgerEntryTypes ) : self
+    {
         foreach( $ledgerEntryTypes as $ix1 => $elementSet ) {
             if( ! is_array( $elementSet )) {
                 $elementSet = [ $ix1 => $elementSet ];
             }
             foreach( $elementSet as $ix2 => $element ) {
-                if( ! is_array( $element )) {
-                    $element = [ $ix2 => $element ];
-                }
+                switch( true ) {
+                    case is_array( $element ) :
+                        break;
+                    case ( $element instanceof ForeignCurrencyAmountType ) :
+                        $element = [ self::FOREIGNCURRENCYAMOUNT => $element ];
+                        break;
+                    case ( $element instanceof ObjectReferenceType ) :
+                        $element = [ self::OBJECTREFERENCE => $element ];
+                        break;
+                    case ( $element instanceof SubdividedAccountObjectReferenceType ) :
+                        $element = [ self::SUBDIVIDEDACCOUNTOBJECTREFERENCE => $element ];
+                        break;
+                    case ( $element instanceof EntryInfoType ) :
+                        $element = [ self::ENTRYINFO => $element ];
+                        break;
+                    case ( $element instanceof OverstrikeType ) :
+                        $element = [ self::OVERSTRIKE => $element ];
+                        break;
+                    case ( $element instanceof LockingInfoType ) :
+                        $element = [ self::LOCKINGINFO => $element ];
+                        break;
+                    default :
+                        $element = [ $ix2 => $element ];
+                } // end switch
                 reset( $element );
                 $key             = key( $element );
                 $ledgerEntryType = current( $element );
@@ -247,77 +316,84 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getAccountId() {
+    public function getAccountId() : string
+    {
         return $this->accountId;
     }
 
     /**
-     * @param int $accountId
+     * @param string $accountId
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setAccountId( $accountId ) {
+    public function setAccountId( string $accountId ) : self
+    {
         $this->accountId = CommonFactory::assertAccountNumber( $accountId );
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getAmount() {
+    public function getAmount() : float
+    {
         return $this->amount;
     }
 
     /**
-     * @param string $amount
+     * @param mixed $amount
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setAmount( $amount ) {
+    public function setAmount( $amount ) : self
+    {
         $this->amount = CommonFactory::assertAmount( $amount );
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getQuantity() {
+    public function getQuantity()
+    {
         return $this->quantity;
     }
 
     /**
-     * @param string $quantity
+     * @param mixed $quantity
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setQuantity( $quantity ) {
-        $this->quantity = CommonFactory::assertString( $quantity );
+    public function setQuantity( $quantity ) : self
+    {
+        $this->quantity = (float) $quantity;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getText() {
+    public function getText()
+    {
         return $this->text;
     }
 
     /**
      * @param string $text
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setText( $text ) {
-        $this->text = CommonFactory::assertString( $text );
+    public function setText( string $text ) : self
+    {
+        $this->text = $text;
         return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getLedgerDate() {
+    public function getLedgerDate()
+    {
         return $this->ledgerDate;
     }
 
@@ -325,10 +401,9 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @param DateTime $ledgerDate
      * @return static
      */
-    public function setLedgerDate( DateTime $ledgerDate ) {
+    public function setLedgerDate( DateTime $ledgerDate ) : self
+    {
         $this->ledgerDate = $ledgerDate;
         return $this;
     }
-
-
 }

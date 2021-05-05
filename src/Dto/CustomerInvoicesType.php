@@ -1,32 +1,33 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
@@ -37,10 +38,8 @@ use function sprintf;
 
 class CustomerInvoicesType extends BaseSubdividedAccountType
 {
-
     /**
-     * @var array   [ *CustomerInvoiceType ]
-     * @access private
+     * @var CustomerInvoiceType[]
      */
     private $customerInvoice = [];
 
@@ -50,7 +49,8 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = [];
         if( empty( $this->primaryAccountId )) {
             $local[self::PRIMARYACCOUNTID] = false;
@@ -60,7 +60,7 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
             if( ! $this->customerInvoice[$ix1]->isValid( $inside )) {
                 $local[$ix1] = $inside;
             }
-        }
+        } // end foreach
         if( ! empty( $local )) {
             $expected[self::CUSTOMERINVOICES] = $local;
             return false;
@@ -72,7 +72,8 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
      * @param CustomerInvoiceType $customerInvoice
      * @return static
      */
-    public function addCustomerInvoice( CustomerInvoiceType $customerInvoice ) {
+    public function addCustomerInvoice( CustomerInvoiceType $customerInvoice ) : self
+    {
         $this->customerInvoice[] = $customerInvoice;
         return $this;
     }
@@ -80,7 +81,8 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
     /**
      * @return array
      */
-    public function getCustomerInvoice() {
+    public function getCustomerInvoice() : array
+    {
         return $this->customerInvoice;
     }
 
@@ -89,7 +91,8 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
      *
      * @return array
      */
-    public function getAllCustomerInvoiceCustomerIds() {
+    public function getAllCustomerInvoiceCustomerIds() : array
+    {
         $customerIds = [];
         foreach( array_keys( $this->customerInvoice ) as $ix ) {
             $customerIds[] = $this->customerInvoice[$ix]->getCustomerId();
@@ -103,7 +106,8 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
      * @return CustomerInvoicesType
      * @throws InvalidArgumentException
      */
-    public function setCustomerInvoice( array $customerInvoice ) {
+    public function setCustomerInvoice( array $customerInvoice ) : self
+    {
         foreach( $customerInvoice as $ix => $value ) {
             if( $value instanceof CustomerInvoiceType ) {
                 $this->customerInvoice[$ix] = $value;
@@ -115,8 +119,7 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::CUSTOMERINVOICE, $ix, $type ));
             }
-        }
+        } // end foreach
         return $this;
     }
-
 }

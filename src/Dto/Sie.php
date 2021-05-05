@@ -1,41 +1,42 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\DsigSdk\Dto\SignatureType;
+use Kigkonsult\Sie5Sdk\Impl\SortFactory;
 
 use function array_keys;
 use function array_unique;
 use function gettype;
-use Kigkonsult\Sie5Sdk\Impl\SortFactory;
 use function sort;
 use function sprintf;
 use function usort;
@@ -47,105 +48,100 @@ use function usort;
  */
 class Sie extends Sie5DtoBase implements Sie5DtoInterface
 {
-
     /**
      * @var FileInfoType
-     *                  maxOccurs="1" minOccurs="1"
-     *                  General information about the file
-     * @access private
+     *
+     * Attribute maxOccurs="1" minOccurs="1"
+     * General information about the file
      */
     private $fileInfo = null;
 
     /**
      * @var AccountsType
-     *                  Chart of accounts
-     * @access private
+     *
+     * Chart of accounts
      */
     private $accounts = null;
 
-
     /**
      * @var DimensionsType
-     *                    minOccurs="0"
-     *                    Container for dimensions
-     * @access private
+     *
+     * Attribute minOccurs="0"
+     * Container for dimensions
      */
     private $dimensions = null;
 
     /**
-     * @var array  [ *CustomerInvoicesType ]
-     *                        minOccurs="0" maxOccurs="unbounded"
-     * @access private
+     * @var CustomerInvoicesType[]
+     *
+     * Attribute minOccurs="0" maxOccurs="unbounded"
      */
     private $customerInvoices = [];
 
     /**
-     * @var array   [ *SupplierInvoicesType ]
-     *                       minOccurs="0" maxOccurs="unbounded"
-     * @access private
+     * @var SupplierInvoicesType[]
+     *
+     * Attribute minOccurs="0" maxOccurs="unbounded"
      */
     private $supplierInvoices = [];
 
     /**
-     * @var array   [ *FixedAssetsType ]
-     *                        minOccurs="0" maxOccurs="unbounded"
-     * @access private
+     * @var FixedAssetsType[]
+     *
+     * Attribute minOccurs="0" maxOccurs="unbounded"
      */
     private $fixedAssets = [];
 
     /**
-     * @var array   [ *GeneralSubdividedAccountType ]
-     *                        minOccurs="0" maxOccurs="unbounded"
-     * @access private
+     * @var GeneralSubdividedAccountType[]
+     *
+     * Attribute minOccurs="0" maxOccurs="unbounded"
      */
     private $generalSubdividedAccount = [];
 
     /**
      * @var CustomersType
-     *                   Container for customers
-     *                   minOccurs="0"
-     * @access private
+     *
+     * Container for customers
+     * Attribute minOccurs="0"
      */
     private $customers = null;
 
     /**
      * @var SuppliersType
-     *                   Container for suppliers
-     *                   minOccurs="0"
-     * @access private
+     *
+     * Container for suppliers
+     * Attribute minOccurs="0"
      */
     private $suppliers = null;
 
     /**
      * @var AccountAggregationsType
-     *                             minOccurs="0"
-     * @access private
+     *
+     * Attribute minOccurs="0"
      */
     private $accountAggregations = null;
 
     /**
-     * @var array    [ *JournalType ]
-     *                       Container for individual journal
-     *                       minOccurs="0" maxOccurs="unbounded"
-     * @access private
+     * @var JournalType[]
+     *
+     * Attribute minOccurs="0" maxOccurs="unbounded"
+     * Container for individual journal
      */
     private $journal = [];
 
     /**
      * @var DocumentsType
-     *                   Container for documents
-     *                   minOccurs="0"
-     * @access private
+     *
+     * Container for documents
+     * minOccurs="0"
      */
     private $documents = null;
 
     /**
      * @var SignatureType
-     * @access private
      */
     private $signature = null;
-
-
 
     /**
      * Return bool true is instance is valid
@@ -153,7 +149,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = $inside = [];
         if( empty( $this->fileInfo )) {
             $local[self::FILEINFO] = false;
@@ -179,7 +176,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                     $local[self::CUSTOMERINVOICES][$ix] = $inside;
                 }
                 $inside = [];
-            }
+            } // end foreach
         }
         if( ! empty( $this->supplierInvoices )) {
             foreach( array_keys( $this->supplierInvoices ) as $ix ) {
@@ -187,7 +184,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                     $local[self::SUPPLIERINVOICES][$ix] = $inside;
                 }
                 $inside = [];
-            }
+            } // end foreach
         }
         if( ! empty( $this->fixedAssets )) {
             foreach( array_keys( $this->fixedAssets ) as $ix ) {
@@ -195,7 +192,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                     $local[self::FIXEDASSETS][$ix] = $inside;
                 }
                 $inside = [];
-            }
+            } // end foreach
         }
         if( ! empty( $this->generalSubdividedAccount )) {
             foreach( array_keys( $this->generalSubdividedAccount ) as $ix ) {
@@ -203,7 +200,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                     $local[self::GENERALSUBDIVIDEDACCOUNT][$ix] = $inside;
                 }
                 $inside = [];
-            }
+            } // end foreach
         }
         if( ! empty( $this->customers ) && ! $this->customers->isValid( $inside )) {
             $local[self::CUSTOMERS] = $inside;
@@ -223,7 +220,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                     $local[self::JOURNAL][$ix] = $inside;
                 }
                 $inside = [];
-            }
+            } // end foreach
         }
         if( ! empty( $this->documents ) && ! $this->documents->isValid( $inside )) {
             $local[self::DOCUMENTS] = $inside;
@@ -242,7 +239,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return FileInfoType
      */
-    public function getFileInfo() {
+    public function getFileInfo() : FileInfoType
+    {
         return $this->fileInfo;
     }
 
@@ -250,7 +248,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param FileInfoType $fileInfo
      * @return static
      */
-    public function setFileInfo( FileInfoType $fileInfo ) {
+    public function setFileInfo( FileInfoType $fileInfo ) : self
+    {
         $this->fileInfo = $fileInfo;
         return $this;
     }
@@ -258,7 +257,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return AccountsType
      */
-    public function getAccounts() {
+    public function getAccounts() : AccountsType
+    {
         return $this->accounts;
     }
 
@@ -267,17 +267,19 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      *
      * @return array
      */
-    public function getAllAccountIds() {
+    public function getAllAccountIds() : array
+    {
         return $this->accounts->getAllAccountIds();
     }
 
     /**
      * Return int index if Account id is set or bool true if not
      *
-     * @param int $id
+     * @param string $id
      * @return int|bool  AccountType index or true if not found i.e. unique
      */
-    public function isAccountIdUnique( $id ) {
+    public function isAccountIdUnique( string $id )
+    {
         $hitIx = $this->accounts->isAccountIdUnique( $id );
         return ( true !== $hitIx ) ? $hitIx : true;
     }
@@ -286,7 +288,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param AccountsType $accounts
      * @return static
      */
-    public function setAccounts( AccountsType $accounts ) {
+    public function setAccounts( AccountsType $accounts ) : self
+    {
         $this->accounts = $accounts;
         return $this;
     }
@@ -294,7 +297,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return DimensionsType
      */
-    public function getDimensions() {
+    public function getDimensions()
+    {
         return $this->dimensions;
     }
 
@@ -303,7 +307,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      *
      * @return array
      */
-    public function getAllDimensionIds() {
+    public function getAllDimensionIds() : array
+    {
         return $this->dimensions->getAllDimensionIds();
     }
 
@@ -313,7 +318,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param int $id
      * @return int|bool  DimensionType index or true if not found i.e unique
      */
-    public function isDimensionsIdUnique( $id ) {
+    public function isDimensionsIdUnique( int $id )
+    {
         $hitIx = $this->dimensions->isDimensionsIdUnique( $id );
         return ( false !== $hitIx ) ? $hitIx : true;
     }
@@ -322,7 +328,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param DimensionsType $dimensionsType
      * @return static
      */
-    public function setDimensions( DimensionsType $dimensionsType ) {
+    public function setDimensions( DimensionsType $dimensionsType ) : self
+    {
         $this->dimensions = $dimensionsType;
         return $this;
     }
@@ -331,7 +338,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param CustomerInvoicesType $customerInvoices
      * @return static
      */
-    public function addCustomerInvoices( CustomerInvoicesType $customerInvoices ) {
+    public function addCustomerInvoices( CustomerInvoicesType $customerInvoices ) : self
+    {
         $this->customerInvoices[] = $customerInvoices;
         return $this;
     }
@@ -339,7 +347,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return array
      */
-    public function getCustomerInvoices() {
+    public function getCustomerInvoices()
+    {
         return $this->customerInvoices;
     }
 
@@ -349,20 +358,22 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * Two level array : customerInvoicesIx => [ *CustomerIds ]
      * @return array
      */
-    public function getAllCustomerInvoicesCustomerIds() {
+    public function getAllCustomerInvoicesCustomerIds() : array
+    {
         $customerIds = [];
         foreach( array_keys( $this->customerInvoices ) as $ix ) {
             $customerIds[$ix] = $this->customerInvoices[$ix]->getAllCustomerInvoiceCustomerIds();
-        }
+        } // end foreach
         return $customerIds;
     }
 
     /**
-     * @param array $customerInvoices  *CustomerInvoicesType
+     * @param CustomerInvoicesType[] $customerInvoices
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setCustomerInvoices( array $customerInvoices ) {
+    public function setCustomerInvoices( array $customerInvoices ) : self
+    {
         foreach( $customerInvoices as $ix => $value ) {
             if( $value instanceof CustomerInvoicesType ) {
                 $this->customerInvoices[$ix] = $value;
@@ -374,7 +385,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::CUSTOMERINVOICES, $ix, $type ));
             }
-        }
+        } // end foreach
         return $this;
     }
 
@@ -382,15 +393,17 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param SupplierInvoicesType $supplierInvoices
      * @return static
      */
-    public function addSupplierInvoices( SupplierInvoicesType $supplierInvoices ) {
+    public function addSupplierInvoices( SupplierInvoicesType $supplierInvoices ) : self
+    {
         $this->supplierInvoices[] = $supplierInvoices;
         return $this;
     }
 
     /**
-     * @return array
+     * @return SupplierInvoicesType[]
      */
-    public function getSupplierInvoices() {
+    public function getSupplierInvoices()
+    {
         return $this->supplierInvoices;
     }
 
@@ -398,22 +411,25 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * Return array with all SupplierInvoices SupplierIds
      *
      * Two level array : supplierInvoicesIx => [ *SupplierIds ]
+     *
      * @return array
      */
-    public function getAllSupplierInvoicesSupplierIds() {
+    public function getAllSupplierInvoicesSupplierIds() : array
+    {
         $supplierIds = [];
         foreach( array_keys( $this->supplierInvoices ) as $ix ) {
             $supplierIds[$ix] = $this->supplierInvoices[$ix]->getAllSupplierInvoiceSupplierIds();
-        }
+        } // end foreach
         return $supplierIds;
     }
 
     /**
-     * @param array $supplierInvoices  *SupplierInvoicesType
+     * @param SupplierInvoicesType[]     $supplierInvoices
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setSupplierInvoices( array $supplierInvoices ) {
+    public function setSupplierInvoices( array $supplierInvoices ) : self
+    {
         foreach( $supplierInvoices as $ix => $value ) {
             if( $value instanceof SupplierInvoicesType ) {
                 $this->supplierInvoices[$ix] = $value;
@@ -425,7 +441,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::SUPPLIERINVOICES, $ix, $type ));
             }
-        }
+        } // end foreach
         return $this;
     }
 
@@ -433,24 +449,27 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param FixedAssetsType $fixedAsset
      * @return static
      */
-    public function addFixedAsset( FixedAssetsType $fixedAsset ) {
+    public function addFixedAsset( FixedAssetsType $fixedAsset ) : self
+    {
         $this->fixedAssets[] = $fixedAsset;
         return $this;
     }
 
     /**
-     * @return array
+     * @return FixedAssetsType[]
      */
-    public function getFixedAssets() {
+    public function getFixedAssets()
+    {
         return $this->fixedAssets;
     }
 
     /**
-     * @param array $fixedAssets  *FixedAssetsType
+     * @param FixedAssetsType[] $fixedAssets
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setFixedAssets( array $fixedAssets ) {
+    public function setFixedAssets( array $fixedAssets ) : self
+    {
         foreach( $fixedAssets as $ix => $value ) {
             if( $value instanceof FixedAssetsType ) {
                 $this->fixedAssets[$ix] = $value;
@@ -462,7 +481,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::FIXEDASSETS, $ix, $type ));
             }
-        }
+        } // end foreach
         return $this;
     }
 
@@ -470,24 +489,27 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param GeneralSubdividedAccountType $generalSubdividedAccount
      * @return static
      */
-    public function addGeneralSubdividedAccount( GeneralSubdividedAccountType $generalSubdividedAccount ) {
+    public function addGeneralSubdividedAccount( GeneralSubdividedAccountType $generalSubdividedAccount ) : self
+    {
         $this->generalSubdividedAccount[] = $generalSubdividedAccount;
         return $this;
     }
 
     /**
-     * @return array
+     * @return GeneralSubdividedAccountType[]
      */
-    public function getGeneralSubdividedAccount() {
+    public function getGeneralSubdividedAccount()
+    {
         return $this->generalSubdividedAccount;
     }
 
     /**
-     * @param array $generalSubdividedAccount   *GeneralSubdividedAccountType
+     * @param GeneralSubdividedAccountType[] $generalSubdividedAccount
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setGeneralSubdividedAccount( array $generalSubdividedAccount ) {
+    public function setGeneralSubdividedAccount( array $generalSubdividedAccount ) : self
+    {
         foreach( $generalSubdividedAccount as $ix => $value ) {
             if( $value instanceof GeneralSubdividedAccountType ) {
                 $this->generalSubdividedAccount[$ix] = $value;
@@ -499,14 +521,15 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::GENERALSUBDIVIDEDACCOUNT, $ix, $type ));
             }
-        }
+        } // end foreach
         return $this;
     }
 
     /**
      * @return CustomersType
      */
-    public function getCustomers() {
+    public function getCustomers()
+    {
         return $this->customers;
     }
 
@@ -514,7 +537,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param CustomersType $customers
      * @return static
      */
-    public function setCustomers( CustomersType $customers ) {
+    public function setCustomers( CustomersType $customers ) : self
+    {
         $this->customers = $customers;
         return $this;
     }
@@ -522,7 +546,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return SuppliersType
      */
-    public function getSuppliers() {
+    public function getSuppliers()
+    {
         return $this->suppliers;
     }
 
@@ -530,7 +555,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param SuppliersType $suppliers
      * @return static
      */
-    public function setSuppliers( SuppliersType $suppliers ) {
+    public function setSuppliers( SuppliersType $suppliers ) : self
+    {
         $this->suppliers = $suppliers;
         return $this;
     }
@@ -538,7 +564,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return AccountAggregationsType
      */
-    public function getAccountAggregations() {
+    public function getAccountAggregations()
+    {
         return $this->accountAggregations;
     }
 
@@ -546,7 +573,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param AccountAggregationsType $accountAggregations
      * @return static
      */
-    public function setAccountAggregations( AccountAggregationsType $accountAggregations ) {
+    public function setAccountAggregations( AccountAggregationsType $accountAggregations ) : self
+    {
         $this->accountAggregations = $accountAggregations;
         return $this;
     }
@@ -555,7 +583,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param JournalType $journal
      * @return static
      */
-    public function addJournal( JournalType $journal ) {
+    public function addJournal( JournalType $journal ) : self
+    {
         $this->journal[] = $journal;
         $this->sortJournal();
         return $this;
@@ -564,7 +593,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return array
      */
-    public function getJournal() {
+    public function getJournal()
+    {
         return $this->journal;
     }
 
@@ -573,11 +603,12 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      *
      * @return array
      */
-    public function getAllJournalEntryLedgerEntryAccountIds() {
+    public function getAllJournalEntryLedgerEntryAccountIds() : array
+    {
         $accountIds = [];
         foreach( array_keys( $this->journal ) as $ix ) {
             $accountIds = array_merge( $accountIds, $this->journal[$ix]->getAllJournalEntryLedgerEntryAccountIds());
-        }
+        } // end foreach
         sort( $accountIds );
         return array_unique( $accountIds );
     }
@@ -588,11 +619,12 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * Three level array: journalIx, journalEntryIx, VoucherReferenceIx
      * @return array
      */
-    public function getAllJournalEntryVoucherReferenceDocumentIds() {
+    public function getAllJournalEntryVoucherReferenceDocumentIds() : array
+    {
         $documentIds = [];
         foreach( array_keys( $this->journal ) as $ix ) {
             $documentIds[$ix] = $this->journal[$ix]->getAllJournalEntryVoucherReferenceDocumentIds();
-        }
+        } // end foreach
         return $documentIds;
     }
 
@@ -600,25 +632,27 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * Return bool true if sum of each journalEntry ledgerEntries amount is zero
      *
      * @param array $errorIx
-     * @return bool|string (bool true on success, on error indexes (ix-ix) of ledgerEntry/LedgerEntry)
+     * @return bool (bool true on success, on error false, indexes (ix-ix) of ledgerEntry/LedgerEntry)
      */
-    public function hasBalancedJournalLedgerEntries( & $errorIx = [] ) {
+    public function hasBalancedJournalLedgerEntries( & $errorIx = [] ) : bool
+    {
         foreach( array_keys( $this->journal ) as $ix1 ) {
             $errorIx2 = [];
             $ix2 = $this->journal[$ix1]->hasBalancedJournalEntryLedgerEntries( $errorIx2 );
             if( true !== $ix2 ) {
                 $errorIx[$ix1] = $errorIx2;
             }
-        }
+        } // end foreach
         return ( empty( $errorIx ));
     }
 
     /**
-     * @param array $journal   *JournalType
+     * @param JournalType[] $journal
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setJournal( array $journal ) {
+    public function setJournal( array $journal ) : self
+    {
         foreach( $journal as $ix => $value ) {
             if( $value instanceof JournalType ) {
                 $this->journal[$ix] = $value;
@@ -630,7 +664,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::JOURNAL, $ix, $type ));
             }
-        }
+        } // end foreach
         $this->sortJournal();
         return $this;
     }
@@ -640,7 +674,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      *
      * @return static
      */
-    public function sortJournal() {
+    public function sortJournal() : self
+    {
         foreach( array_keys( $this->journal ) as $ix ) {
             $this->journal[$ix]->sortJournalEntryOnId();
         }
@@ -651,7 +686,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return DocumentsType
      */
-    public function getDocuments() {
+    public function getDocuments()
+    {
         return $this->documents;
     }
 
@@ -660,7 +696,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      *
      * @return array
      */
-    public function getAllDocumentsTypeIds() {
+    public function getAllDocumentsTypeIds() : array
+    {
         return $this->documents->getAllDocumentsTypeIds();
     }
 
@@ -670,7 +707,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param int $id
      * @return bool  true on found, false if not
      */
-    public function isDocumentIdUnique( $id ) {
+    public function isDocumentIdUnique( int $id ) : bool
+    {
         return $this->documents->isDocumentIdUnique( $id );
     }
 
@@ -678,7 +716,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param DocumentsType $documents
      * @return static
      */
-    public function setDocuments( DocumentsType $documents ) {
+    public function setDocuments( DocumentsType $documents ) : self
+    {
         $this->documents = $documents;
         return $this;
     }
@@ -686,7 +725,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return SignatureType
      */
-    public function getSignature() {
+    public function getSignature() : SignatureType
+    {
         return $this->signature;
     }
 
@@ -694,9 +734,9 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * @param SignatureType $signature
      * @return static
      */
-    public function setSignature( SignatureType $signature ) {
+    public function setSignature( SignatureType $signature ) : self
+    {
         $this->signature = $signature;
         return $this;
     }
-
 }

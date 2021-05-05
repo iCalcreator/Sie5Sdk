@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Sample from http://www.sie.se/?p=293&filename=files/SIE_5_161209.pdf&description=SIE-formatet,%20utg%C3%A5va%205 -->
+<!-- customer/supplier-invoice id lagt till 'invoiceNumber' med samma värde -->
 <SieEntry xmlns="http://www.sie.se/sie5"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd">
@@ -28,15 +29,15 @@ xsi:schemaLocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd">
 </Dimension>
 </Dimensions>
 <CustomerInvoices primaryAccountId="1510">
-<CustomerInvoice id="453" customerId="14"/>
-<CustomerInvoice id="455" customerId="7" />
+<CustomerInvoice invoiceNumber="453" id="453" customerId="14"/>
+<CustomerInvoice invoiceNumber="455" id="455" customerId="7" />
 </CustomerInvoices>
 <Customers>
 <Customer id="7" name="Svenska Statoil AB" organizationId="556334-3689"></Customer>
 <Customer id="14" name="Hyresvärden AB"></Customer>
 </Customers>
 <SupplierInvoices primaryAccountId="2440">
-<SupplierInvoice id="1" supplierId="950-6221"/>
+<SupplierInvoice invoiceNumber="1" id="1" supplierId="950-6221"/>
 </SupplierInvoices>
 <Suppliers>
 <Supplier id="950-6221" name= "Godisgrossisten AB"></Supplier>
@@ -50,6 +51,8 @@ xsi:schemaLocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd">
 </GeneralSubdividedAccount>
 <Journal>
 <JournalEntry journalDate="2015-08-19" text="Ett rött paket">
+<!-- OriginalEntryInfo inlagd -->
+<OriginalEntryInfo date="2015-08-19" by="LH" />
 <LedgerEntry accountId="6070" amount="15.75" />
 <LedgerEntry accountId="1940" amount="-15.75"/>
 <VoucherReference documentId="1"/>

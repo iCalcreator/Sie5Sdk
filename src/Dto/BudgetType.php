@@ -1,32 +1,33 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
@@ -38,39 +39,36 @@ use function sprintf;
 
 class BudgetType extends Sie5DtoBase implements AccountTypesInterface
 {
-
     /**
-     * @var array  *ObjectReferenceType
-     *                       List of objects associated with this balance
-     *                       minOccurs="0" maxOccurs="unbounded"
-     * @access private
+     * @var ObjectReferenceType[]
+     *
+     * List of objects associated with this balance
+     * minOccurs="0" maxOccurs="unbounded"
      */
     private $objectReference = [];
 
-
     /**
      * @var string
-     *            attribute name="month" type="xsd:gYearMonth"
-     *            If month is omitted the budget amount is for the full primary fiscal year.
-     * @access private
+     *
+     * Attribute name="month" type="xsd:gYearMonth"
+     * If month is omitted the budget amount is for the full primary fiscal year.
      */
     private $month = null;
 
     /**
-     * @var string
-     *            attribute name="amount" type="sie:Amount" use="required"
-     *            Amount. Positive for debit, negative for credit.
-     * @access private
+     * @var float
+     *
+     * Attribute name="amount" type="sie:Amount" use="required"
+     * Amount. Positive for debit, negative for credit.
      */
     private $amount = null;
 
     /**
-     * @var string
-     *            attribute name="quantity" type="xsd:decimal"
-     * @access private
+     * @var float
+     *
+     * Attribute name="quantity" type="xsd:decimal"
      */
     private $quantity = null;
-
 
     /**
      * Return bool true is instance is valid
@@ -78,15 +76,16 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = [];
         foreach( array_keys( $this->objectReference ) as $ix1 ) { // element ix
             $inside = [];
             if( ! $this->objectReference[$ix1]->isValid( $inside )) {
                 $local[self::OBJECTREFERENCE][$ix1] = $inside;
             }
-        }
-        if( is_null( $this->amount )) {
+        } // end foreach
+        if( null == $this->amount ) {
             $local[self::AMOUNT] = false;
         }
         if( ! empty( $local )) {
@@ -100,27 +99,30 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
      * @param ObjectReferenceType $objectReference
      * @return static
      */
-    public function addObjectReference( ObjectReferenceType $objectReference ) {
+    public function addObjectReference( ObjectReferenceType $objectReference ) : self
+    {
         $this->objectReference[] = $objectReference;
         return $this;
     }
 
     /**
-     * @return array
+     * @return ObjectReferenceType[]
      */
-    public function getObjectReference() {
+    public function getObjectReference() : array
+    {
         return $this->objectReference;
     }
 
     /**
-     * @param array ObjectReferenceType
+     * @param array $objectReference  ObjectReferenceType[]
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setObjectReference( array $objectReference ) {
+    public function setObjectReference( array $objectReference ) : self
+    {
         foreach( $objectReference as $ix => $value ) {
             if( $value instanceof ObjectReferenceType ) {
-                $this->objectReference[$ix] = $value;
+                $this->objectReference[] = $value;
             }
             else {
                 $type = gettype( $value );
@@ -129,14 +131,15 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::OBJECTREFERENCE, $ix, $type ));
             }
-        }
+        } // end foreach
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getMonth() {
+    public function getMonth()
+    {
         return $this->month;
     }
 
@@ -145,43 +148,46 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setMonth( $month ) {
+    public function setMonth( string $month ) : self
+    {
         $this->month = CommonFactory::assertGYearMonth( $month );
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getAmount() {
+    public function getAmount() : float
+    {
         return $this->amount;
     }
 
     /**
-     * @param string $amount
+     * @param mixed $amount
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setAmount( $amount ) {
+    public function setAmount( $amount ) : self
+    {
         $this->amount = CommonFactory::assertAmount( $amount );
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getQuantity() {
+    public function getQuantity()
+    {
         return $this->quantity;
     }
 
     /**
-     * @param string $quantity
+     * @param mixed $quantity
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setQuantity( $quantity ) {
-        $this->quantity = CommonFactory::assertString( $quantity );
+    public function setQuantity( $quantity ) : self
+    {
+        $this->quantity = (float) $quantity;
         return $this;
     }
-
 }

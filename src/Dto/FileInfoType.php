@@ -1,47 +1,45 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 class FileInfoType extends Sie5DtoExtAttrBase
 {
-
     /**
      * @var SoftwareProductType
      *                         Name of the software that has created the file
-     * @acces private
      */
     private $softwareProduct = null;
 
     /**
      * @var FileCreationType
-     * @acces private
      */
     private $fileCreation = null;
 
@@ -49,20 +47,17 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @var CompanyType
      *                 General information about the company (or other organization)
      *                 whose fiscal data is represented in the file
-     * @acces private
      */
     private $company = null;
 
     /**
      * @var FiscalYearsType
      *                     Container for fiscal years
-     * @acces private
      */
     private $fiscalYears = null;
 
     /**
      * @var AccountingCurrencyType
-     * @acces private
      */
     private $accountingCurrency = null;
 
@@ -72,7 +67,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = $inside = [];
         if( empty( $this->softwareProduct )) {
             $local[self::SOFTWAREPRODUCT] = false;
@@ -119,7 +115,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
     /**
      * @return SoftwareProductType
      */
-    public function getSoftwareProduct() {
+    public function getSoftwareProduct()
+    {
         return $this->softwareProduct;
     }
 
@@ -127,7 +124,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @param SoftwareProductType $softwareProduct
      * @return static
      */
-    public function setSoftwareProduct( SoftwareProductType $softwareProduct ) {
+    public function setSoftwareProduct( SoftwareProductType $softwareProduct ) : self
+    {
         $this->softwareProduct = $softwareProduct;
         return $this;
     }
@@ -135,7 +133,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
     /**
      * @return FileCreationType
      */
-    public function getFileCreation() {
+    public function getFileCreation()
+    {
         return $this->fileCreation;
     }
 
@@ -143,7 +142,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @param FileCreationType $fileCreation
      * @return static
      */
-    public function setFileCreation( FileCreationType $fileCreation ) {
+    public function setFileCreation( FileCreationType $fileCreation ) : self
+    {
         $this->fileCreation = $fileCreation;
         return $this;
     }
@@ -151,7 +151,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
     /**
      * @return CompanyType
      */
-    public function getCompany() {
+    public function getCompany() : CompanyType
+    {
         return $this->company;
     }
 
@@ -159,7 +160,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @param CompanyType $company
      * @return static
      */
-    public function setCompany( CompanyType $company ) {
+    public function setCompany( CompanyType $company ) : self
+    {
         $this->company = $company;
         return $this;
     }
@@ -167,7 +169,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
     /**
      * @return FiscalYearsType
      */
-    public function getFiscalYears() {
+    public function getFiscalYears() : FiscalYearsType
+    {
         return $this->fiscalYears;
     }
 
@@ -175,7 +178,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @param FiscalYearsType $fiscalYears
      * @return static
      */
-    public function setFiscalYears( FiscalYearsType $fiscalYears ) {
+    public function setFiscalYears( FiscalYearsType $fiscalYears ) : self
+    {
         $this->fiscalYears = $fiscalYears;
         return $this;
     }
@@ -183,7 +187,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
     /**
      * @return AccountingCurrencyType
      */
-    public function getAccountingCurrency() {
+    public function getAccountingCurrency() : AccountingCurrencyType
+    {
         return $this->accountingCurrency;
     }
 
@@ -191,9 +196,9 @@ class FileInfoType extends Sie5DtoExtAttrBase
      * @param AccountingCurrencyType $accountingCurrency
      * @return static
      */
-    public function setAccountingCurrency( AccountingCurrencyType $accountingCurrency ) {
+    public function setAccountingCurrency( AccountingCurrencyType $accountingCurrency ) : self
+    {
         $this->accountingCurrency = $accountingCurrency;
         return $this;
     }
-
 }

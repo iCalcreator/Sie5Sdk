@@ -1,32 +1,33 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
@@ -41,36 +42,46 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
 
     /**
      * @var array
-     *                      choice of
-     *                        2-unbound  ObjectReferenceType
-     *                      List of objects associated with this balance
-     * @access private
+     *
+     * minOccurs="0" maxOccurs="unbounded"
+     *  BUT 2-unbound  ObjectReferenceType
+     * List of objects associated with this balance
      */
     private $budgetMultidimTypes = [];
 
     /**
      * @var string
-     *            attribute name="month" type="xsd:gYearMonth" use="required" ( '2001-10')
-     * @access private
+     *            Attribute name="month" type="xsd:gYearMonth" use="required" ( '2001-10')
      */
     private $month = null;
 
     /**
-     * @var string
+     * @var float
      *          attribute name="amount" type="sie:Amount" use="required"
      *          Amount. Positive for debit, negative for credit.
-     * @access private
      */
     private $amount = null;
 
     /**
-     * @var string
+     * @var float
      *          attribute name="quantity" type="xsd:decimal"
-     * @access private
      */
     private $quantity = null;
 
-
+    /**
+     * Factory method, set month and amount
+     *
+     * @param string $month
+     * @param mixed  $amount
+     * @return static
+     * @throws InvalidArgumentException
+     */
+    private static function factoryMonthAmount( string $month, $amount ) : self
+    {
+        return self::factory()
+                   ->setMonth( $month )
+                   ->setAmount( $amount );
+    }
 
     /**
      * Return bool true is instance is valid
@@ -78,18 +89,19 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = [];
         foreach( array_keys( $this->budgetMultidimTypes ) as $ix ) {  // element ix
             $inside = [];
             if( ! $this->budgetMultidimTypes[$ix]->isValid( $inside )) {
                 $local[self::BUDGETMULTIDIM][$ix][self::OBJECTREFERENCE] = $inside;
             }
-        }
+        } // end foreach
         if( empty( $this->month )) {
             $local[self::MONTH] = false;
         }
-        if( is_null( $this->amount )) {
+        if( null == $this->amount ) {
             $local[self::AMOUNT] = false;
         }
         if( ! empty( $local )) {
@@ -104,28 +116,31 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public function addBudgetMultidimType( ObjectReferenceType $budgetMultidimType ) {
+    public function addBudgetMultidimType( ObjectReferenceType $budgetMultidimType ) : self
+    {
         $this->budgetMultidimTypes[] = $budgetMultidimType;
         return $this;
     }
 
     /**
-     * @return array
+     * @return ObjectReferenceType[]
      */
-    public function getBudgetMultidimTypes() {
+    public function getBudgetMultidimTypes() : array
+    {
         return $this->budgetMultidimTypes;
     }
 
     /**
-     * @param array $budgetMultidimTypes  - ObjectReferenceType
+     * @param ObjectReferenceType[] $budgetMultidimTypes
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setBudgetMultidimTypes( array $budgetMultidimTypes ) {
+    public function setBudgetMultidimTypes( array $budgetMultidimTypes ) : self
+    {
         $cnt = 0;
         foreach( $budgetMultidimTypes as $ix => $value ) {
             if( $value instanceof ObjectReferenceType ) {
-                $this->budgetMultidimTypes[$ix] = $value;
+                $this->budgetMultidimTypes[] = $value;
                 $cnt += 1;
             }
             else {
@@ -135,8 +150,8 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
                 }
                 throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::BUDGETMULTIDIM, $ix, $type ));
             }
-        }
-        if( 1 == $cnt ) {
+        } // end foreach
+        if(( 0 > $cnt ) && ( 2 > $cnt )) { // if set, min 2
             throw new InvalidArgumentException(
                 sprintf( self::$FMTERR3, self::BUDGETMULTIDIM, self::OBJECTREFERENCE )
             );
@@ -147,7 +162,8 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return string
      */
-    public function getMonth() {
+    public function getMonth()
+    {
         return $this->month;
     }
 
@@ -156,43 +172,46 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setMonth( $month ) {
+    public function setMonth( string $month ) : self
+    {
         $this->month = CommonFactory::assertGYearMonth( $month );
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getAmount() {
+    public function getAmount() : float
+    {
         return $this->amount;
     }
 
     /**
-     * @param string $amount
+     * @param mixed $amount
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setAmount( $amount ) {
+    public function setAmount( $amount ) : self
+    {
         $this->amount = CommonFactory::assertAmount( $amount );
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getQuantity() {
+    public function getQuantity() : float
+    {
         return $this->quantity;
     }
 
     /**
-     * @param string $quantity
+     * @param mixed $quantity
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setQuantity( $quantity ) {
-        $this->quantity = CommonFactory::assertString( $quantity );
+    public function setQuantity( $quantity ) : self
+    {
+        $this->quantity = (float) $quantity;
         return $this;
     }
-
 }

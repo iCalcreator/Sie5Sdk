@@ -1,6 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!-- Sample from http://www.sie.se/wp-content/uploads/files/Sample%20files.zip -->
-<Sie xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd" xmlns="http://www.sie.se/sie5">
+<!-- customer/supplier-invoice id lagt till 'invoiceNumber' med samma värde -->
+<Sie
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xsi:schemaLocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd"
+  xmlns="http://www.sie.se/sie5">
   <FileInfo>
     <SoftwareProduct name="Edison Ekonomi" version="6.0B" />
     <FileCreation time="2016-12-21T12:14:44.1254202+01:00" by="LH" />
@@ -545,98 +550,98 @@
     </Dimension>
   </Dimensions>
   <CustomerInvoices primaryAccountId="1510" name="Kundfordringar">
-    <CustomerInvoice id="100" customerId="1004">
+    <CustomerInvoice invoiceNumber="100" id="100" customerId="1004">
       <OriginalAmount date="2014-01-04" amount="5000" />
     </CustomerInvoice>
-    <CustomerInvoice id="101" customerId="1002">
+    <CustomerInvoice invoiceNumber="101" id="101" customerId="1002">
       <OriginalAmount date="2014-01-06" amount="3794" />
     </CustomerInvoice>
-    <CustomerInvoice id="102" customerId="1006">
+    <CustomerInvoice invoiceNumber="102" id="102" customerId="1006">
       <OriginalAmount date="2014-01-06" amount="35000" />
     </CustomerInvoice>
-    <CustomerInvoice id="103" customerId="1007">
+    <CustomerInvoice invoiceNumber="103" id="103" customerId="1007">
       <OriginalAmount date="2014-01-07" amount="3750" />
     </CustomerInvoice>
-    <CustomerInvoice id="104" customerId="1009">
+    <CustomerInvoice invoiceNumber="104" id="104" customerId="1009">
       <OriginalAmount date="2014-01-16" amount="61816" />
     </CustomerInvoice>
-    <CustomerInvoice id="105" customerId="1022">
+    <CustomerInvoice invoiceNumber="105" id="105" customerId="1022">
       <OriginalAmount date="2014-01-16" amount="8847">
         <ForeignCurrencyAmount amount="900" currency="EUR" />
       </OriginalAmount>
     </CustomerInvoice>
-    <CustomerInvoice id="106" customerId="1010">
+    <CustomerInvoice invoiceNumber="106" id="106" customerId="1010">
       <OriginalAmount date="2014-01-18" amount="21563" />
     </CustomerInvoice>
-    <CustomerInvoice id="107" customerId="1008">
+    <CustomerInvoice invoiceNumber="107" id="107" customerId="1008">
       <OriginalAmount date="2014-01-26" amount="86250" />
     </CustomerInvoice>
-    <CustomerInvoice id="108" customerId="1011">
+    <CustomerInvoice invoiceNumber="108" id="108" customerId="1011">
       <OriginalAmount date="2014-02-03" amount="47000" />
     </CustomerInvoice>
-    <CustomerInvoice id="109" customerId="1012">
+    <CustomerInvoice invoiceNumber="109" id="109" customerId="1012">
       <OriginalAmount date="2014-02-03" amount="18844" />
     </CustomerInvoice>
-    <CustomerInvoice id="110" customerId="1008">
+    <CustomerInvoice invoiceNumber="110" id="110" customerId="1008">
       <OriginalAmount date="2014-02-03" amount="-3750" />
     </CustomerInvoice>
-    <CustomerInvoice id="111" customerId="1015">
+    <CustomerInvoice invoiceNumber="111" id="111" customerId="1015">
       <OriginalAmount date="2014-02-10" amount="59848" />
     </CustomerInvoice>
-    <CustomerInvoice id="112" customerId="1009">
+    <CustomerInvoice invoiceNumber="112" id="112" customerId="1009">
       <OriginalAmount date="2014-02-10" amount="32594" />
     </CustomerInvoice>
-    <CustomerInvoice id="113" customerId="1013">
+    <CustomerInvoice invoiceNumber="113" id="113" customerId="1013">
       <OriginalAmount date="2014-02-10" amount="109375" />
     </CustomerInvoice>
-    <CustomerInvoice id="114" customerId="1011">
+    <CustomerInvoice invoiceNumber="114" id="114" customerId="1011">
       <OriginalAmount date="2014-02-10" amount="8844" />
     </CustomerInvoice>
-    <CustomerInvoice id="115" customerId="1019">
+    <CustomerInvoice invoiceNumber="115" id="115" customerId="1019">
       <OriginalAmount date="2014-02-16" amount="42272" />
     </CustomerInvoice>
-    <CustomerInvoice id="116" customerId="1017">
+    <CustomerInvoice invoiceNumber="116" id="116" customerId="1017">
       <OriginalAmount date="2014-02-20" amount="11250" />
     </CustomerInvoice>
-    <CustomerInvoice id="117" customerId="1002">
+    <CustomerInvoice invoiceNumber="117" id="117" customerId="1002">
       <OriginalAmount date="2014-02-16" amount="6250" />
     </CustomerInvoice>
-    <CustomerInvoice id="118" customerId="1007">
+    <CustomerInvoice invoiceNumber="118" id="118" customerId="1007">
       <OriginalAmount date="2014-02-18" amount="63750" />
     </CustomerInvoice>
   </CustomerInvoices>
   <SupplierInvoices primaryAccountId="2440" name="Leverantörsskulder">
-    <SupplierInvoice id="1" supplierId="7856-8999">
+    <SupplierInvoice invoiceNumber="1" id="1" supplierId="7856-8999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="489" />
       </Balances>
       <OriginalAmount date="2014-01-05" amount="489" />
     </SupplierInvoice>
-    <SupplierInvoice id="2" supplierId="8978-8999">
+    <SupplierInvoice invoiceNumber="2" id="2" supplierId="8978-8999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="1123" />
       </Balances>
       <OriginalAmount date="2014-01-05" amount="1123" />
     </SupplierInvoice>
-    <SupplierInvoice id="3" supplierId="4545-6633">
+    <SupplierInvoice invoiceNumber="3" id="3" supplierId="4545-6633">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="1789" />
       </Balances>
       <OriginalAmount date="2014-01-07" amount="1789" />
     </SupplierInvoice>
-    <SupplierInvoice id="4" supplierId="8977-9665">
+    <SupplierInvoice invoiceNumber="4" id="4" supplierId="8977-9665">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="1444" />
       </Balances>
       <OriginalAmount date="2014-01-07" amount="1444" />
     </SupplierInvoice>
-    <SupplierInvoice id="5" supplierId="7410-2365">
+    <SupplierInvoice invoiceNumber="5" id="5" supplierId="7410-2365">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="9575" />
       </Balances>
       <OriginalAmount date="2014-01-08" amount="9575" />
     </SupplierInvoice>
-    <SupplierInvoice id="6" supplierId="DK122333">
+    <SupplierInvoice invoiceNumber="6" id="6" supplierId="DK122333">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="4273.22" />
       </Balances>
@@ -644,139 +649,139 @@
         <ForeignCurrencyAmount amount="3262" currency="DKK" />
       </OriginalAmount>
     </SupplierInvoice>
-    <SupplierInvoice id="7" supplierId="8977-9665">
+    <SupplierInvoice invoiceNumber="7" id="7" supplierId="8977-9665">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="6220" />
       </Balances>
       <OriginalAmount date="2014-01-08" amount="6220" />
     </SupplierInvoice>
-    <SupplierInvoice id="8" supplierId="7888-9999">
+    <SupplierInvoice invoiceNumber="8" id="8" supplierId="7888-9999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="30000" />
       </Balances>
       <OriginalAmount date="2014-01-08" amount="30000" />
     </SupplierInvoice>
-    <SupplierInvoice id="9" supplierId="8977-9665">
+    <SupplierInvoice invoiceNumber="9" id="9" supplierId="8977-9665">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="-2000" />
       </Balances>
       <OriginalAmount date="2014-01-10" amount="-2000" />
     </SupplierInvoice>
-    <SupplierInvoice id="10" supplierId="8798-8989">
+    <SupplierInvoice invoiceNumber="10" id="10" supplierId="8798-8989">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="425" />
       </Balances>
       <OriginalAmount date="2014-01-10" amount="425" />
     </SupplierInvoice>
-    <SupplierInvoice id="11" supplierId="8978-6235">
+    <SupplierInvoice invoiceNumber="11" id="11" supplierId="8978-6235">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="5230" />
       </Balances>
       <OriginalAmount date="2014-01-13" amount="5230" />
     </SupplierInvoice>
-    <SupplierInvoice id="12" supplierId="7856-8999">
+    <SupplierInvoice invoiceNumber="12" id="12" supplierId="7856-8999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="352" />
       </Balances>
       <OriginalAmount date="2014-01-13" amount="352" />
     </SupplierInvoice>
-    <SupplierInvoice id="13" supplierId="8978-5621">
+    <SupplierInvoice invoiceNumber="13" id="13" supplierId="8978-5621">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="15000" />
       </Balances>
       <OriginalAmount date="2014-01-14" amount="15000" />
     </SupplierInvoice>
-    <SupplierInvoice id="14" supplierId="1111-2356">
+    <SupplierInvoice invoiceNumber="14" id="14" supplierId="1111-2356">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="200" />
       </Balances>
       <OriginalAmount date="2014-01-14" amount="200" />
     </SupplierInvoice>
-    <SupplierInvoice id="15" supplierId="8977-9665">
+    <SupplierInvoice invoiceNumber="15" id="15" supplierId="8977-9665">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="26000" />
       </Balances>
       <OriginalAmount date="2014-01-15" amount="26000" />
     </SupplierInvoice>
-    <SupplierInvoice id="16" supplierId="4545-6633">
+    <SupplierInvoice invoiceNumber="16" id="16" supplierId="4545-6633">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="450" />
       </Balances>
       <OriginalAmount date="2014-01-15" amount="450" />
     </SupplierInvoice>
-    <SupplierInvoice id="17" supplierId="7841-9999">
+    <SupplierInvoice invoiceNumber="17" id="17" supplierId="7841-9999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="490" />
       </Balances>
       <OriginalAmount date="2014-01-15" amount="490" />
-    </SupplierInvoice>
-    <SupplierInvoice id="18" supplierId="7410-2365">
+    </SupplierInvoice>§
+    <SupplierInvoice invoiceNumber="18" id="18" supplierId="7410-2365">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="80561" />
       </Balances>
       <OriginalAmount date="2014-01-17" amount="80561" />
     </SupplierInvoice>
-    <SupplierInvoice id="19" supplierId="7899-5558">
+    <SupplierInvoice invoiceNumber="19" id="19" supplierId="7899-5558">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="1422" />
       </Balances>
       <OriginalAmount date="2014-01-18" amount="1422" />
     </SupplierInvoice>
-    <SupplierInvoice id="20" supplierId="7902">
+    <SupplierInvoice invoiceNumber="20" id="20" supplierId="7902">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="857" />
       </Balances>
       <OriginalAmount date="2014-01-18" amount="857" />
     </SupplierInvoice>
-    <SupplierInvoice id="21" supplierId="7901">
+    <SupplierInvoice invoiceNumber="21" id="21" supplierId="7901">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="547" />
       </Balances>
       <OriginalAmount date="2014-01-19" amount="547" />
     </SupplierInvoice>
-    <SupplierInvoice id="22" supplierId="7903">
+    <SupplierInvoice invoiceNumber="22" id="22" supplierId="7903">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="2500" />
       </Balances>
       <OriginalAmount date="2014-01-19" amount="2500" />
     </SupplierInvoice>
-    <SupplierInvoice id="23" supplierId="7788-3333">
+    <SupplierInvoice invoiceNumber="23" id="23" supplierId="7788-3333">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="2034" />
       </Balances>
       <OriginalAmount date="2014-02-20" amount="2034" />
     </SupplierInvoice>
-    <SupplierInvoice id="24" supplierId="8798-8989">
+    <SupplierInvoice invoiceNumber="24" id="24" supplierId="8798-8989">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="2783" />
       </Balances>
       <OriginalAmount date="2014-02-20" amount="2783" />
     </SupplierInvoice>
-    <SupplierInvoice id="25" supplierId="8978-5621">
+    <SupplierInvoice invoiceNumber="25" id="25" supplierId="8978-5621">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="3430" />
       </Balances>
       <OriginalAmount date="2014-02-20" amount="3430" />
     </SupplierInvoice>
-    <SupplierInvoice id="26" supplierId="8977-9665">
+    <SupplierInvoice invoiceNumber="26" id="26" supplierId="8977-9665">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="15625" />
       </Balances>
       <OriginalAmount date="2014-02-20" amount="15625" />
     </SupplierInvoice>
-    <SupplierInvoice id="27" supplierId="7888-9999">
+    <SupplierInvoice invoiceNumber="27" id="27" supplierId="7888-9999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="6644" />
       </Balances>
       <OriginalAmount date="2014-02-24" amount="6644" />
     </SupplierInvoice>
-    <SupplierInvoice id="28" supplierId="7410-2365">
+    <SupplierInvoice invoiceNumber="28" id="28" supplierId="7410-2365">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="6469" />
       </Balances>
       <OriginalAmount date="2014-02-24" amount="6469" />
     </SupplierInvoice>
-    <SupplierInvoice id="29" supplierId="7841-9999">
+    <SupplierInvoice invoiceNumber="29" id="29" supplierId="7841-9999">
       <Balances accountId="2440">
         <ClosingBalance month="2014-12" amount="8488" />
       </Balances>

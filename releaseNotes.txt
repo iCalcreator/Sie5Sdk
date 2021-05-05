@@ -1,0 +1,5 @@
+
+1.0
+ Adapt to PHP7
+ Upd Id types
+ Extended factory methods

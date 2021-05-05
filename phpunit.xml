@@ -5,10 +5,10 @@
 
  This file is a part of DsigSdk.
 
- Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- author    Kjell-Inge Gustafsson, kigkonsult
+ Author    Kjell-Inge Gustafsson, kigkonsultKjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ Copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  Link      https://kigkonsult.se
- Version   0.95
+ Version   1.0
  License   Subject matter of licence is the software Sie5Sdk.
            The above copyright, link, package and version notices,
            this licence notice shall be included in all copies or substantial
@@ -38,18 +38,21 @@
          bootstrap="autoload.php"
         >
     <testsuites>
-        <testsuite name="Sie Tests">
+        <testsuite name="Sie create(load)/parse/write cmp Tests">
             <file>./test/TestSie.php</file>
         </testsuite>
-        <testsuite name="SieEntry Tests">
+        <testsuite name="SieEntry create(load)/parse cmp Tests">
             <file>./test/TestSieEntry.php</file>
         </testsuite>
-        <testsuite name="File Tests">
+        <testsuite name="File parse/write Tests">
             <file>./test/TestFiles.php</file>
+            <file>./test/TestSieEntry3.php</file>
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist='true' processUncoveredFilesFromWhitelist="true">
+        <whitelist
+                addUncoveredFilesFromWhitelist='true'
+                processUncoveredFilesFromWhitelist="true">
             <file>./src/Sie5Interface.php</file>
             <file>./src/Sie5XMLAttributesInterface.php</file>
             <file>./src/Dto/AccountAggregationsType.php</file>

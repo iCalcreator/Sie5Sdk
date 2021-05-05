@@ -1,74 +1,75 @@
 <?php
 /**
- * SieSdk    PHP SDK for Sie5 export/import format
- *           based on the Sie5 (http://www.sie.se/sie5.xsd) schema
+ * SieSdk     PHP SDK for Sie5 export/import format
+ *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
  *
- * Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
- * author    Kjell-Inge Gustafsson, kigkonsult
- * Link      https://kigkonsult.se
- * Version   0.95
- * License   Subject matter of licence is the software Sie5Sdk.
- *           The above copyright, link, package and version notices,
- *           this licence notice shall be included in all copies or substantial
- *           portions of the Sie5Sdk.
+ * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
+ * @link      https://kigkonsult.se
+ * @version   1.0
+ * @license   Subject matter of licence is the software Sie5Sdk.
+ *            The above copyright, link, package and version notices,
+ *            this licence notice shall be included in all copies or substantial
+ *            portions of the Sie5Sdk.
  *
- *           Sie5Sdk is free software: you can redistribute it and/or modify
- *           it under the terms of the GNU Lesser General Public License as published
- *           by the Free Software Foundation, either version 3 of the License,
- *           or (at your option) any later version.
+ *            Sie5Sdk is free software: you can redistribute it and/or modify
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
+ *            the License, or (at your option) any later version.
  *
- *           Sie5Sdk is distributed in the hope that it will be useful,
- *           but WITHOUT ANY WARRANTY; without even the implied warranty of
- *           MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- *           GNU Lesser General Public License for more details.
+ *            Sie5Sdk is distributed in the hope that it will be useful,
+ *            but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *            MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *            GNU Lesser General Public License for more details.
  *
- *           You should have received a copy of the GNU Lesser General Public License
- *           along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
+ *            You should have received a copy of the GNU Lesser General Public License
+ *            along with Sie5Sdk. If not, see <https://www.gnu.org/licenses/>.
  */
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use DateTime;
-use InvalidArgumentException;
-use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 
-use function is_null;
-
+/**
+ * Class CustomerInvoiceTypeEntry
+ *
+ * @package Kigkonsult\Sie5Sdk\Dto
+ *
+ * SubdividedAccountObjectTypeEntry::id kan anv. som CustomerInvoiceTypeEntry::invoiceNumber ?!
+ */
 class CustomerInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
 {
-
     use ExtensionAttributeTrait;
 
     /**
      * @var string
-     *            attribute name="customerId"    type="xsd:string" use="required"
-     * @access private
+     *
+     * Attribute name="customerId"    type="xsd:string" use="required"
      */
     private $customerId = null;
 
     /**
      * @var string
-     *            attribute name="invoiceNumber" type="xsd:string" use="required"
-     * @access private
+     *
+     * Attribute name="invoiceNumber" type="xsd:string" use="required"
      */
     private $invoiceNumber = null;
 
     /**
      * @var string
-     *            attribute name="ocrNumber"     type="xsd:string"
-     * @access private
+     *
+     * Attribute name="ocrNumber"     type="xsd:string"
      */
     private $ocrNumber = null;
 
     /**
      * @var DateTime
-     *            attribute name="dueDate"       type="xsd:date"
-     * @access private
+     *
+     * Attribute name="dueDate"       type="xsd:date"
      */
     private $dueDate = null;
-
-
 
     /**
      * Return bool true is instance is valid
@@ -76,16 +77,15 @@ class CustomerInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
      * @param array $expected
      * @return bool
      */
-    public function isValid( array & $expected = null ) {
+    public function isValid( array & $expected = null ) : bool
+    {
         $local = [];
-        if( is_null( $this->id )) {
-            $local[self::ID] = false;
+        if(( null == $this->id ) && empty( $this->invoiceNumber )) {
+            $local[self::ID]            = false;
+            $local[self::INVOICENUMBER] = false;
         }
         if( empty( $this->customerId )) {
             $local[self::CUSTOMERID] = false;
-        }
-        if( empty( $this->invoiceNumber )) {
-            $local[self::INVOICENUMBER] = false;
         }
         if( ! empty( $local )) {
             $expected[self::CUSTOMERINVOICE] = $local;
@@ -97,58 +97,62 @@ class CustomerInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * @return string
      */
-    public function getCustomerId() {
+    public function getCustomerId()
+    {
         return $this->customerId;
     }
 
     /**
      * @param string $customerId
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setCustomerId( $customerId ) {
-        $this->customerId = CommonFactory::assertString( $customerId );
+    public function setCustomerId( string $customerId ) : self
+    {
+        $this->customerId = $customerId;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getInvoiceNumber() {
+    public function getInvoiceNumber() : string
+    {
         return $this->invoiceNumber;
     }
 
     /**
      * @param string $invoiceNumber
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setInvoiceNumber( $invoiceNumber ) {
-        $this->invoiceNumber = CommonFactory::assertString( $invoiceNumber );
+    public function setInvoiceNumber( string $invoiceNumber ) : self
+    {
+        $this->invoiceNumber = $invoiceNumber;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getOcrNumber() {
+    public function getOcrNumber()
+    {
         return $this->ocrNumber;
     }
 
     /**
      * @param string $ocrNumber
      * @return static
-     * @throws InvalidArgumentException
      */
-    public function setOcrNumber( $ocrNumber ) {
-        $this->ocrNumber = CommonFactory::assertString( $ocrNumber );
+    public function setOcrNumber( string $ocrNumber ) : self
+    {
+        $this->ocrNumber = $ocrNumber;
         return $this;
     }
 
     /**
      * @return DateTime
      */
-    public function getDueDate() {
+    public function getDueDate()
+    {
         return $this->dueDate;
     }
 
@@ -156,9 +160,9 @@ class CustomerInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
      * @param DateTime $dueDate
      * @return static
      */
-    public function setDueDate( DateTime $dueDate ) {
+    public function setDueDate( DateTime $dueDate ) : self
+    {
         $this->dueDate = $dueDate;
         return $this;
     }
-
 }

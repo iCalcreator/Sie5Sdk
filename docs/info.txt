@@ -4,10 +4,10 @@
 
  This file is a part of Sie5Sdk.
 
- Copyright 2019 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  author    Kjell-Inge Gustafsson, kigkonsult
+ Copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  Link      https://kigkonsult.se
- Version   0.95
+ Version   1.0
  License   Subject matter of licence is the software Sie5Sdk.
            The above copyright, link, package and version notices,
            this licence notice shall be included in all copies or substantial
@@ -31,6 +31,8 @@
 Dto
 ====
 The Dto class collection corresponds to Sie5 XSD Elements/ComplexTypes.
+All classes has a (no-arg) factory method to ease up one-liners, a few has
+factory methods with arg, below.
 
 Each class properties corresponds to Sie5 XSD ComplexType elements and
 attributes.
@@ -45,7 +47,7 @@ For 'type' properties restricted by enumeration, a class::typeEnumeration
 (static) property is available with valid contents for the 'type'.
 
 For array typed properties (derived from XML 'maxOccurs="unbounded"' elements),
-(the get-method return array, set-method expects array,) add-methods exist.
+(the get-method return array, set-method expects array,) an add-methods exist.
 Ex. the Sie::CustomerInvoices, defined as array( CustomerInvoices ), the
 addCustomerInvoices method accepts (a single) CustomerInvoice, to be appended
 as last item in the property array.
@@ -67,10 +69,80 @@ The extended XML attribute use-property is ignored, i.e. if 'required', it is
 not included in the class isValid-method.
 
 
+Factory methods
+========================
+
+All classes has an 'empty' factory method to easy up one-liners, returning class
+instance. Below is a list of classes with extended class factory methods.
+
+
+SoftwareProductType::factoryNameVersion( name, version )
+
+FileCreationType::factoryByTime( by [, $time ] )
+Time is 'now' if null.
+
+CompanyType / CompanyTypeEntry
+<class>::factoryOrganizationIdName( organizationId, name )
+For CompanyTypeEntry, name is optional.
+
+FiscalYearType::factoryStartEnd( start, end )
+
+
+AccountType / AccountTypeEntry
+<class>::factoryIdNameType( id, name, type )
+
+BaseBalanceType::factoryMonthAmount( month, amount )
+BaseBalanceMultidimType::factoryMonthAmount( month, amount )
+BudgetMultidimType::factoryMonthAmount( month, amount )
+
+OriginalAmountType::factoryDateAmount( date, amount )
+
+ObjectReferenceType::factoryDimIdObjectId( dimId, objectId )
+
+ForeignCurrencyAmountType::factoryAmountCurrency( amount, currency )
+
+DimensionType::factoryIdName( id, name )
+DimensionTypeEntry::factoryIdName( id [, name ] )
+ObjectType::factoryIdName( id, name )
+
+
+CustomerInvoiceType / FixedAssetType / GeneralObjectType / SupplierInvoiceType
+factoryIdDateAmount( id, date, amount )
+Set id and the (property) OriginalAmountType date and amount
+
+
+JournalEntryType::factoryByDateIdText( by [, journalDate [, id [, text  ]]] )
+Set JournalEntryType::id / journalDate / text (all but text required)
+and (property) EntryInfoType::date / by (both required).
+Same date for JournalEntryType::journalDate and EntryInfoType::date
+(today if null).
+
+JournalEntryTypeEntry::factoryByDateIdText( by [, journalDate [, id [, text ]]] )
+Set JournalEntryTypeEntry::id (opt) / journalDate (required) / text (opt) and
+(property) OriginalEntryInfoType::date / by (both required).
+Same date for JournalEntryTypeEntry::journalDate and OriginalEntryInfoType::date
+(today if null).
+
+EntryInfoType / OriginalEntryInfoType / OverstrikeType / LockingInfoType
+<class>::factoryByDate( by, date )
+
+CorrectedByType::factoryJournalIdJournalEntryId( journalId, journalEntryId )
+
+LedgerEntryType / LedgerEntryTypeEntry
+<class>::factoryAccountAmount( accountId, amount [, quantity ] )
+
+
+VoucherReferenceType::factoryId( id )
+
+EmbeddedFileType::factoryIdNameContent( id, fileName, content )
+
+FileReferenceType::factoryIdUri( id, uri )
+
+
 XSMParse
 =========
 The XSMParse classes corresponds to the Dto classes, the (default) entry is the
-Sie5Parser::parse( (string) xml ) method, returning Sie/SieEntry instances.
+Sie5Parser::parse( (string) xml) method, returning Sie/SieEntry instances.
 Using bool true as 2:nd argument, Sie5Parser::parse( xml, true ), a DomNode is
 returned.
 
@@ -78,10 +150,10 @@ returned.
 XMLWrite
 =========
 The XMLWrite classes corresponds to the Dto classes, the (default) entry is the
-Sie5Writer::write() method, accepts Sie/SieEntry class instances as argument
+Sie5Writer::write() method, accepts Sie/SieEntry class instance as argument
 and returns (string) XML.
 
-Before 'Sie5Writer::write()', the XML root element attributes must be set
+Before 'Sie5Writer::write()', the (Sie) XML root element attributes must be set
 
 $sie->setXMLattribute( Sie::XMLNS_XSI,          Sie:XMLSCHEMAINSTANCE )
     ->setXMLattribute( Sie::XMLNS_XSD,          Sie::XMLSCHEMA )
@@ -180,7 +252,7 @@ DocumentsType::getDocumentsTypes( [(int) id] )
     (bool false on not found) otherwise array all
 
 
-The Impl\CommonFactory class manages assertions.
+The Impl\CommonFactory class manages assertions and 'Amount' format.
 The Impl\SortFactory class manages sorts.
 
 
@@ -238,5 +310,5 @@ LOG      will produce (parser-)logs on test(-case-)file basis
 SAVEXML  will save (write-)xml files from each Sie/SieEntry test case.
 
 The test/TestFiles.php test all files in the test/files directory and will
-result in errors, due to missing properties in (Sie) test files and the
+result in errors, due to missing properties in (Sie) test files and/or the
 Sie XML schema inconsistencies.

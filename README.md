@@ -1,6 +1,6 @@
 ## Sie5Sdk
 
-- PHP SDK for [Sie]5 export/import format
+- the PHP SDK for the [Sie]5 export/import formats
 - manages accounting, book-keeping, ledger, asset, inventory data etc 
 - based on the Sie5 [XSD] schema
 
@@ -32,9 +32,9 @@ $sie = Sie5Parser::factory()->parse(
 
 foreach( $sie->getAccounts()->getAccount() as $account ) {
     $id = $account->getId();
-    ...
+    //...
 }
-...
+//...
 ```
 To parse an import SieEntry XML file :
 
@@ -49,9 +49,9 @@ $sieEntry = Sie5Parser::factory()->parse(
 
 foreach( $sieEntry->getAccounts()->getAccount() as $account ) {
     $id = $account->getId();
-    ...
+    //...
 }
-...
+//...
 ```
 The XML parser save the XMLreader node properties (baseURI, localName, name, namespaceURI, prefix)
 for each XML (Dto) element as 'XMLattributes' as well as XML attributes (xmlns, xmlns:*, schemaLocation), if set.
@@ -70,6 +70,11 @@ use Kigkonsult\Sie5Sdk\Dto\AccountsTypeEntry;
 use Kigkonsult\Sie5Sdk\Dto\AccountTypeEntry;
 
 $sieEntry = sieEntry::factory()
+    ->setXMLattribute( SieEntry::XMLNS_XSI,          SieEntry::XMLSCHEMAINSTANCE )
+    ->setXMLattribute( SieEntry::XMLNS_XSD,          SieEntry::XMLSCHEMA )
+    ->setXMLattribute( SieEntry::XSI_SCHEMALOCATION, SieEntry::SIE5SCHEMALOCATION )
+    ->setXMLattribute( SieEntry::XMLNS,              SieEntry::SIE5URI );
+
     ->setAccounts( 
         AccountsTypeEntry::factory()
             ->setAccount(
@@ -87,11 +92,6 @@ $sieEntry = sieEntry::factory()
     )
     ->set...
     
-    ->setXMLattribute( SieEntry::XMLNS_XSI,          SieEntry::XMLSCHEMAINSTANCE )
-    ->setXMLattribute( SieEntry::XMLNS_XSD,          SieEntry::XMLSCHEMA )
-    ->setXMLattribute( SieEntry::XSI_SCHEMALOCATION, SieEntry::SIE5SCHEMALOCATION )
-    ->setXMLattribute( SieEntry::XMLNS,              SieEntry::SIE5URI );
-
 $XMLstring = Sie5Writer::factory()->write( $sieEntry );
 ...
 ```
@@ -139,7 +139,9 @@ $domNode = Sie5Writer::factory()->write( $sieEntry, true );
 
 #### Info
 
-For class structure and architecture, please examine 
+Sie5Sdk require PHP7+.
+
+For class structure, architecture and usage, please examine 
 * the [XSD]
 * [docs/info.txt](docs/info.txt)
 * [docs/Sie5Sdk.png](docs/Sie5Sdk.png) dto class design
@@ -198,6 +200,11 @@ cd pathToSource/Sie5Sdk
 vendor/bin/phpunit
 ```
 
+#### Sponsorship
+Donation using [paypal.me/kigkonsult] are appreciated.
+For invoice, please [e-mail]</a>.
+
+
 #### Support
 
 For support, please use [Github]/issues.
@@ -212,8 +219,10 @@ This project is licensed under the LGPLv3 License
 
 [Composer]:https://getcomposer.org/
 [DsigSdk]:https://github.com/iCalcreator/dsigsdk
+[e-mail]:mailto:ical@kigkonsult.se
 [Github]:https://github.com/iCalcreator/sie5sdk/issues
 [loggerdepot]:https://github.com/iCalcreator/loggerdepot
+[paypal.me/kigkonsult]:https://paypal.me/kigkonsult
 [Psr\Log]:https://github.com/php-fig/log
 [Sie]:http://www.sie.se
 [Signature]:https://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd

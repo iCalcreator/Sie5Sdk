@@ -1,4 +1,5 @@
 <?php
+declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\XMLParse;
 
 use InvalidArgumentException;
@@ -16,7 +17,6 @@ use function var_export;
 
 trait LibXmlUtilTrait
 {
-
     /**
      * @var int
      *           libxml default options
@@ -35,9 +35,9 @@ trait LibXmlUtilTrait
      * @param string $fileName
      * @return bool
      * @throws InvalidArgumentException
-     * @static
      */
-    public static function assertIsValidXML( $fileName ) {
+    public static function assertIsValidXML( string $fileName ) : bool
+    {
         static $CLASS  = 'SimpleXMLElement';
         static $FMTerr = 'Error validating %s';
         $useInternalXmlErrors = libxml_use_internal_errors( true ); // enable user error handling
@@ -64,7 +64,8 @@ trait LibXmlUtilTrait
      * @return array   [ *(logLevel => msg)]
      * @see http://php.net/manual/en/function.libxml-get-errors.php
      */
-    private static function renderXmlError( $errors, $fileName = null, $content = null ) {
+    private static function renderXmlError( $errors, $fileName = null, $content = null ) : array
+    {
         static $CRITICAL = 'critical'; // MUST correspond to Psr\Log\LogLevel
         static $WARNING  = 'warning';  // "-
         static $INFO     = 'info';     // "-
@@ -87,11 +88,12 @@ trait LibXmlUtilTrait
         }
         $xml     = ( false !== $content ) ? explode( PHP_EOL, $content ) : false;
         $libXarr = [];
+        $dispFn  = empty( $fileName ) ? '' : basename( $fileName );
         foreach( $errors as $ex => $error ) {
-            $str1   = sprintf(
-                $FMT1, basename( $fileName ), ( $ex + 1 ), $error->code, trim( $error->message )
+            $str1 = sprintf(
+                $FMT1, $dispFn, ( $ex + 1 ), $error->code, trim( $error->message )
             );
-            $str2   = sprintf( $FMT2, $error->line, $error->column );
+            $str2 = sprintf( $FMT2, $error->line, $error->column );
             if( false !== $xml ) {
                 $lineNo = ( 0 < $error->line ) ? ( $error->line - 1 ) : 0;
                 $str2   .= sprintf(
@@ -118,5 +120,4 @@ trait LibXmlUtilTrait
         }  // end foreach
         return $libXarr;
     }
-
 }
