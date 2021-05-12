@@ -49,11 +49,14 @@ class BudgetTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
         parent::setWriterStartElement( $this->writer, self::BUDGET, $XMLattributes );
 
         parent::writeAttribute( $this->writer, self::MONTH,    $budgetType->getMonth());
-        parent::writeAttribute(
-            $this->writer,
-            self::AMOUNT,
-            CommonFactory::formatAmount( $budgetType->getAmount())
-        );
+        $amount = $budgetType->getAmount();
+        if( ! empty( $amount ) || ( 0.0 === $amount )) {
+            parent::writeAttribute(
+                $this->writer,
+                self::AMOUNT,
+                CommonFactory::formatAmount( $amount )
+            );
+        }
         $quantity = $budgetType->getQuantity();
         if( ! empty( $quantity )) {
             parent::writeAttribute($this->writer, self::QUANTITY, $quantity );

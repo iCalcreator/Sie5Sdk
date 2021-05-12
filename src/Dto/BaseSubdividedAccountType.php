@@ -33,6 +33,8 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 
+use function get_called_class;
+
 abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
@@ -67,6 +69,19 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     protected $name = null;
 
     /**
+     * Factory method, set primaryAccountId
+     *
+     * @param string $primaryAccountId
+     * @return static
+     */
+    public static function factoryPrimaryAccountId( string $primaryAccountId ) : self
+    {
+        $class    = get_called_class();
+        $instance = new $class();
+        return $instance->setPrimaryAccountId( $primaryAccountId );
+    }
+
+    /**
      * @param string $secondaryAccountRef
      * @return static
      * @throws InvalidArgumentException
@@ -99,9 +114,9 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getPrimaryAccountId() : string
+    public function getPrimaryAccountId()
     {
         return $this->primaryAccountId;
     }
@@ -118,7 +133,7 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getName()
     {

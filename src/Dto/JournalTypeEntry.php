@@ -180,7 +180,7 @@ class JournalTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getId()
     {

@@ -237,9 +237,9 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return FileInfoType
+     * @return null|FileInfoType
      */
-    public function getFileInfo() : FileInfoType
+    public function getFileInfo()
     {
         return $this->fileInfo;
     }
@@ -255,9 +255,9 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return AccountsType
+     * @return null|AccountsType
      */
-    public function getAccounts() : AccountsType
+    public function getAccounts()
     {
         return $this->accounts;
     }
@@ -295,7 +295,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DimensionsType
+     * @return null|DimensionsType
      */
     public function getDimensions()
     {
@@ -347,7 +347,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return array
      */
-    public function getCustomerInvoices()
+    public function getCustomerInvoices() : array
     {
         return $this->customerInvoices;
     }
@@ -402,7 +402,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return SupplierInvoicesType[]
      */
-    public function getSupplierInvoices()
+    public function getSupplierInvoices() : array
     {
         return $this->supplierInvoices;
     }
@@ -458,7 +458,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return FixedAssetsType[]
      */
-    public function getFixedAssets()
+    public function getFixedAssets(): array
     {
         return $this->fixedAssets;
     }
@@ -498,7 +498,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return GeneralSubdividedAccountType[]
      */
-    public function getGeneralSubdividedAccount()
+    public function getGeneralSubdividedAccount() : array
     {
         return $this->generalSubdividedAccount;
     }
@@ -526,7 +526,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return CustomersType
+     * @return null|CustomersType
      */
     public function getCustomers()
     {
@@ -544,7 +544,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return SuppliersType
+     * @return null|SuppliersType
      */
     public function getSuppliers()
     {
@@ -562,7 +562,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return AccountAggregationsType
+     * @return null|AccountAggregationsType
      */
     public function getAccountAggregations()
     {
@@ -591,9 +591,9 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return array
+     * @return JournalType[]
      */
-    public function getJournal()
+    public function getJournal() : array
     {
         return $this->journal;
     }
@@ -684,7 +684,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DocumentsType
+     * @return null|DocumentsType
      */
     public function getDocuments()
     {
@@ -723,9 +723,9 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return SignatureType
+     * @return null|SignatureType
      */
-    public function getSignature() : SignatureType
+    public function getSignature()
     {
         return $this->signature;
     }

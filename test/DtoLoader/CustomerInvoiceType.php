@@ -34,11 +34,9 @@ use Faker;
 
 class CustomerInvoiceType
 {
-
     /**
      * @param mixed $id
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $id = null ) {
         $faker = Faker\Factory::create();
@@ -46,8 +44,8 @@ class CustomerInvoiceType
         $dto = Dto::factory()
                   ->setOriginalAmount( OriginalAmountType::loadFromFaker())
                   ->setName( $faker->company )
-                  ->setInvoiceNumber( $faker->numberBetween( 6000000000, 6999999999 ))
-                  ->setOcrNumber( $faker->numberBetween( 6000000000, 6999999999 ))
+                  ->setInvoiceNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
+                  ->setOcrNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
                   ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
         if( empty( $id )) {
             $id = $faker->numberBetween( 6000000000, 6999999999 );
@@ -63,5 +61,4 @@ class CustomerInvoiceType
         $dto->addBalances( BalancesType::loadFromFaker());
         return $dto;
     }
-
 }

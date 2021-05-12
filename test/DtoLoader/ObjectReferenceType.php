@@ -34,17 +34,15 @@ use Faker;
 
 class ObjectReferenceType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setDimId( $faker->numberBetween( 1, 20 ))
-                  ->setObjectId( $faker->numberBetween( 1000, 9999 ));
+        return Dto::factoryDimIdObjectId(
+            $faker->numberBetween( 1, 20 ),
+            (string) $faker->numberBetween( 1000, 9999 )
+        );
     }
-
 }

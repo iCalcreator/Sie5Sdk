@@ -59,8 +59,8 @@ class LockingInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEnt
     public static function factoryByDate( string $by, DateTime $date ) : self
     {
         return self::factory()
-                   ->setBy( $by )
-                   ->setDate( $date );
+            ->setBy( $by )
+            ->setDate( $date );
     }
 
     /**
@@ -96,9 +96,9 @@ class LockingInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEnt
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
-    public function getDate() : DateTime
+    public function getDate()
     {
         return $this->date;
     }
@@ -114,9 +114,9 @@ class LockingInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEnt
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getBy() : string
+    public function getBy()
     {
         return $this->by;
     }

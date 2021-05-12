@@ -24,6 +24,12 @@
             "email": "ical@kigkonsult.se"
         }
     ],
+    "funding": [
+        {
+            "type": "other",
+            "url": "https://paypal.me/kigkonsult"
+        }
+    ],
     "support": {
         "issues": "https://github.com/iCalcreator/sie5sdk/issues"
     },

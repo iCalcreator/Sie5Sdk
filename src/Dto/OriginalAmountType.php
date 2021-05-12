@@ -106,7 +106,7 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return ForeignCurrencyAmountType
+     * @return null|ForeignCurrencyAmountType
      */
     public function getForeignCurrencyAmount()
     {
@@ -124,9 +124,9 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
-    public function getDate() : DateTime
+    public function getDate()
     {
         return $this->date;
     }
@@ -142,9 +142,9 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getAmount() : float
+    public function getAmount()
     {
         return $this->amount;
     }

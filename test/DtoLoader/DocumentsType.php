@@ -35,11 +35,9 @@ use Kigkonsult\Sie5Sdk\Sie5Interface;
 
 class DocumentsType implements Sie5Interface
 {
-
     /**
      * $param array $docIds
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( array $docIds ) {
         $faker = Faker\Factory::create();
@@ -72,5 +70,4 @@ class DocumentsType implements Sie5Interface
         }
         return $dto;
     }
-
 }

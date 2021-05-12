@@ -103,7 +103,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return SoftwareProductType
+     * @return null|SoftwareProductType
      */
     public function getSoftwareProduct()
     {
@@ -121,7 +121,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return FileCreationType
+     * @return null|FileCreationType
      */
     public function getFileCreation()
     {
@@ -139,9 +139,9 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return CompanyTypeEntry
+     * @return null|CompanyTypeEntry
      */
-    public function getCompany() : CompanyTypeEntry
+    public function getCompany()
     {
         return $this->company;
     }
@@ -157,7 +157,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return AccountingCurrencyType
+     * @return null|AccountingCurrencyType
      */
     public function getAccountingCurrency()
     {

@@ -124,6 +124,20 @@ class SupplierType extends Sie5DtoExtAttrBase
     private $iban = null;
 
     /**
+     * Return instance, set id and name
+     *
+     * @param string $id
+     * @param string $name
+     * @return static
+     */
+    public static function factoryIdName( string $id, string $name ) : self
+    {
+        return self::factory()
+            ->setId( $id )
+            ->setName( $name );
+    }
+
+    /**
      * Return bool true is instance is valid
      *
      * @param array $expected
@@ -146,9 +160,9 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId() : string
+    public function getId()
     {
         return $this->id;
     }
@@ -164,9 +178,9 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }
@@ -182,7 +196,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getOrganizationId()
     {
@@ -200,7 +214,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getVatNr()
     {
@@ -218,7 +232,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getAddress1()
     {
@@ -236,7 +250,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getAddress2()
     {
@@ -254,7 +268,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getZipcode()
     {
@@ -272,7 +286,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCity()
     {
@@ -290,7 +304,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCountry()
     {
@@ -308,7 +322,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getBgAccount()
     {
@@ -326,7 +340,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getPgAccount()
     {
@@ -344,7 +358,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getBic()
     {
@@ -362,7 +376,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getIban()
     {

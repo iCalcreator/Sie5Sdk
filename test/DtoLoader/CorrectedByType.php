@@ -34,18 +34,16 @@ use Faker;
 
 class CorrectedByType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setFiscalYearId( $faker->date( 'Y-m' ) )
-                  ->setJournalId($faker->numberBetween( 10000, 19000 ) )
-                  ->setJournalEntryId( $faker->numberBetween( 10000, 19000 ));
+        return Dto::factoryJournalIdJournalEntryId(
+            (string) $faker->numberBetween( 10000, 19000 ),
+            $faker->numberBetween( 10000, 19000 )
+        )
+            ->setFiscalYearId( $faker->date( 'Y-m' ));
     }
-
 }

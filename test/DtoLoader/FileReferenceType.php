@@ -34,18 +34,16 @@ use Faker;
 
 class FileReferenceType
 {
-
     /**
      * $param array $docIds
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $docIds ) {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setId( $docIds )
-                  ->setUri( $faker->url );
+        return Dto::factoryIdUri(
+            $docIds,
+            $faker->url
+        );
     }
-
 }

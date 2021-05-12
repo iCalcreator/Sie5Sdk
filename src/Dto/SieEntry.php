@@ -222,9 +222,9 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return FileInfoTypeEntry
+     * @return null|FileInfoTypeEntry
      */
-    public function getFileInfo() : FileInfoTypeEntry
+    public function getFileInfo()
     {
         return $this->fileInfo;
     }
@@ -240,7 +240,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return AccountsTypeEntry
+     * @return null|AccountsTypeEntry
      */
     public function getAccounts()
     {
@@ -280,7 +280,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DimensionsTypeEntry
+     * @return null|DimensionsTypeEntry
      */
     public function getDimensions()
     {
@@ -332,7 +332,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return array
      */
-    public function getCustomerInvoices()
+    public function getCustomerInvoices() : array
     {
         return $this->customerInvoices;
     }
@@ -387,7 +387,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return array
      */
-    public function getSupplierInvoices()
+    public function getSupplierInvoices() : array
     {
         return $this->supplierInvoices;
     }
@@ -441,7 +441,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return FixedAssetsTypeEntry[]
      */
-    public function getFixedAssets()
+    public function getFixedAssets() : array
     {
         return $this->fixedAssets;
     }
@@ -480,7 +480,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return GeneralSubdividedAccountTypeEntry[]
      */
-    public function getGeneralSubdividedAccount()
+    public function getGeneralSubdividedAccount() : array
     {
         return $this->generalSubdividedAccount;
     }
@@ -528,7 +528,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return SuppliersType
+     * @return null|SuppliersType
      */
     public function getSuppliers()
     {
@@ -559,7 +559,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return JournalTypeEntry[]
      */
-    public function getJournal()
+    public function getJournal() : array
     {
         return $this->journal;
     }
@@ -649,7 +649,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DocumentsType
+     * @return null|DocumentsType
      */
     public function getDocuments()
     {
@@ -688,7 +688,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return SignatureType
+     * @return null|SignatureType
      */
     public function getSignature()
     {

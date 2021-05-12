@@ -115,7 +115,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
         $instance = new self();
         $instance->setAccountId( $accountId );
         $instance->setAmount( $amount );
-        if( null !== $quantity ) {
+        if( ! empty( $quantity ) || ( 0 == (int) $quantity )) {
             $instance->setQuantity( $quantity );
         }
         return $instance;
@@ -196,7 +196,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return array
      */
-    public function getLedgerEntryTypeEntries()
+    public function getLedgerEntryTypeEntries(): array
     {
         return $this->ledgerEntryTypeEntries;
     }
@@ -257,9 +257,9 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getAccountId() : string
+    public function getAccountId()
     {
         return $this->accountId;
     }
@@ -276,9 +276,9 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getAmount() : float
+    public function getAmount()
     {
         return $this->amount;
     }
@@ -295,7 +295,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return float
+     * @return null|float
      */
     public function getQuantity()
     {
@@ -314,7 +314,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getText()
     {
@@ -332,7 +332,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
     public function getLedgerDate()
     {

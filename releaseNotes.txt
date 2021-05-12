@@ -3,3 +3,12 @@
  Adapt to PHP7
  Upd Id types
  Extended factory methods
+
+1.0.3
+ More extended factory methods
+ Upd get-methods return type
+ Upd SortFactory (DateTime format)
+
+
+
+

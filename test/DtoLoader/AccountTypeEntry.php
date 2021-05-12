@@ -36,15 +36,15 @@ class AccountTypeEntry
 {
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setId( $faker->numberBetween( 1000, 9999 ))
-                  ->setName( $faker->company )
-                  ->setType( Dto::$typeEnumeration[$faker->numberBetween( 0, 5 )] )
+        $dto = Dto::factoryIdNameType(
+            (string) $faker->numberBetween( 1000, 9999 ),
+            $faker->company,
+            Dto::$typeEnumeration[$faker->numberBetween( 0, 5 )]
+        )
                   ->setUnit( $faker->tld );
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
@@ -55,5 +55,4 @@ class AccountTypeEntry
         $dto->addBudget( BudgetType::loadFromFaker());
         return $dto;
     }
-
 }

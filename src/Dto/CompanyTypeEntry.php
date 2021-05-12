@@ -82,7 +82,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     {
         $instance = self::factory()
             ->setOrganizationId( $organizationId );
-        if( null != $name ) {
+        if( ! empty( $name )) {
             $instance->setName( $name );
         }
         return $instance;

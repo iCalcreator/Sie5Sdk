@@ -35,21 +35,20 @@ use Faker;
 
 class LedgerEntryTypeEntry implements Sie5Interface
 {
-
     /**
      * @param float $amount
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $amount ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setAccountId( $faker->numberBetween( 1000, 9999 ))
-                  ->setAmount( $amount )
-                  ->setQuantity( $faker->numberBetween( 1, 5 ))
-                  ->setText( $faker->sentences( 5, true ))
-                  ->setLedgerDate( $faker->dateTimeThisMonth());
+        $dto = Dto::factoryAccountAmount(
+            (string) $faker->numberBetween( 1000, 9999 ),
+            $amount
+        )
+            ->setQuantity( $faker->numberBetween( 1, 5 ))
+            ->setText((string) $faker->sentences( 5, true ))
+            ->setLedgerDate( $faker->dateTimeThisMonth());
 
         $max = $faker->numberBetween( 1, 3 );
         for( $x = 0; $x < $max; $x++ ) {
@@ -66,5 +65,4 @@ class LedgerEntryTypeEntry implements Sie5Interface
         }
         return $dto;
     }
-
 }

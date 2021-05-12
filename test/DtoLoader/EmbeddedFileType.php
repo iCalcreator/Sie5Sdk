@@ -34,19 +34,17 @@ use Faker;
 
 class EmbeddedFileType
 {
-
     /**
      * @param int $docId
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $docId ) {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setEmbeddedFile( $faker->sha256 )
-                  ->setId( $docId )
-                  ->setFileName( $faker->word . '.' . $faker->fileExtension );
+        return Dto::factoryIdNameContent(
+            $docId,
+            $faker->word . '.' . $faker->fileExtension,
+            $faker->sha256
+        );
     }
-
 }

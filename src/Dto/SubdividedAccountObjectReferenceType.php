@@ -62,9 +62,9 @@ class SubdividedAccountObjectReferenceType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getObjectId() : string
+    public function getObjectId()
     {
         return $this->objectId;
     }

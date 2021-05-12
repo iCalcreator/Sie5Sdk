@@ -36,13 +36,13 @@ class ForeignCurrencyAmountType
 {
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setAmount( $faker->numberBetween( -999999, 999999 ) / 100 )
-                  ->setCurrency( $faker->currencyCode );
+        return Dto::factoryAmountCurrency(
+            ( $faker->numberBetween( -999999, 999999 ) / 100 ),
+            $faker->currencyCode
+        );
     }
 }

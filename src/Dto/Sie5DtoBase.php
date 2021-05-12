@@ -39,13 +39,14 @@ use XMLReader;
 
 use function get_called_class;
 use function get_class;
-use function get_class_vars;
+use function get_object_vars;
 use function is_array;
 use function is_null;
 use function is_object;
 use function is_scalar;
 use function method_exists;
 use function str_replace;
+use function sprintf;
 use function var_export;
 
 abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
@@ -64,6 +65,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
     protected static $FMTERR51  = '%s #%d Imparity error key \'%s\' and type \'%s\'';
     protected static $FMTERR52  = '%s #%d-%d Imparity error key \'%s\' and type \'%s\'';
     protected static $OBJECT    = 'object';
+    protected static $FMTERR6   = '%s is invalid';
 
     /**
      * @var mixed
@@ -200,36 +202,45 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      */
     protected static function dispObject( Sie5DtoBase $instance ) : string
     {
+        static $START   = 'start %s -----v%s';
+        static $XATTRS  = 'XMLattributes : ';
+        static $SP0     = '';
+        static $SP1     = ' ';
+        static $XATTRST = 'XMLattributes';
+        static $SP1C    = ' : ';
+        static $TS      = 'toString';
+        static $Q2      = '??';
+        static $END     = 'end %s -----^%s';
         $class   = get_class( $instance );
-        $string  = 'start ' . $class . ' -----v' . PHP_EOL;
-        $string .= 'XMLattributes : ' .
-            str_replace( [PHP_EOL, ' '], '', var_export( $instance->getXMLattributes(), true )) .
+        $string  = sprintf( $START, $class, PHP_EOL );
+        $string .= $XATTRS .
+            str_replace( [ PHP_EOL, $SP1 ], $SP0, var_export( $instance->getXMLattributes(), true )) .
             PHP_EOL;
-        foreach( get_class_vars( $instance ) as $property => $value ) {
-            if( 'XMLattributes' == $property ) {
+        foreach( get_object_vars( $instance ) as $property => $value ) {
+            if( $XATTRST == $property ) {
                 continue;
             }
             switch( true ) {
                 case ( is_null( $value )) :
-                    $string .= $property . ' : ' . PHP_EOL;
+                    $string .= $property . $SP1C . PHP_EOL;
                     break;
                 case ( is_scalar( $value )) :
-                    $string .= $property . ' : ' . ( empty( $value ) ? '' : $value ) . PHP_EOL;
+                    $string .= $property . $SP1C . ( empty( $value ) ? $SP0 : $value ) . PHP_EOL;
                     break;
                 case ( is_array( $value )) :
                     $string .= Sie5DtoBase::dispArray( $property, $value );
                     break;
                 case ( is_object( $value )) :
-                    $string .= $property . ' : ';
-                    $string .= ( method_exists( $value, 'toString' ))
+                    $string .= $property . $SP1C;
+                    $string .= ( method_exists( $value, $TS ))
                         ? PHP_EOL . $value->toString()
-                        : '??' . PHP_EOL;
+                        : $Q2 . PHP_EOL;
                     break;
                 default :
-                    $string .= $property . ' : ' . PHP_EOL . var_export( $value, true ) . PHP_EOL;
+                    $string .= $property . $SP1C . PHP_EOL . var_export( $value, true ) . PHP_EOL;
             } // end switch
         } // end foreach
-        $string .= 'end ' . $class . '-----^' . PHP_EOL;
+        $string .= sprintf( $END, $class, PHP_EOL );
         return $string;
     }
 
@@ -242,26 +253,34 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      */
     protected static function dispArray( string $property, array $value ) : string
     {
-        $string = null;
+        static $SP0  = '';
+        static $IB1  = '[';
+        static $IB2  = '] : ';
+        static $IBB  = '][';
+        static $SP1C = ' : ';
+        static $TS   = 'toString';
+        static $Q2   = '??';
+        $string = $SP0;
         foreach( $value as $key2 => $value2 ) {
             switch( true ) {
                 case ( is_scalar( $value2 )) :
-                    $string .= $property . '[' . $key2 . '] : ' . ( empty( $value2 ) ? '' : $value2 ) . PHP_EOL;
+                    $string .= $property . $IB1 . $key2 . $IB2 .
+                        ( empty( $value2 ) ? $SP0 : $value2 ) . PHP_EOL;
                     break;
                 case ( is_array( $value2 )) :
                     foreach( $value2 as $key3 => $value3 ) {
-                        $string .= $property . '[' . $key2 . '][' . $key3 .  '] : ' .
-                            ( empty( $value3 ) ? '' : $value3 ) . PHP_EOL;
+                        $string .= $property . $IB1 . $key2 . $IBB . $key3 .  $IB2 .
+                            ( empty( $value3 ) ? $SP0 : $value3 ) . PHP_EOL;
                     }
                     break;
                 case ( is_object( $value2 )) :
-                    $string .= $property . ' : ';
-                    $string .= ( method_exists( $value2, 'toString' ))
+                    $string .= $property . $SP1C;
+                    $string .= ( method_exists( $value2, $TS ))
                         ? PHP_EOL . $value2->toString()
-                        : '??' . PHP_EOL;
+                        : $Q2 . PHP_EOL;
                     break;
                 default :
-                    $string .= $property . '[' . $key2 . '] : ' . var_export( $value2, true ) . PHP_EOL;
+                    $string .= $property . $IB1 . $key2 . $IB2 . var_export( $value2, true ) . PHP_EOL;
                     break;
             } // end switch
         } // end foreach

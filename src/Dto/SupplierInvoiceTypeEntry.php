@@ -93,9 +93,9 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getSupplierId() : string
+    public function getSupplierId()
     {
         return $this->supplierId;
     }
@@ -111,9 +111,9 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getInvoiceNumber() : string
+    public function getInvoiceNumber()
     {
         return $this->invoiceNumber;
     }
@@ -129,7 +129,7 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getOcrNumber()
     {
@@ -147,7 +147,7 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
     public function getDueDate()
     {

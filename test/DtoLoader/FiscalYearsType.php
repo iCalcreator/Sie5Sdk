@@ -35,10 +35,8 @@ use Kigkonsult\Sie5Sdk\Dto\FiscalYearsType as Dto;
 
 class FiscalYearsType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -60,5 +58,4 @@ class FiscalYearsType
         $dto->addFiscalYear( FiscalYearType::loadFromFaker( $start, $end ));
         return $dto;
     }
-
 }

@@ -34,24 +34,23 @@ use Faker;
 
 class FixedAssetsType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto  = Dto::factory()
-            ->setPrimaryAccountId( $faker->numberBetween( 1000, 9999 ))
+        $dto  = Dto::factoryPrimaryAccountId(
+            (string) $faker->numberBetween( 1000, 9999 )
+        )
             ->setName( $faker->word );
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
-            $load[] = $faker->numberBetween( 1000, 9999 );
+            $load[] = (string) $faker->numberBetween( 1000, 9999 );
         }
         $dto->setSecondaryAccountRef( $load );
-        $dto->addSecondaryAccountRef( $faker->numberBetween( 1000, 9999 ));
+        $dto->addSecondaryAccountRef( (string)$faker->numberBetween( 1000, 9999 ));
 
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
@@ -62,5 +61,4 @@ class FixedAssetsType
         $dto->addFixedAsset( FixedAssetType::loadFromFaker());
         return $dto;
     }
-
 }

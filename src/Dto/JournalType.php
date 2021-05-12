@@ -68,6 +68,20 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     private $name = null;
 
     /**
+     * Return instance, set id and name
+     *
+     * @param string $id
+     * @param string $name
+     * @return static
+     */
+    public static function factoryIdName( string $id, string $name ) : self
+    {
+        return self::factory()
+            ->setId( $id )
+            ->setName( $name );
+    }
+
+    /**
      * Return bool true is instance is valid
      *
      * @param array $expected
@@ -197,7 +211,7 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -215,9 +229,9 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }

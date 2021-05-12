@@ -37,10 +37,8 @@ use function count;
 
 class Sie
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -109,5 +107,4 @@ class Sie
 
         return $dto;
     }
-
 }

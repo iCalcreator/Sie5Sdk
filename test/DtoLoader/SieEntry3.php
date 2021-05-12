@@ -40,10 +40,8 @@ use Kigkonsult\Sie5Sdk\Dto\SieEntry as Dto;
  */
 class SieEntry3
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -107,5 +105,4 @@ class SieEntry3
         $dto->setDocuments( DocumentsType::loadFromFaker( $docIds ));
         return $dto;
     }
-
 }

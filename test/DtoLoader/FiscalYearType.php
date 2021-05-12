@@ -34,25 +34,23 @@ use Faker;
 
 class FiscalYearType
 {
-
     /**
      * @param string $start
      * @param string $end
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $start, $end ) {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setStart( $start )
-                  ->setEnd( $end )
-                  ->setPrimary( false )
-                  ->setClosed( false )
-                  ->setHasLedgerEntries( true )
-                  ->setHasSubordinateAccounts( true )
-                  ->setHasAttachedVoucherFiles( true )
-                  ->setLastCoveredDate( $faker->dateTimeThisMonth());
+        return Dto::factoryStartEnd(
+            $start,
+            $end
+        )
+            ->setPrimary( false )
+            ->setClosed( false )
+            ->setHasLedgerEntries( true )
+            ->setHasSubordinateAccounts( true )
+            ->setHasAttachedVoucherFiles( true )
+            ->setLastCoveredDate( $faker->dateTimeThisMonth());
     }
-
 }

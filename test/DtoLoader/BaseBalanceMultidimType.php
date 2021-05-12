@@ -35,18 +35,17 @@ use Faker;
 
 class BaseBalanceMultidimType implements Sie5Interface
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setMonth( $faker->date( 'Y-m' ))
-                  ->setAmount( $faker->numberBetween( -999999, 999999 ) / 100 )
-                  ->setQuantity( $faker->numberBetween( 1, 9 ));
+        $dto = Dto::factoryMonthAmount(
+            $faker->date( 'Y-m' ),
+            ( $faker->numberBetween( -999999, 999999 ) / 100 )
+        )
+            ->setQuantity( $faker->numberBetween( 1, 9 ));
         $max = $faker->numberBetween( 2, 9 );
         for( $x = 0; $x <= $max; $x++ ) {
             if( 1 == ( $faker->numberBetween( 1, 2 ))) {
@@ -60,5 +59,4 @@ class BaseBalanceMultidimType implements Sie5Interface
         }
         return $dto;
     }
-
 }

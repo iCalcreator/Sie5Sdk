@@ -33,7 +33,6 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 use DateTime;
 
 use function array_keys;
-use function is_null;
 
 /**
  * Class SupplierInvoiceType
@@ -112,9 +111,9 @@ class SupplierInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getSupplierId() : string
+    public function getSupplierId()
     {
         return $this->supplierId;
     }
@@ -130,9 +129,9 @@ class SupplierInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getInvoiceNumber() : string
+    public function getInvoiceNumber()
     {
         return $this->invoiceNumber;
     }
@@ -148,7 +147,7 @@ class SupplierInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getOcrNumber()
     {
@@ -166,7 +165,7 @@ class SupplierInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
     public function getDueDate()
     {

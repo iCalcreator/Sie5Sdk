@@ -34,17 +34,16 @@ use Faker;
 
 class JournalType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setId( $faker->numberBetween( 1, 999 ))
-                  ->setName( $faker->word );
+        $dto = Dto::factoryIdName(
+            (string) $faker->numberBetween( 1, 999 ),
+            $faker->word
+        );
         $max  = $faker->numberBetween( 1, 2 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
@@ -54,5 +53,4 @@ class JournalType
         $dto->addJournalEntry( JournalEntryType::loadFromFaker());
         return $dto;
     }
-
 }

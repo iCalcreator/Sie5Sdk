@@ -34,17 +34,16 @@ use Faker;
 
 class SupplierInvoicesTypeEntry
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto  = Dto::factory()
-                   ->setPrimaryAccountId( $faker->numberBetween( 1000, 9999 ))
-                   ->setName( $faker->word );
+        $dto  = Dto::factoryPrimaryAccountId(
+            (string) $faker->numberBetween( 1000, 9999 )
+        )
+            ->setName( $faker->word );
         $max  = $faker->numberBetween( 1, 2 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
@@ -55,5 +54,4 @@ class SupplierInvoicesTypeEntry
 
         return $dto;
     }
-
 }

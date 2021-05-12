@@ -92,7 +92,7 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getEmbeddedFile()
     {
@@ -110,9 +110,9 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getId() : int
+    public function getId()
     {
         return $this->id;
     }
@@ -129,9 +129,9 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getFileName() : string
+    public function getFileName()
     {
         return $this->fileName;
     }

@@ -34,10 +34,8 @@ use Faker;
 
 class AccountsTypeEntry
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -52,5 +50,4 @@ class AccountsTypeEntry
         $dto->addAccount( AccountTypeEntry::loadFromFaker());
         return $dto;
     }
-
 }

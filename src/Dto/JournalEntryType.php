@@ -153,7 +153,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
             $journalDate = new DateTime();
         }
         $instance->setJournalDate( $journalDate )
-                 ->setEntryInfo( EntryInfoType::factoryByDate( $by, $journalDate ));
+            ->setEntryInfo( EntryInfoType::factoryByDate( $by, $journalDate ));
         if( ! empty( $text )) {
             $instance->setText( $text );
         }
@@ -231,7 +231,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return EntryInfoType
+     * @return null|EntryInfoType
      */
     public function getEntryInfo()
     {
@@ -249,7 +249,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return OriginalEntryInfoType
+     * @return null|OriginalEntryInfoType
      */
     public function getOriginalEntryInfo()
     {
@@ -279,7 +279,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return array
      */
-    public function getLedgerEntry()
+    public function getLedgerEntry() : array
     {
         return $this->ledgerEntry;
     }
@@ -366,7 +366,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return VoucherReferenceType[]
      */
-    public function getVoucherReference()
+    public function getVoucherReference() : array
     {
         return $this->voucherReference;
     }
@@ -419,7 +419,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return CorrectedByType[]
      */
-    public function getCorrectedBy()
+    public function getCorrectedBy() : array
     {
         return $this->correctedBy;
     }
@@ -447,9 +447,9 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getId() : int
+    public function getId()
     {
         return $this->id;
     }
@@ -465,9 +465,9 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
-    public function getJournalDate() : DateTime
+    public function getJournalDate()
     {
         return $this->journalDate;
     }
@@ -484,7 +484,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getText()
     {

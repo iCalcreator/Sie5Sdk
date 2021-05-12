@@ -56,8 +56,8 @@ class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
     public static function factoryIdName( string $id, string $name ) : self
     {
         return self::factory()
-                   ->setId( $id )
-                   ->setName( $name );
+            ->setId( $id )
+            ->setName( $name );
     }
 
     /**
@@ -83,9 +83,9 @@ class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId() : string
+    public function getId()
     {
         return $this->id;
     }
@@ -101,9 +101,9 @@ class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }

@@ -39,6 +39,11 @@ use Kigkonsult\Sie5Sdk\Dto\JournalTypeEntry;
 class SortFactory
 {
     /**
+     * @var string
+     */
+    static $YMDHIS = 'YmdHis';
+
+    /**
      * @var callable
      * @static
      * @usedby FiscalYearsType
@@ -90,7 +95,13 @@ class SortFactory
             return 1;
         }
         $aJournalDate = $a->getJournalDate();
+        if( ! empty( $aJournalDate )) {
+            $aJournalDate = $aJournalDate->format( self::$YMDHIS );
+        }
         $bJournalDate = $b->getJournalDate();
+        if( ! empty( $bJournalDate )) {
+            $bJournalDate = $bJournalDate->format( self::$YMDHIS );
+        }
         if( $aJournalDate < $bJournalDate ) {
             return -1;
         }
@@ -118,7 +129,13 @@ class SortFactory
             return 1;
         }
         $aJournalDate = $a->getJournalDate();
+        if( ! empty( $aJournalDate )) {
+            $aJournalDate = $aJournalDate->format( self::$YMDHIS );
+        }
         $bJournalDate = $b->getJournalDate();
+        if( ! empty( $bJournalDate )) {
+            $bJournalDate = $bJournalDate->format( self::$YMDHIS );
+        }
         if( $aJournalDate < $bJournalDate ) {
             return -1;
         }

@@ -180,9 +180,9 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getId() : int
+    public function getId()
     {
         return $this->id;
     }
@@ -199,7 +199,7 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getName()
     {

@@ -34,21 +34,19 @@ use Faker;
 
 class SupplierInvoiceTypeEntry
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factory()
-                  ->setId( $faker->numberBetween( 60000, 69999 ))
-                  ->setName( $faker->company )
-                  ->setSupplierId( $faker->numberBetween( 60000, 69999 ) )
-                  ->setInvoiceNumber( $faker->numberBetween( 6000000000, 6999999999 ) )
-                  ->setOcrNumber( $faker->numberBetween( 6000000000, 6999999999 ) )
-                  ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
+        return Dto::factoryId(
+            (string) $faker->numberBetween( 60000, 69999 )
+        )
+            ->setName( $faker->company )
+            ->setSupplierId((string) $faker->numberBetween( 60000, 69999 ))
+            ->setInvoiceNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
+            ->setOcrNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
+            ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
     }
-
 }

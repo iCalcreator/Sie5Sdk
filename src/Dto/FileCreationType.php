@@ -100,9 +100,9 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
-    public function getTime() : DateTime
+    public function getTime()
     {
         return $this->time;
     }
@@ -118,9 +118,9 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getBy() : string
+    public function getBy()
     {
         return $this->by;
     }

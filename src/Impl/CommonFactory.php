@@ -190,7 +190,7 @@ class CommonFactory
     }
 
     /**
-     * Assert data is in enumeration (string) array  and return string
+     * Assert data is in enumeration (string) array and return string
      *
      * @param mixed $data
      * @param array $enumeration

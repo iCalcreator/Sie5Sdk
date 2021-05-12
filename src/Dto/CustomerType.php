@@ -98,6 +98,20 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     use ExtensionAttributeTrait;
 
     /**
+     * Factory method, set id and name
+     *
+     * @param string $id
+     * @param string $name
+     * @return static
+     */
+    public static function factoryIdName( string $id, string $name ) : self
+    {
+        return self::factory()
+            ->setId( $id )
+            ->setName( $name );
+    }
+
+    /**
      * Return bool true is instance is valid
      *
      * @param array $expected
@@ -120,7 +134,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -138,9 +152,9 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }
@@ -156,7 +170,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getOrganizationId()
     {
@@ -174,7 +188,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getVatNr()
     {
@@ -192,7 +206,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getAddress1()
     {
@@ -210,7 +224,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getAddress2()
     {
@@ -228,7 +242,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getZipcode()
     {
@@ -246,7 +260,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCity()
     {
@@ -264,7 +278,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCountry()
     {

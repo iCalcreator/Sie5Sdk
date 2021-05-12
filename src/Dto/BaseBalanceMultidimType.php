@@ -94,7 +94,7 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
      * @return static
      * @throws InvalidArgumentException
      */
-    private static function factoryMonthAmount( string $month, $amount ) : self
+    public static function factoryMonthAmount( string $month, $amount ) : self
     {
         return self::factory()
                    ->setMonth( $month )
@@ -222,7 +222,7 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getMonth()
     {
@@ -241,9 +241,9 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getAmount() : float
+    public function getAmount()
     {
         return $this->amount;
     }
@@ -260,9 +260,9 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getQuantity() : float
+    public function getQuantity()
     {
         return $this->quantity;
     }

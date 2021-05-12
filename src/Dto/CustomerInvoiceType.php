@@ -110,7 +110,7 @@ class CustomerInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCustomerId()
     {
@@ -128,9 +128,9 @@ class CustomerInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getInvoiceNumber() : string
+    public function getInvoiceNumber()
     {
         return $this->invoiceNumber;
     }
@@ -146,7 +146,7 @@ class CustomerInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getOcrNumber()
     {
@@ -164,7 +164,7 @@ class CustomerInvoiceType extends SubdividedAccountObjectType
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
     public function getDueDate()
     {

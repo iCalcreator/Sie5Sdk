@@ -76,6 +76,11 @@ class FiscalYearsType extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function addFiscalYear( FiscalYearType $fiscalYear ) : self
     {
+        if( ! $fiscalYear->isValid()) {
+            throw new InvalidArgumentException(
+                sprintf( self::$FMTERR6, FiscalYearType::class )
+            );
+        }
         if( ! $this->isFiscalYearStartEndUnique( $fiscalYear->getStart(), $fiscalYear->getEnd())) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -136,7 +141,11 @@ class FiscalYearsType extends Sie5DtoBase implements Sie5DtoInterface
                         $type = get_class( $fiscalYear );
                     }
                     throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::FISCALYEAR, $ix, $type ));
-                    break;
+
+                case ( ! $fiscalYear->isValid()) :
+                    throw new InvalidArgumentException(
+                        sprintf( self::$FMTERR6, FiscalYearType::class  )
+                );
                 case ( ! $this->isFiscalYearStartEndUnique( $fiscalYear->getStart(), $fiscalYear->getEnd())) :
                     throw new InvalidArgumentException(
                         sprintf( self::$FMTERR12,

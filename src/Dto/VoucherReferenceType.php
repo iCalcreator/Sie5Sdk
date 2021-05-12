@@ -75,9 +75,9 @@ class VoucherReferenceType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getDocumentId() : int
+    public function getDocumentId()
     {
         return $this->documentId;
     }

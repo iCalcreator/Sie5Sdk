@@ -62,6 +62,21 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     private $taxonomy = null;
 
     /**
+     * Factory method, set id, name and type
+     *
+     * @param string $id
+     * @param string $name
+     * @return static
+     * @throws InvalidArgumentException
+     */
+    public static function factoryIdName( string $id, string $name ) : self
+    {
+        return self::factory()
+            ->setId( $id )
+            ->setName( $name );
+    }
+
+    /**
      * Return bool true is instance is valid
      *
      * @param array $expected
@@ -131,7 +146,7 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getId()
     {
@@ -149,7 +164,7 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getName()
     {

@@ -40,10 +40,8 @@ use Kigkonsult\DsigSdk\DsigLoader\SignatureType1 as SignatureType;
  */
 class SieEntry
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -111,5 +109,4 @@ class SieEntry
 
         return $dto;
     }
-
 }

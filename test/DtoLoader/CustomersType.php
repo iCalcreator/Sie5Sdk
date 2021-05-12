@@ -34,10 +34,8 @@ use Faker;
 
 class CustomersType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -52,5 +50,4 @@ class CustomersType
         $dto->addCustomer( CustomerType::loadFromFaker());
         return $dto;
     }
-
 }

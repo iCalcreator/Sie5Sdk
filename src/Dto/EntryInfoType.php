@@ -94,9 +94,9 @@ class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntry
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
-    public function getDate() : DateTime
+    public function getDate()
     {
         return $this->date;
     }
@@ -112,7 +112,7 @@ class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntry
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getBy()
     {

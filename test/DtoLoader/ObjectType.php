@@ -34,10 +34,8 @@ use Faker;
 
 class ObjectType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
 
@@ -50,12 +48,12 @@ class ObjectType
         }
         $words[] = $word;
 
-        return Dto::factory()
-                  ->setId((( 1 == $faker->numberBetween( 1, 2 ))
-                      ? $faker->numberBetween( 1000, 9999 )
-                      : $word
-                  ))
-                  ->setName( $faker->word );
+        return Dto::factoryIdName(
+            (( 1 == $faker->numberBetween( 1, 2 ))
+                ? (string) $faker->numberBetween( 1000, 9999 )
+                : $word
+            ),
+            $faker->word
+        );
     }
-
 }

@@ -40,14 +40,14 @@ class CustomerInvoicesType
     /**
      * @param array $ids
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( array $ids = [] ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setPrimaryAccountId( $faker->numberBetween( 1000, 9999 ) )
-                  ->setName( $faker->word );
+        $dto = Dto::factoryPrimaryAccountId(
+            $faker->numberBetween( 1000, 9999 )
+        )
+            ->setName( $faker->word );
         $max  = $faker->numberBetween( 2, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {

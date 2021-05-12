@@ -34,10 +34,8 @@ use Faker;
 
 class AccountAggregationsType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -52,5 +50,4 @@ class AccountAggregationsType
         $dto->addAccountAggregation( AccountAggregationType::loadFromFaker());
         return $dto;
     }
-
 }

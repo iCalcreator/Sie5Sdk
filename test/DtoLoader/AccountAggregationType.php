@@ -34,10 +34,8 @@ use Faker;
 
 class AccountAggregationType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -47,12 +45,11 @@ class AccountAggregationType
         for( $x = 0; $x <= $max; $x++ ) {
             $tagTypes[] = TagType::loadFromFaker();
         }
-        return Dto::factory()
-                  ->setTag( $tagTypes )
-                  ->setId( $faker->numberBetween( 1000, 9999 ))
-                  ->setName( $faker->company)
-                  ->setTaxonomy( $faker->bs );
-
+        return Dto::factoryIdName(
+            (string) $faker->numberBetween( 1000, 9999 ),
+            $faker->company
+        )
+            ->setTag( $tagTypes )
+            ->setTaxonomy( $faker->bs );
     }
-
 }

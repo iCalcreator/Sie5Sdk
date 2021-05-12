@@ -57,8 +57,8 @@ class OriginalEntryInfoType extends Sie5DtoBase implements Sie5DtoInterface
     public static function factoryByDate( string $by, DateTime $date ) : self
     {
         return self::factory()
-                   ->setBy( $by )
-                   ->setDate( $date );
+            ->setBy( $by )
+            ->setDate( $date );
     }
 
     /**

@@ -34,10 +34,8 @@ use Kigkonsult\Sie5Sdk\Dto\JournalTypeEntry as Dto;
 
 class JournalTypeEntry
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -60,5 +58,4 @@ class JournalTypeEntry
         $dto->addJournalEntry( JournalEntryTypeEntry::loadFromFaker());
         return $dto;
     }
-
 }

@@ -44,6 +44,16 @@ class AccountingCurrencyType extends Sie5DtoBase implements Sie5DtoInterface
      */
     private $currency = null;
 
+    /**
+     * Factory method, set currency
+     *
+     * @param string $currency
+     * @return static
+     */
+    public static function factoryCurrency( string $currency ) : self
+    {
+        return self::factory()->setCurrency( $currency );
+    }
 
     /**
      * Return bool true is instance is valid
@@ -65,7 +75,7 @@ class AccountingCurrencyType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getCurrency()
     {

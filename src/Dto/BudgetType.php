@@ -71,6 +71,21 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     private $quantity = null;
 
     /**
+     * Factory method, set month and amount
+     *
+     * @param string  $month
+     * @param mixed   $amount
+     * @return static
+     * @throws InvalidArgumentException
+     */
+    public static function factoryMonthAmount( string $month, $amount ) : self
+    {
+        return self::factory()
+            ->setMonth( $month )
+            ->setAmount( $amount );
+    }
+
+    /**
      * Return bool true is instance is valid
      *
      * @param array $expected

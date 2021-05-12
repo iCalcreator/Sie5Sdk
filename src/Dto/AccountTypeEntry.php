@@ -169,9 +169,9 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId() : string
+    public function getId()
     {
         return $this->id;
     }
@@ -188,9 +188,9 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }
@@ -207,9 +207,9 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getType() : string
+    public function getType()
     {
         return $this->type;
     }
@@ -226,7 +226,7 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getUnit()
     {

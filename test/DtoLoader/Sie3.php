@@ -35,10 +35,8 @@ use Kigkonsult\Sie5Sdk\Dto\Sie as Dto;
 
 class Sie3
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -117,5 +115,4 @@ class Sie3
 
         return $dto;
     }
-
 }

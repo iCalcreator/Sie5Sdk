@@ -34,17 +34,15 @@ use Faker;
 
 class FixedAssetType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factory()
             ->setOriginalAmount( OriginalAmountType::loadFromFaker())
-            ->setId( $faker->numberBetween( 1000, 9999 ) )
+            ->setId((string) $faker->numberBetween( 1000, 9999 ) )
             ->setName( $faker->company );
         $max  = $faker->numberBetween( 1, 2 );
         $load = [];
@@ -55,6 +53,4 @@ class FixedAssetType
         $dto->addBalances( BalancesType::loadFromFaker());
         return $dto;
     }
-
-
 }

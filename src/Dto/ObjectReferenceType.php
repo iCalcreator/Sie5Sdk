@@ -65,8 +65,8 @@ class ObjectReferenceType
     public static function factoryDimIdObjectId( $dimId, string $objectId ) : self
     {
         return self::factory()
-                   ->setDimId( $dimId )
-                   ->setObjectId( $objectId );
+            ->setDimId( $dimId )
+            ->setObjectId( $objectId );
     }
 
     /**
@@ -92,9 +92,9 @@ class ObjectReferenceType
     }
 
     /**
-     * @return int
+     * @return null|int
      */
-    public function getDimId() : int
+    public function getDimId()
     {
         return $this->dimId;
     }
@@ -111,9 +111,9 @@ class ObjectReferenceType
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getObjectId() : string
+    public function getObjectId()
     {
         return $this->objectId;
     }

@@ -147,9 +147,9 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getAccountId() : string
+    public function getAccountId()
     {
         return $this->accountId;
     }

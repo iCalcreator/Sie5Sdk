@@ -121,8 +121,8 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     public static function factoryStartEnd( string $start, string $end ) : self
     {
         return self::factory()
-                   ->setStart( $start )
-                   ->setEnd( $end );
+            ->setStart( $start )
+            ->setEnd( $end );
     }
 
     /**
@@ -148,7 +148,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getStart()
     {
@@ -167,9 +167,9 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getEnd() : string
+    public function getEnd()
     {
         return $this->end;
     }
@@ -224,7 +224,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function getHasLedgerEntries()
     {
@@ -243,7 +243,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function getHasSubordinateAccounts()
     {
@@ -262,7 +262,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function getHasAttachedVoucherFiles()
     {
@@ -281,7 +281,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return DateTime
+     * @return null|DateTime
      */
     public function getLastCoveredDate()
     {

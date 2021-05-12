@@ -93,7 +93,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    private static function factoryMonthAmount( string $month, $amount ) : self
+    public static function factoryMonthAmount( string $month, $amount ) : self
     {
         return self::factory()
             ->setMonth( $month )
@@ -217,7 +217,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getMonth()
     {
@@ -236,9 +236,9 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getAmount() : float
+    public function getAmount()
     {
         return $this->amount;
     }
@@ -255,7 +255,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
-     * @return float
+     * @return null|float
      */
     public function getQuantity()
     {

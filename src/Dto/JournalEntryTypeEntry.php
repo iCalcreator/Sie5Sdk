@@ -120,14 +120,14 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     ) : self
     {
         $instance = new self();
-        if( null != $id ) {
+        if( ! empty( $id )) {
             $instance->setId( $id );
         }
         if( empty( $journalDate )) {
             $journalDate = new DateTime();
         }
         $instance->setJournalDate( $journalDate )
-                 ->setOriginalEntryInfo( OriginalEntryInfoType::factoryByDate( $by, $journalDate ));
+            ->setOriginalEntryInfo( OriginalEntryInfoType::factoryByDate( $by, $journalDate ));
         if( ! empty( $text )) {
             $instance->setText( $text );
         }

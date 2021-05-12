@@ -129,9 +129,9 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     }
 
     /**
-     * @return OriginalAmountType
+     * @return null|OriginalAmountType
      */
-    public function getOriginalAmount() : OriginalAmountType
+    public function getOriginalAmount()
     {
         return $this->originalAmount;
     }
@@ -147,9 +147,9 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId() : string
+    public function getId()
     {
         return $this->id;
     }
@@ -166,7 +166,7 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getName()
     {

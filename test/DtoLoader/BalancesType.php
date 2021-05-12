@@ -35,16 +35,14 @@ use Faker;
 
 class BalancesType implements Sie5Interface
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factory()
-                  ->setAccountId( $faker->numberBetween( 1000, 9999 ));
+                  ->setAccountId((string) $faker->numberBetween( 1000, 9999 ));
         $max = $faker->numberBetween( 1, 3 );
         for( $x = 0; $x < $max; $x++ ) {
             switch( $faker->numberBetween( 1, 2 ) ) {
@@ -58,5 +56,4 @@ class BalancesType implements Sie5Interface
         } // end for
         return $dto;
     }
-
 }

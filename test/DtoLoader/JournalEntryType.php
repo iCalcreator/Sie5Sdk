@@ -35,10 +35,8 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 
 class JournalEntryType
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -85,5 +83,4 @@ class JournalEntryType
         $dto->addCorrectedBy( CorrectedByType::loadFromFaker());
         return $dto;
     }
-
 }

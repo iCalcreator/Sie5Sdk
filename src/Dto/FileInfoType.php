@@ -34,7 +34,8 @@ class FileInfoType extends Sie5DtoExtAttrBase
 {
     /**
      * @var SoftwareProductType
-     *                         Name of the software that has created the file
+     *
+     * Name of the software that has created the file
      */
     private $softwareProduct = null;
 
@@ -45,14 +46,16 @@ class FileInfoType extends Sie5DtoExtAttrBase
 
     /**
      * @var CompanyType
-     *                 General information about the company (or other organization)
-     *                 whose fiscal data is represented in the file
+     *
+     * General information about the company (or other organization)
+     * whose fiscal data is represented in the file
      */
     private $company = null;
 
     /**
      * @var FiscalYearsType
-     *                     Container for fiscal years
+     *
+     * Container for fiscal years
      */
     private $fiscalYears = null;
 

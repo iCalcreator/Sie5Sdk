@@ -87,7 +87,7 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
     public function getId()
     {
@@ -106,7 +106,7 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getUri()
     {

@@ -36,19 +36,18 @@ use Faker;
 
 class AccountType implements Sie5Interface
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto  = Dto::factory()
-                  ->setId( $faker->numberBetween( 1000, 9999 ))
-                  ->setName( $faker->company )
-                  ->setType( Dto::$typeEnumeration[$faker->numberBetween( 0, 4 )] )
-                  ->setUnit( $faker->tld );
+        $dto  = Dto::factoryIdNameType(
+            (string) $faker->numberBetween( 1000, 9999 ),
+            $faker->company,
+            Dto::$typeEnumeration[$faker->numberBetween( 0, 4 )]
+        )
+            ->setUnit( $faker->tld );
         $max  = $faker->numberBetween( 1, 4 );
         for( $x = 0; $x <= $max; $x++ ) {
             switch( $faker->numberBetween( 1, 6 ) ) {
@@ -74,5 +73,4 @@ class AccountType implements Sie5Interface
         }
         return $dto;
     }
-
 }

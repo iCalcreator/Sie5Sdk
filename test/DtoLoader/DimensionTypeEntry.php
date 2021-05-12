@@ -34,18 +34,17 @@ use Faker;
 
 class DimensionTypeEntry
 {
-
     /**
      * @param int $dimensionId
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $dimensionId ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setId( $dimensionId )
-                  ->setName( $faker->company );
+        $dto = Dto::factoryIdName(
+            $dimensionId,
+            $faker->company
+        );
         $max  = $faker->numberBetween( 2, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
@@ -55,5 +54,4 @@ class DimensionTypeEntry
         $dto->addObject( ObjectType::loadFromFaker());
         return $dto;
     }
-
 }

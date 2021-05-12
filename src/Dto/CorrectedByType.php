@@ -94,7 +94,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getFiscalYearId()
     {
@@ -113,7 +113,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getJournalId()
     {
@@ -131,7 +131,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return int
+     * @return null|int
      */
     public function getJournalEntryId()
     {

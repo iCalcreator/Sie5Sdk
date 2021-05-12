@@ -69,8 +69,8 @@ class ForeignCurrencyAmountType
     public static function factoryAmountCurrency( $amount, string $currency ) : self
     {
         return self::factory()
-                   ->setAmount( $amount )
-                   ->setCurrency( $currency );
+            ->setAmount( $amount )
+            ->setCurrency( $currency );
     }
 
     /**

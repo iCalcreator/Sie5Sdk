@@ -108,7 +108,7 @@ class CompanyType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
     public function getOrganizationId()
     {
@@ -144,9 +144,9 @@ class CompanyType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
     }
@@ -162,9 +162,9 @@ class CompanyType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getClientId() : string
+    public function getClientId()
     {
         return $this->clientId;
     }

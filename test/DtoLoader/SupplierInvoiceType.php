@@ -34,21 +34,19 @@ use Faker;
 
 class SupplierInvoiceType
 {
-
     /**
      * @param mixed $id
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker( $id = null ) {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factory()
-                  ->setOriginalAmount( OriginalAmountType::loadFromFaker())
-                  ->setName( $faker->company )
-                  ->setInvoiceNumber( $faker->numberBetween( 7000000000, 7999999999 ))
-                  ->setOcrNumber( $faker->numberBetween( 7000000000, 7999999999 ))
-                  ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
+            ->setOriginalAmount( OriginalAmountType::loadFromFaker())
+            ->setName( $faker->company )
+            ->setInvoiceNumber((string) $faker->numberBetween( 7000000000, 7999999999 ))
+            ->setOcrNumber((string) $faker->numberBetween( 7000000000, 7999999999 ))
+            ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
         if( empty( $id )) {
             $id = $faker->numberBetween( 7000000000, 7999999999 );
         }
@@ -64,5 +62,4 @@ class SupplierInvoiceType
 
         return $dto;
     }
-
 }

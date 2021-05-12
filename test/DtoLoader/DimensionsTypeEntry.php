@@ -34,10 +34,8 @@ use Faker;
 
 class DimensionsTypeEntry
 {
-
     /**
      * @return Dto
-     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -54,5 +52,4 @@ class DimensionsTypeEntry
         $dto->addDimension( DimensionTypeEntry::loadFromFaker( array_pop( $dimensionsId )));
         return $dto;
     }
-
 }
