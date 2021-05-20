@@ -34,8 +34,10 @@ use Faker;
 
 class CorrectedByType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -46,4 +48,5 @@ class CorrectedByType
         )
             ->setFiscalYearId( $faker->date( 'Y-m' ));
     }
+
 }

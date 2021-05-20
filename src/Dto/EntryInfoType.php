@@ -74,20 +74,20 @@ class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->date )) {
-            $local[self::DATE] = false;
+            $local[] = self::errMissing(self::class, self::DATE );
         }
         if( empty( $this->by )) {
-            $local[self::BY] = false;
+            $local[] = self::errMissing(self::class, self::BY );
         }
         if( ! empty( $local )) {
-            $expected[self::ENTRYINFO] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

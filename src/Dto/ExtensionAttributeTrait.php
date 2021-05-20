@@ -30,6 +30,8 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
+use TypeError;
+
 trait ExtensionAttributeTrait
 {
     /**
@@ -59,12 +61,15 @@ trait ExtensionAttributeTrait
     }
 
     /**
-     * @param array $extensionAttributes
+     * @param string[] $extensionAttributes
      * @return static
+     * @throws TypeError
      */
     public function setExtensionAttributes( array $extensionAttributes ) : self
     {
-        $this->extensionAttributes = $extensionAttributes;
+        foreach( $extensionAttributes as $key => $value ) {
+            $this->addExtensionAttribute( $key, $value );
+        }
         return $this;
     }
 }

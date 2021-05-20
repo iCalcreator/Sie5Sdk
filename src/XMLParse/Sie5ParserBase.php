@@ -115,7 +115,7 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
      * @return static
      * @static
      */
-    public static function factory( $reader = null  )
+    public static function factory( $reader = null  ) : self
     {
         $class = get_called_class();
         return new $class( $reader );

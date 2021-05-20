@@ -74,20 +74,20 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->journalId )) {
-            $local[self::JOURNALID] = false;
+            $local[] = self::errMissing(self::class, self::JOURNALID );
         }
-        if( empty( $this->journalEntryId )) {
-            $local[self::JOURNALENTRYID] = false;
+        if( null === $this->journalEntryId ) {
+            $local[] = self::errMissing(self::class, self::JOURNALENTRYID );
         }
         if( ! empty( $local )) {
-            $expected[self::CORRECTEDBY] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

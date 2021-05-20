@@ -54,7 +54,7 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
      * Factory method, set by and time (today if null)
      *
      * @param string        $by
-     * @param DateTime|null $time
+     * @param null|DateTime $time
      * @return FileCreationType|Sie5DtoBase
      */
     public static function factoryByTime( string $by, $time = null )
@@ -80,20 +80,20 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->time )) {
-            $local[self::TIME] = false;
+            $local[] = self::errMissing(self::class, self::TIME );
         }
         if( empty( $this->by )) {
-            $local[self::BY] = false;
+            $local[] = self::errMissing(self::class, self::BY );
         }
         if( ! empty( $local )) {
-            $expected[self::FILECREATION] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

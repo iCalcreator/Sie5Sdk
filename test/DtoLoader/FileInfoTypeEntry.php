@@ -34,8 +34,10 @@ use Kigkonsult\Sie5Sdk\Dto\FileInfoTypeEntry as Dto;
 
 class FileInfoTypeEntry
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         // $faker = Faker\Factory::create();
@@ -46,4 +48,5 @@ class FileInfoTypeEntry
                   ->setCompany( CompanyTypeEntry::loadFromFaker())
                   ->setAccountingCurrency( AccountingCurrencyType::loadFromFaker() );
     }
+
 }

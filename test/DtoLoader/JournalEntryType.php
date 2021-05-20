@@ -37,18 +37,20 @@ class JournalEntryType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setEntryInfo( EntryInfoType::loadFromFaker())
-                  ->setOriginalEntryInfo( OriginalEntryInfoType::loadFromFaker())
-                  ->setLockingInfo( LockingInfoType::loadFromFaker())
-                  ->setId( $faker->numberBetween( 1, 9999999 ))
-                  ->setJournalDate( $faker->dateTimeThisMonth())
-                  ->setText( $faker->text())
-                  ->setReferenceId( $faker->word );
+        $dto = Dto::factoryByDateIdText(
+            $faker->word,
+            $faker->dateTimeThisMonth(),
+            $faker->numberBetween( 1, 9999999 ),
+            $faker->text()
+        )
+            ->setOriginalEntryInfo( OriginalEntryInfoType::loadFromFaker())
+            ->setLockingInfo( LockingInfoType::loadFromFaker())
+            ->setReferenceId( $faker->word );
 
         // Assure balanced ledgerEntries
         $max  = $faker->numberBetween( 1, 3 );
@@ -72,7 +74,6 @@ class JournalEntryType
             $load[] = VoucherReferenceType::loadFromFaker();
         }
         $dto->setVoucherReference( $load );
-        $dto->addVoucherReference( VoucherReferenceType::loadFromFaker());
 
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
@@ -80,7 +81,7 @@ class JournalEntryType
             $load[] = CorrectedByType::loadFromFaker();
         }
         $dto->setCorrectedBy( $load );
-        $dto->addCorrectedBy( CorrectedByType::loadFromFaker());
+
         return $dto;
     }
 }

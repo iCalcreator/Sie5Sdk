@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function get_called_class;
 
@@ -82,6 +83,8 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     }
 
     /**
+     * Add single secondaryAccountRef
+     *
      * @param string $secondaryAccountRef
      * @return static
      * @throws InvalidArgumentException
@@ -95,20 +98,22 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     /**
      * @return string[]
      */
-    public function getSecondaryAccountRef()
+    public function getSecondaryAccountRef() : array
     {
         return $this->secondaryAccountRef;
     }
 
     /**
+     * Set secondaryAccountRef's, array
+     *
      * @param array $secondaryAccountRef
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setSecondaryAccountRef( array $secondaryAccountRef ) : self
     {
-        foreach( $secondaryAccountRef as $ix => $accountNumber ) {
-            $this->secondaryAccountRef[] = CommonFactory::assertAccountNumber( $accountNumber, $ix );
+        foreach( $secondaryAccountRef as $accountNumber ) {
+            $this->addSecondaryAccountRef( $accountNumber );
         }
         return $this;
     }

@@ -36,6 +36,7 @@ class SupplierInvoicesTypeEntry
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -43,14 +44,13 @@ class SupplierInvoicesTypeEntry
         $dto  = Dto::factoryPrimaryAccountId(
             (string) $faker->numberBetween( 1000, 9999 )
         )
-            ->setName( $faker->word );
-        $max  = $faker->numberBetween( 1, 2 );
+                   ->setName( $faker->word );
+        $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = SupplierInvoiceTypeEntry::loadFromFaker();
         }
         $dto->setSupplierInvoice( $load );
-        $dto->addSupplierInvoice( SupplierInvoiceTypeEntry::loadFromFaker());
 
         return $dto;
     }

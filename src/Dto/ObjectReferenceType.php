@@ -72,20 +72,20 @@ class ObjectReferenceType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->dimId )) {
-            $local[self::DIMID] = false;
+            $local[] = self::errMissing(self::class, self::DIMID );
         }
         if( empty( $this->objectId )) {
-            $local[self::OBJECTID] = false;
+            $local[] = self::errMissing(self::class, self::OBJECT );
         }
         if( ! empty( $local )) {
-            $expected[self::OBJECTREFERENCE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

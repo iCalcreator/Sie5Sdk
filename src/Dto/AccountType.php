@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function current;
@@ -115,36 +116,46 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
+        $local  = [];
+        $inside = [];
         foreach( array_keys( $this->accountType ) as $ix ) {
-            $inside = [];
+            $inside[$ix] = [];
             $accountType = reset( $this->accountType[$ix] );
-            if( ! $accountType->isValid( $inside )) {
-                $local[self::ACCOUNT][$ix][key( $this->accountType[$ix] )] = $inside;
+            if( $accountType->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
-        }
+        } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::ACCOUNT );
+            $local[$key] = $inside;
+        } // end if
         if( empty( $this->id )) {
-            $local[self::ID] = false;
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->name )) {
-            $local[self::NAME] = false;
+            $local[] = self::errMissing(self::class, self::NAME );
         }
         if( empty( $this->type )) {
-            $local[self::TYPE] = false;
+            $local[] = self::errMissing(self::class, self::TYPE );
         }
         if( ! empty( $local )) {
-            $expected[self::ACCOUNT] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add (typed) AccountTypesInterface
+     *
+     * Type : self::OPENINGBALANCE / self::CLOSINGBALANCE / self::BUDGET /
+     *     self::OPENINGBALANCEMULTIDIM / self::CLOSINGBALANCEMULTIDIM / self::BUDGETMULTIDIM
+     *
      * @param string $key
      * @param AccountTypesInterface $accountType
      * @return static
@@ -153,23 +164,28 @@ class AccountType extends Sie5DtoExtAttrBase
     public function addAccountType( string $key, AccountTypesInterface $accountType ) : self
     {
         switch( true ) {
-            case (( self::OPENINGBALANCE == $key ) && $accountType instanceof BaseBalanceType ) :
+            case (( self::OPENINGBALANCE == $key ) &&
+                ( $accountType instanceof BaseBalanceType )) :
                 break;
-            case (( self::CLOSINGBALANCE == $key ) && $accountType instanceof BaseBalanceType ) :
+            case (( self::CLOSINGBALANCE == $key ) &&
+                ( $accountType instanceof BaseBalanceType )) :
                 break;
-            case (( self::BUDGET == $key ) && $accountType instanceof BudgetType ) :
+            case (( self::BUDGET == $key ) &&
+                ( $accountType instanceof BudgetType )) :
                 break;
-            case (( self::OPENINGBALANCEMULTIDIM == $key ) && $accountType instanceof BaseBalanceMultidimType ) :
+            case (( self::OPENINGBALANCEMULTIDIM == $key ) &&
+                ( $accountType instanceof BaseBalanceMultidimType )) :
                 break;
-            case (( self::CLOSINGBALANCEMULTIDIM == $key ) && $accountType instanceof BaseBalanceMultidimType ) :
+            case (( self::CLOSINGBALANCEMULTIDIM == $key ) &&
+                ( $accountType instanceof BaseBalanceMultidimType )) :
                 break;
-            case (( self::BUDGETMULTIDIM == $key ) && $accountType instanceof BudgetMultidimType ) :
+            case (( self::BUDGETMULTIDIM == $key ) &&
+                ( $accountType instanceof BudgetMultidimType )) :
                 break;
             default :
                 throw new InvalidArgumentException(
                     sprintf( self::$FMTERR5, self::ACCOUNT, $key, get_class( $accountType ))
                 );
-                break;
         } // end switch
         $this->accountType[] = [ $key => $accountType ];
         return $this;
@@ -184,9 +200,15 @@ class AccountType extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Set AccountTypesInterfaces, array ( *( type => AccountTypesInterface )) / ( type => AccountTypesInterface )
+     *
+     * Type : self::OPENINGBALANCE / self::CLOSINGBALANCE / self::BUDGET /
+     *     self::OPENINGBALANCEMULTIDIM / self::CLOSINGBALANCEMULTIDIM / self::BUDGETMULTIDIM
+     *
      * @param array $accountType
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setAccountType( array $accountType ) : self
     {
@@ -195,28 +217,8 @@ class AccountType extends Sie5DtoExtAttrBase
                 $element = [ $ix => $element ];
             }
             reset( $element );
-            $key     = key( $element );
-            $account = current( $element );
-            switch( true ) {
-                case (( self::OPENINGBALANCE == $key ) && $account instanceof BaseBalanceType ) :
-                    break;
-                case (( self::CLOSINGBALANCE == $key ) && $account instanceof BaseBalanceType ) :
-                    break;
-                case (( self::BUDGET == $key ) && $account instanceof BudgetType ) :
-                    break;
-                case (( self::OPENINGBALANCEMULTIDIM == $key ) && $account instanceof BaseBalanceMultidimType ) :
-                    break;
-                case (( self::CLOSINGBALANCEMULTIDIM == $key ) && $account instanceof BaseBalanceMultidimType ) :
-                    break;
-                case (( self::BUDGETMULTIDIM == $key ) && $account instanceof BudgetMultidimType ) :
-                    break;
-                default :
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR51, self::ACCOUNT, $ix, $key, get_class( $account ))
-                    );
-                    break;
-            } // end switch
-            $this->accountType[$ix] = $element;
+            $key = key( $element );
+            $this->addAccountType( $key,  current( $element ));
         } // end foreach
         return $this;
     }

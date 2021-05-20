@@ -34,26 +34,33 @@ use Faker;
 
 class ObjectType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
 
         $faker = Faker\Factory::create();
 
         static $words = [];
+        static $ids   = [];
         $word = $faker->word;
         while( in_array( $word, $words)) {
             $word = $faker->word;
         }
         $words[] = $word;
 
+        $id = (string) $faker->numberBetween( 1000, 9999 );
+        while( in_array( $id, $ids ))  {
+            $id = (string) $faker->numberBetween( 1000, 9999 );
+        }
+        $ids[] = $id;
+
         return Dto::factoryIdName(
-            (( 1 == $faker->numberBetween( 1, 2 ))
-                ? (string) $faker->numberBetween( 1000, 9999 )
-                : $word
-            ),
+            ( 1 == $faker->numberBetween( 1, 2 ) ? $id : $word ),
             $faker->word
         );
     }
+
 }

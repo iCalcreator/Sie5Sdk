@@ -30,15 +30,13 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\SortFactory;
+use TypeError;
 
 use function array_keys;
 use function array_merge;
 use function array_unique;
-use function gettype;
 use function sort;
-use function sprintf;
 use function usort;
 
 class JournalType extends Sie5DtoBase implements Sie5DtoInterface
@@ -84,38 +82,45 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->journalEntry )) {
-            $local[self::JOURNALENTRY] = false;
+            $local[] = self::errMissing(self::class, self::JOURNALENTRY );
         }
         else {
+            $inside = [];
             foreach( array_keys( $this->journalEntry ) as $ix ) { // element ix
-                $inside = [];
-                if( ! $this->journalEntry[$ix]->isValid( $inside )) {
-                    $local[self::JOURNALENTRY][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->journalEntry[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::JOURNALENTRY );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
+        if( null === $this->id ) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->name )) {
+            $local[] = self::errMissing(self::class, self::NAME );
             $local[self::NAME] = false;
         }
         if( ! empty( $local )) {
-            $expected[self::JOURNAL] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single JournalEntryType
+     *
      * @param JournalEntryType $journalEntry
      * @return static
      */
@@ -180,34 +185,27 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set JournalEntryTypes, array
+     *
+     * @param JournalEntryType[] $journalEntry
+     * @return static
+     * @throws TypeError
+     */
+    public function setJournalEntry( array $journalEntry ) : self
+    {
+        foreach( $journalEntry as $value ) {
+            $this->addJournalEntry( $value );
+        } // end foreach
+        $this->sortJournalEntryOnId();
+        return $this;
+    }
+
+    /**
      * Sort JournalEntry on journalEntryType id
      */
     public function sortJournalEntryOnId()
     {
         usort( $this->journalEntry, SortFactory::$journalEntryTypeSorter );
-    }
-
-    /**
-     * @param JournalEntryType[] $journalEntry
-     * @return static
-     * @throws InvalidArgumentException
-     */
-    public function setJournalEntry( array $journalEntry ) : self
-    {
-        foreach( $journalEntry as $ix => $value ) {
-            if( $value instanceof JournalEntryType ) {
-                $this->journalEntry[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::JOURNALENTRY, $ix, $type ));
-            }
-        } // end foreach
-        $this->sortJournalEntryOnId();
-        return $this;
     }
 
     /**

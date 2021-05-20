@@ -128,20 +128,20 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->start )) {
-            $local[self::START] = false;
+            $local[] = self::errMissing(self::class, self::START );
         }
         if( empty( $this->end )) {
-            $local[self::END] = false;
+            $local[] = self::errMissing(self::class, self::END );
         }
         if( ! empty( $local )) {
-            $expected[self::FISCALYEAR] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

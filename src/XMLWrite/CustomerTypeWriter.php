@@ -46,7 +46,7 @@ class CustomerTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
         parent::setWriterStartElement( $this->writer, self::CUSTOMER, $XMLattributes );
 
         parent::writeAttribute( $this->writer, self::ID, $customerType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $customerType->getName() );
+        parent::writeAttribute( $this->writer, self::NAME, $customerType->getName());
         $var = $customerType->getOrganizationId();
         if ( ! empty($var)) {
             parent::writeAttribute( $this->writer, self::ORGANIZATIONID, $var);

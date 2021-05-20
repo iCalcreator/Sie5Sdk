@@ -34,8 +34,10 @@ use Faker;
 
 class CustomerInvoiceTypeEntry
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -43,10 +45,11 @@ class CustomerInvoiceTypeEntry
         return Dto::factoryId(
             (string) $faker->numberBetween( 60000, 69999 )
         )
-            ->setName( $faker->company )
-            ->setCustomerId((string) $faker->numberBetween( 6000000000, 6999999999 ) )
-            ->setInvoiceNumber((string) $faker->numberBetween( 6000000000, 6999999999 ) )
-            ->setOcrNumber((string) $faker->numberBetween( 6000000000, 6999999999 ) )
-            ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
+                  ->setName( $faker->company )
+                  ->setCustomerId((string) $faker->numberBetween( 6000000000, 6999999999 ) )
+                  ->setInvoiceNumber((string) $faker->numberBetween( 6000000000, 6999999999 ) )
+                  ->setOcrNumber((string) $faker->numberBetween( 6000000000, 6999999999 ) )
+                  ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
     }
+
 }

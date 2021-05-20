@@ -76,20 +76,20 @@ class ForeignCurrencyAmountType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
-        if( null == $this->amount ) {
-            $local[self::AMOUNT] = false;
+        if( null === $this->amount ) {
+            $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( empty( $this->currency )) {
-            $local[self::CURRENCY] = false;
+            $local[] = self::errMissing(self::class, self::CURRENCY );
         }
         if( ! empty( $local )) {
-            $expected[self::FOREIGNCURRENCYAMOUNT] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

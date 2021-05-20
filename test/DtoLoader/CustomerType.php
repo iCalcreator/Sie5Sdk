@@ -34,8 +34,10 @@ use Faker;
 
 class CustomerType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -52,4 +54,5 @@ class CustomerType
             ->setCity( $faker->city )
             ->setCountry( $faker->country);
     }
+
 }

@@ -36,6 +36,7 @@ class AccountsType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -48,6 +49,7 @@ class AccountsType
         }
         $dto->setAccount( $load );
         $dto->addAccount( AccountType::loadFromFaker());
+
         return $dto;
     }
 }

@@ -37,6 +37,7 @@ class BudgetMultidimType implements Sie5Interface
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -45,14 +46,14 @@ class BudgetMultidimType implements Sie5Interface
             $faker->date( 'Y-m' ),
             ( $faker->numberBetween( -999999, 999999 ) / 100 )
         )
-            ->setQuantity( $faker->numberBetween( 1, 9 ));
+                  ->setQuantity( $faker->numberBetween( 1, 9 ));
         $max = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = ObjectReferenceType::loadFromFaker();
         }
         $dto->setBudgetMultidimTypes( $load );
-        $dto->addBudgetMultidimType( ObjectReferenceType::loadFromFaker());
+
         return $dto;
     }
 }

@@ -37,28 +37,30 @@ class CustomerInvoiceType
     /**
      * @param mixed $id
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker( $id = null ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-                  ->setOriginalAmount( OriginalAmountType::loadFromFaker())
-                  ->setName( $faker->company )
-                  ->setInvoiceNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
-                  ->setOcrNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
-                  ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
         if( empty( $id )) {
             $id = $faker->numberBetween( 6000000000, 6999999999 );
         }
-        $dto->setId( $id );
-        $dto->setCustomerId( $id );
-        $max  = $faker->numberBetween( 1, 2 );
+        $dto = Dto::factoryIdDateAmount(
+            $id,
+            $faker->dateTimeThisYear( '+1 month' ),
+            ( $faker->numberBetween( -999999, 999999 ) / 100 )
+        )
+                  ->setName( $faker->company )
+                  ->setCustomerId((string) $faker->numberBetween( 6000000000, 6999999999 ) )
+                  ->setInvoiceNumber((string) $faker->numberBetween( 6000000000, 6999999999 ))
+                  ->setOcrNumber((string) $faker->numberBetween( 6000000000, 6999999999 ));
+        $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = BalancesType::loadFromFaker();
         }
         $dto->setBalances( $load );
-        $dto->addBalances( BalancesType::loadFromFaker());
+
         return $dto;
     }
 }

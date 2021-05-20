@@ -40,6 +40,7 @@ class SupplierInvoicesType
     /**
      * @param array $ids
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker( array $ids = [] ) {
         $faker = Faker\Factory::create();
@@ -47,15 +48,14 @@ class SupplierInvoicesType
         $dto = Dto::factoryPrimaryAccountId(
             (string) $faker->numberBetween( 1000, 9999 )
         )
-            ->setName( $faker->word );
+                  ->setName( $faker->word );
 
         $max  = $faker->numberBetween( 2, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
-            $load[] = (string) $faker->numberBetween( 1000, 9999 );
+            $load[] = (string)  $faker->numberBetween( 1000, 9999 );
         }
         $dto->setSecondaryAccountRef( $load );
-        $dto->addSecondaryAccountRef((string) $faker->numberBetween( 1000, 9999 ));
 
         $max = $faker->numberBetween( 2, 4 );
         $load = [];
@@ -64,8 +64,6 @@ class SupplierInvoicesType
             $load[] = SupplierInvoiceType::loadFromFaker( $id );
         }
         $dto->setSupplierInvoice( $load );
-        $id = empty( $ids ) ? $faker->numberBetween( 60000, 69999 ) : array_rand( array_flip( $ids ));
-        $dto->addSupplierInvoice( SupplierInvoiceType::loadFromFaker( $id ));
 
         return $dto;
     }

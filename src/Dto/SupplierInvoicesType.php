@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class SupplierInvoicesType extends BaseSubdividedAccountType
 {
@@ -46,31 +44,38 @@ class SupplierInvoicesType extends BaseSubdividedAccountType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->primaryAccountId )) {
-            $local[self::PRIMARYACCOUNTID] = false;
+            $local[] = self::errMissing(self::class, self::PRIMARYACCOUNTID );
         }
         if( ! empty( $this->supplierInvoice )) {
+            $inside = [];
             foreach( array_keys( $this->supplierInvoice ) as $ix ) {
-                $inside = [];
-                if( ! $this->supplierInvoice[$ix]->isValid( $inside )) {
-                    $local[self::SUPPLIERINVOICE][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->supplierInvoice[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::SUPPLIERINVOICE );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::SUPPLIERINVOICES] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single SupplierInvoiceType
+     *
      * @param SupplierInvoiceType $supplierInvoice
      * @return static
      */
@@ -104,22 +109,16 @@ class SupplierInvoicesType extends BaseSubdividedAccountType
     }
 
     /**
+     * SEt SupplierInvoiceTypes, array
+     *
      * @param SupplierInvoiceType[] $supplierInvoice
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setSupplierInvoice( array $supplierInvoice ) : self
     {
-        foreach( $supplierInvoice as $ix => $value ) {
-            if( $value instanceof SupplierInvoiceType ) {
-                $this->supplierInvoice[] = $value;
-                continue;
-            }
-            $type = gettype( $value );
-            if( self::$OBJECT == $type ) {
-                $type = get_class( $value );
-            }
-            throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::SUPPLIERINVOICE, $ix, $type ));
+        foreach( $supplierInvoice as $value ) {
+            $this->addSupplierInvoice( $value );
         } // end foreach
         return $this;
     }

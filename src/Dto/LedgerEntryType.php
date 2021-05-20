@@ -33,6 +33,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 use DateTime;
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function current;
@@ -140,7 +141,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function factoryAccountAmount( string $accountId, $amount, $quantity = null ) : self
+    public static function factoryAccountIdAmount( string $accountId, $amount, $quantity = null ) : self
     {
         $instance = new self();
         $instance->setAccountId( $accountId );
@@ -154,38 +155,52 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( ! empty( $this->ledgerEntryTypes )) {
-            foreach( array_keys( $this->ledgerEntryTypes ) as $ix1 ) { // elementSet ix1
-                foreach( array_keys( $this->ledgerEntryTypes[$ix1] ) as $ix2 ) {   // element ix2
-                    $inside = [];
-                    reset( $this->ledgerEntryTypes[$ix1][$ix2] );
-                    $key    = key( $this->ledgerEntryTypes[$ix1][$ix2] );
-                    if( ! $this->ledgerEntryTypes[$ix1][$ix2][$key]->isValid( $inside )) {
-                        $local[self::LEDGERENTRY][$ix1][$ix1][$key] = $inside;
+            $inside = [];
+            foreach( array_keys( $this->ledgerEntryTypes ) as $x1 ) { // elementSet x1
+                $inside[$x1] = [];
+                foreach( array_keys( $this->ledgerEntryTypes[$x1] ) as $x2 ) { // keyed element x2
+                    $inside[$x1][$x2] = [];
+                    reset( $this->ledgerEntryTypes[$x1][$x2] );
+                    $key    = key( $this->ledgerEntryTypes[$x1][$x2] );
+                    if( $this->ledgerEntryTypes[$x1][$x2][$key]->isValid( $inside[$x1][$x2] )) {
+                        unset( $inside[$x1][$x2] );
                     }
                 } // end foreach
+                if( empty( $inside[$x1] )) {
+                    unset( $inside[$x1] );
+                }
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::LEDGERENTRY );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
         if( empty( $this->accountId )) {
-            $local[self::ACCOUNTID] = false;
+            $local[] = self::errMissing(self::class, self::ACCOUNTID );
         }
-        if( null == $this->amount ) {
-            $local[self::AMOUNT] = false;
+        if( null === $this->amount ) {
+            $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( ! empty( $local )) {
-            $expected[self::LEDGERENTRY] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single (typed) LedgerEntryTypesInterface
+     *
+     * key : FOREIGNCURRENCYAMOUNT / OBJECTREFERENCE / SUBDIVIDEDACCOUNTOBJECTREFERENCE /
+     *        ENTRYINFO / OVERSTRIKE / LOCKINGINFO
+     *
      * @param string $key
      * @param LedgerEntryTypesInterface $ledgerEntryType
      * @return static
@@ -229,7 +244,6 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
                 throw new InvalidArgumentException(
                     sprintf( self::$FMTERR5, self::LEDGERENTRY, $key, get_class( $ledgerEntryType ))
                 );
-                break;
         } // end switch
         $this->ledgerEntryTypes[$this->elementSetIndex][] = [ $key => $ledgerEntryType ];
         $this->previousElement = $key;
@@ -253,6 +267,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @param array $ledgerEntryTypes
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setLedgerEntryTypes( array $ledgerEntryTypes ) : self
     {
@@ -286,30 +301,8 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
                         $element = [ $ix2 => $element ];
                 } // end switch
                 reset( $element );
-                $key             = key( $element );
-                $ledgerEntryType = current( $element );
-                switch( true ) {
-                    case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
-                        $ledgerEntryType instanceof ForeignCurrencyAmountType ) :
-                        break;
-                    case (( self::OBJECTREFERENCE == $key ) &&  $ledgerEntryType instanceof ObjectReferenceType ) :
-                        break;
-                    case (( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE == $key ) &&
-                        $ledgerEntryType instanceof SubdividedAccountObjectReferenceType ) :
-                        break;
-                    case (( self::ENTRYINFO == $key ) &&  $ledgerEntryType instanceof EntryInfoType ) :
-                        break;
-                    case (( self::OVERSTRIKE == $key ) && $ledgerEntryType instanceof OverstrikeType ) :
-                        break;
-                    case (( self::LOCKINGINFO == $key ) &&  $ledgerEntryType instanceof LockingInfoType ) :
-                        break;
-                    default :
-                        throw new InvalidArgumentException(
-                            sprintf( self::$FMTERR52, self::LEDGERENTRY, $ix1, $ix2, $key, get_class( $ledgerEntryType ))
-                        );
-                        break;
-                } // end switch
-                $this->ledgerEntryTypes[$ix1][$ix2] = $element;
+                $key = key( $element );
+                $this->addLedgerEntryType( $key, current( $element ));
             }  // end foreach
         } // end foreach
         return $this;

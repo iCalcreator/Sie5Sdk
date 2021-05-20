@@ -36,15 +36,16 @@ class CompanyTypeEntry
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factoryOrganizationIdName(
-            (string) $faker->numberBetween( 6000000000, 6999999999 ),
-            $faker->company
-        )
-            ->setMultiple( 1 )
-            ->setClientId((string) $faker->numberBetween( 10000, 19000 ));
+        return Dto::factory()
+                  ->setOrganizationId((string) $faker->numberBetween( 6000000000, 6999999999 ) )
+                  ->setMultiple( 1 )
+                  ->setName( $faker->company )
+                  ->setClientId((string) $faker->numberBetween( 10000, 19000 ));
     }
+
 }

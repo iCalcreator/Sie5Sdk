@@ -40,31 +40,30 @@ class CustomerInvoicesType
     /**
      * @param array $ids
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker( array $ids = [] ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factoryPrimaryAccountId(
-            $faker->numberBetween( 1000, 9999 )
-        )
-            ->setName( $faker->word );
+        $dto = Dto::factory()
+                  ->setPrimaryAccountId((string) $faker->numberBetween( 1000, 9999 ))
+                  ->setName( $faker->word );
         $max  = $faker->numberBetween( 2, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
-            $load[] = $faker->numberBetween( 1000, 9999 );
+            $load[] = (string) $faker->numberBetween( 1000, 9999 );
         }
         $dto->setSecondaryAccountRef( $load );
-        $dto->addSecondaryAccountRef( $faker->numberBetween( 1000, 9999 ));
+        $dto->addSecondaryAccountRef((string) $faker->numberBetween( 1000, 9999 ));
 
-        $max  = $faker->numberBetween( 2, 4 );
+        $max  = $faker->numberBetween( 2, 5 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $id = empty( $ids ) ? $faker->numberBetween( 60000, 69999 ) : array_rand( array_flip( $ids ));
             $load[] = CustomerInvoiceType::loadFromFaker( $id );
         }
         $dto->setCustomerInvoice( $load );
-        $id = empty( $ids ) ? $faker->numberBetween( 60000, 69999 ) : array_rand( array_flip( $ids ));
-        $dto->addCustomerInvoice( CustomerInvoiceType::loadFromFaker( $id ));
+
         return $dto;
     }
 }

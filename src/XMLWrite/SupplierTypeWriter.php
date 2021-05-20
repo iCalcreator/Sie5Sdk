@@ -45,50 +45,50 @@ class SupplierTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
         $XMLattributes = $supplierType->getXMLattributes();
         parent::setWriterStartElement( $this->writer, self::SUPPLIER, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID, $supplierType->getId() );
-        parent::writeAttribute( $this->writer, self::NAME, $supplierType->getName() );
+        parent::writeAttribute( $this->writer, self::ID, $supplierType->getId());
+        parent::writeAttribute( $this->writer, self::NAME, $supplierType->getName());
         $var = $supplierType->getOrganizationId();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::ORGANIZATIONID, $supplierType->getOrganizationId() );
+            parent::writeAttribute( $this->writer, self::ORGANIZATIONID, $supplierType->getOrganizationId());
         }
         $var = $supplierType->getVatNr();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::VATNR, $var );
         }
         $var = $supplierType->getAddress1();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::ADDRESS1, $var );
         }
         $var = $supplierType->getZipcode();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::ZIPCODE, $var );
         }
         $var = $supplierType->getAddress2();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::ADDRESS2, $var );
         }
         $var = $supplierType->getCity();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::CITY, $var );
         }
         $var = $supplierType->getCountry();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::COUNTRY, $var );
         }
         $var = $supplierType->getBgAccount();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::BGACCOUNT, $var );
         }
         $var = $supplierType->getPgAccount();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::PGACCOUNT, $var );
         }
         $var = $supplierType->getBic();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::BIC, $var );
         }
         $var = $supplierType->getIban();
-        if( ! empty( $var ) ) {
+        if( ! empty( $var )) {
             parent::writeAttribute( $this->writer, self::IBAN, $var );
         }
         foreach( $supplierType->getExtensionAttributes() as $key => $value ) {

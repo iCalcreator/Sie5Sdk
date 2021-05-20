@@ -88,20 +88,20 @@ class CompanyType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->organizationId )) {
-            $local[self::ORGANIZATIONID] = false;
+            $local[] = self::errMissing(self::class, self::ORGANIZATIONID );
         }
         if( empty( $this->name )) {
-            $local[self::NAME] = false;
+            $local[] = self::errMissing(self::class, self::NAME );
         }
         if( ! empty( $local )) {
-            $expected[self::COMPANY] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

@@ -36,6 +36,7 @@ class JournalTypeEntry
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -49,13 +50,13 @@ class JournalTypeEntry
         $numbers[$id] = true;
 
         $dto  = Dto::factory()->setId( $id );
-        $max  = $faker->numberBetween( 1, 2 );
+        $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = JournalEntryTypeEntry::loadFromFaker();
         }
         $dto->setJournalEntry( $load );
-        $dto->addJournalEntry( JournalEntryTypeEntry::loadFromFaker());
+
         return $dto;
     }
 }

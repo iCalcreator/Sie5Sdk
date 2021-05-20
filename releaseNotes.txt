@@ -9,6 +9,6 @@
  Upd get-methods return type
  Upd SortFactory (DateTime format)
 
-
-
-
+1.0.4
+ upd class instance validation
+ upd objects array property add-/set-methods

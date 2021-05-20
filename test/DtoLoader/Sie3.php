@@ -37,6 +37,7 @@ class Sie3
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -62,7 +63,6 @@ class Sie3
             $load[] = CustomerInvoicesType::loadFromFaker( $ids );
         }
         $dto->setCustomerInvoices( $load );
-        $dto->addCustomerInvoices( CustomerInvoicesType::loadFromFaker( $ids ));
 
         $ids = [];
         $suppliersType = $dto->getSuppliers();
@@ -77,7 +77,6 @@ class Sie3
             $load[] = SupplierInvoicesType::loadFromFaker( $ids );
         }
         $dto->setSupplierInvoices( $load );
-        $dto->addSupplierInvoices( SupplierInvoicesType::loadFromFaker( $ids ));
 
         $max  = $faker->numberBetween( 5, 8 );
         $load = [];
@@ -85,7 +84,6 @@ class Sie3
             $load[] = FixedAssetsType::loadFromFaker();
         }
         $dto->setFixedAssets( $load );
-        $dto->addFixedAsset( FixedAssetsType::loadFromFaker());
 
         $max  = $faker->numberBetween( 5, 8 );
         $load = [];
@@ -93,7 +91,6 @@ class Sie3
             $load[] = GeneralSubdividedAccountType::loadFromFaker();
         }
         $dto->setGeneralSubdividedAccount( $load );
-        $dto->addGeneralSubdividedAccount( GeneralSubdividedAccountType::loadFromFaker());
 
         $max  = $faker->numberBetween( 9, 13 );
         $load = [];
@@ -101,7 +98,6 @@ class Sie3
             $load[] = JournalType::loadFromFaker();
         }
         $dto->setJournal( $load );
-        $dto->addJournal( JournalType::loadFromFaker());
 
         $docIds = [];
         foreach( $dto->getAllJournalEntryVoucherReferenceDocumentIds() as $journals ) {

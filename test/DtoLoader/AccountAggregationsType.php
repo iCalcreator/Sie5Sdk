@@ -36,6 +36,7 @@ class AccountAggregationsType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();

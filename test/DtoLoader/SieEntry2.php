@@ -39,8 +39,10 @@ use Faker;
  */
 class SieEntry2
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -49,4 +51,5 @@ class SieEntry2
                   ->setFileInfo( FileInfoTypeEntry::loadFromFaker())
                   ->setJournal( [ JournalTypeEntry::loadFromFaker() ] );
     }
+
 }

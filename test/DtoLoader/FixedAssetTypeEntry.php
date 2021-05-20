@@ -34,14 +34,19 @@ use Faker;
 
 class FixedAssetTypeEntry
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factoryId((string) $faker->numberBetween( 1000, 9999 )
+        return Dto::factoryId(
+            (string) $faker->numberBetween( 1000, 9999 )
         )
             ->setName( $faker->company );
     }
+
+
 }

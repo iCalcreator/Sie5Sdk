@@ -33,12 +33,11 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 use DateTime;
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function array_unique;
-use function gettype;
 use function sort;
-use function sprintf;
 
 class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
 {
@@ -126,8 +125,12 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
         if( empty( $journalDate )) {
             $journalDate = new DateTime();
         }
-        $instance->setJournalDate( $journalDate )
-            ->setOriginalEntryInfo( OriginalEntryInfoType::factoryByDate( $by, $journalDate ));
+        $instance->setJournalDate( $journalDate );
+        if( ! empty( $by )) {
+            $instance->setOriginalEntryInfo(
+                OriginalEntryInfoType::factoryByDate( $by, $journalDate )
+            );
+        }
         if( ! empty( $text )) {
             $instance->setText( $text );
         }
@@ -147,40 +150,50 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = $inside = [];
         if( empty( $this->originalEntryInfo )) {
-            $local[self::ORIGINALENTRYINFO] = false;
+            $local[] = self::errMissing(self::class, self::ORIGINALENTRYINFO );
         }
         elseif( ! $this->originalEntryInfo->isValid( $inside )) {
-            $local[self::ORIGINALENTRYINFO] = $inside;
+            $local[] = $inside;
             $inside = [];
         }
         if( ! empty( $this->ledgerEntry )) {
-            foreach( array_keys( $this->ledgerEntry ) as $ix1 ) { // element ix
-                if( ! $this->ledgerEntry[$ix1]->isValid( $inside ) ) {
-                    $local[self::LEDGERENTRY][$ix1] = $inside;
+            foreach( array_keys( $this->ledgerEntry ) as $ix ) { // element ix
+                $inside[$ix] = [];
+                if( $this->ledgerEntry[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::LEDGERENTRY );
+                $local[$key] = $inside;
+                $inside = [];
+            } // end if
+        } // end if
         if( ! empty( $this->voucherReference )) {
-            foreach( array_keys( $this->voucherReference ) as $ix1 ) { // element ix
-                if( ! $this->voucherReference[$ix1]->isValid( $inside ) ) {
-                    $local[self::VOUCHERREFERENCE][$ix1] = $inside;
+            foreach( array_keys( $this->voucherReference ) as $ix ) { // element ix
+                $inside[$ix] = [];
+                if( $this->voucherReference[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::VOUCHERREFERENCE );
+                $local[$key] = $inside;
+                $inside = [];
+            } // end if
+        } // end if
         if( empty( $this->journalDate )) {
-            $local[self::JOURNALDATE] = false;
+            $local[] = self::errMissing(self::class, self::JOURNALDATE );
         }
         if( ! empty( $local )) {
-            $expected[self::JOURNALENTRY] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
@@ -205,6 +218,8 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Add single LedgerEntryTypeEntry
+     *
      * @param LedgerEntryTypeEntry $ledgerEntry
      * @return static
      */
@@ -252,27 +267,23 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Set LedgerEntryTypeEntry's, array
+     *
      * @param LedgerEntryTypeEntry[] $ledgerEntry
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setLedgerEntry( array $ledgerEntry ) : self
     {
-        foreach( $ledgerEntry as $ix => $value ) {
-            if( $value instanceof LedgerEntryTypeEntry ) {
-                $this->ledgerEntry[] = $value;
-                continue;
-            }
-            $type = gettype( $value );
-            if( self::$OBJECT == $type ) {
-                $type = get_class( $value );
-            }
-            throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::LEDGERENTRY, $ix, $type ));
+        foreach( $ledgerEntry as $value ) {
+            $this->addLedgerEntry( $value );
         } // end foreach
         return $this;
     }
 
     /**
+     * Add single VoucherReferenceType
+     *
      * @param VoucherReferenceType $voucherReference
      * @return static
      */
@@ -285,7 +296,7 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return VoucherReferenceType[]
      */
-    public function getVoucherReference()
+    public function getVoucherReference() : array
     {
         return $this->voucherReference;
     }
@@ -305,22 +316,16 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Set VoucherReferenceTypes, array
+     *
      * @param VoucherReferenceType[] $voucherReference
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setVoucherReference( array $voucherReference ) : self
     {
-        foreach( $voucherReference as $ix => $value ) {
-            if( $value instanceof VoucherReferenceType ) {
-                $this->voucherReference[] = $value;
-                continue;
-            }
-            $type = gettype( $value );
-            if( self::$OBJECT == $type ) {
-                $type = get_class( $value );
-            }
-            throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::VOUCHERREFERENCE, $ix, $type ));
+        foreach( $voucherReference as $value ) {
+            $this->addVoucherReference( $value );
         } // end foreach
         return $this;
     }

@@ -32,9 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use DateTime;
 use InvalidArgumentException;
-
-use function gettype;
-use function sprintf;
+use TypeError;
 
 abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -87,12 +85,14 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     }
 
     /**
-     * @param BalancesType $balances
+     * Add single BalancesType
+     *
+     * @param BalancesType $balance
      * @return static
      */
-    public function addBalances( BalancesType $balances ) : self
+    public function addBalance( BalancesType $balance ) : self
     {
-        $this->balances[] = $balances;
+        $this->balances[] = $balance;
         return $this;
     }
 
@@ -105,25 +105,16 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     }
 
     /**
-     * Set setBalances, array, *BalancesType
+     * Set BalancesTypes, array
      *
      * @param BalancesType[] $balances
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setBalances( array $balances ) : self
     {
-        foreach( $balances as $ix => $value ) {
-            if( $value instanceof BalancesType ) {
-                $this->balances[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::BALANCES, $ix, $type ));
-            }
+        foreach( $balances as $value ) {
+            $this->addBalance( $value );
         } // end foreach
         return $this;
     }

@@ -82,7 +82,6 @@ class CustomerInvoicesTypeParser extends Sie5ParserBase
                     if( $headElement == $this->reader->localName ) {
                         break 2;
                     }
-                    $currentElement = null;
                     break;
                 case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
                     break;

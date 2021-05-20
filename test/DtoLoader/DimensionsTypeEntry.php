@@ -36,6 +36,7 @@ class DimensionsTypeEntry
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -49,7 +50,7 @@ class DimensionsTypeEntry
             $load[] = DimensionTypeEntry::loadFromFaker( array_pop( $dimensionsId ));
         }
         $dto->setDimension( $load );
-        $dto->addDimension( DimensionTypeEntry::loadFromFaker( array_pop( $dimensionsId )));
+
         return $dto;
     }
 }

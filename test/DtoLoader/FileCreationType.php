@@ -34,15 +34,17 @@ use Faker;
 
 class FileCreationType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factoryByTime(
-            $faker->word,
-            $faker->dateTimeThisMonth()
-        );
+        return Dto::factory()
+                  ->setTime( $faker->dateTimeThisMonth())
+                  ->setBy( $faker->word );
     }
+
 }

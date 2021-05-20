@@ -70,7 +70,6 @@ class FixedAssetsTypeParser extends Sie5ParserBase
             return $fixedAssetsType;
         }
         $headElement    = $this->reader->localName;
-        $currentElement = null;
         $parser         = new FixedAssetTypeParser( $this->reader );
         while( @$this->reader->read()) {
             if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
@@ -83,7 +82,6 @@ class FixedAssetsTypeParser extends Sie5ParserBase
                     if( $headElement == $this->reader->localName ) {
                         break 2;
                     }
-                    $currentElement = null;
                     break;
                 case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
                     break;

@@ -34,15 +34,17 @@ use Faker;
 
 class OriginalEntryInfoType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factoryByDate(
-            $faker->word,
-            $faker->dateTimeThisMonth()
-        );
+        return Dto::factory()
+                  ->setDate( $faker->dateTimeThisMonth())
+                  ->setBy( $faker->word );
     }
+
 }

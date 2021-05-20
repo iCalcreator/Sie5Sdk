@@ -2,9 +2,9 @@
 <SieEntry xmlns="http://www.sie.se/sie5"
     xmlns:xsd="http://www.w3.org/2001/xmlschema"
     xmlns:xsi="http://www.w3.org/2001/xmlschema-instance"
-    xsi:schemalocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd">
+    xsi:schemaLocation="http://www.sie.se/sie5 http://www.sie.se/sie5.xsd">
   <FileInfo>
-    <SoftwareProduct name="Edison Ekonomi Byrå (kigkonsult\sie5sdk)" version="5.0 (0.95)"/>
+    <SoftwareProduct name="Edison Ekonomi Byrå" version="5.0"/>
     <FileCreation time="2015-10-30T11:45:00Z" by="Fingal Olson"/>
     <Company organizationId="631108-4013"/>
   </FileInfo>

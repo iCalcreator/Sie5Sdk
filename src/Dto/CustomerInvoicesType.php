@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class CustomerInvoicesType extends BaseSubdividedAccountType
 {
@@ -46,29 +44,36 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->primaryAccountId )) {
-            $local[self::PRIMARYACCOUNTID] = false;
+            $local[] = self::errMissing(self::class, self::PRIMARYACCOUNTID );
         }
-        foreach( array_keys( $this->customerInvoice ) as $ix1 ) { // element ix
-            $inside = [];
-            if( ! $this->customerInvoice[$ix1]->isValid( $inside )) {
-                $local[$ix1] = $inside;
+        $inside = [];
+        foreach( array_keys( $this->customerInvoice ) as $ix ) { // element ix
+            $inside[$ix] = [];
+            if( $this->customerInvoice[$ix]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::CUSTOMERINVOICE );
+                $local[$key] = $inside;
+            } // end if
         } // end foreach
         if( ! empty( $local )) {
-            $expected[self::CUSTOMERINVOICES] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single CustomerInvoiceType
+     *
      * @param CustomerInvoiceType $customerInvoice
      * @return static
      */
@@ -102,23 +107,16 @@ class CustomerInvoicesType extends BaseSubdividedAccountType
     }
 
     /**
-     * @param array $customerInvoice
+     * Set CustomerInvoiceTypes, array
+     *
+     * @param CustomerInvoiceType[] $customerInvoice
      * @return CustomerInvoicesType
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setCustomerInvoice( array $customerInvoice ) : self
     {
-        foreach( $customerInvoice as $ix => $value ) {
-            if( $value instanceof CustomerInvoiceType ) {
-                $this->customerInvoice[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::CUSTOMERINVOICE, $ix, $type ));
-            }
+        foreach( $customerInvoice as $value ) {
+            $this->addCustomerInvoice( $value );
         } // end foreach
         return $this;
     }

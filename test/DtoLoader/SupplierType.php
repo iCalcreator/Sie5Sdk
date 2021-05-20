@@ -34,8 +34,10 @@ use Faker;
 
 class SupplierType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -44,16 +46,18 @@ class SupplierType
             (string) $faker->numberBetween( 60000, 69999 ),
             $faker->company
         )
-            ->setOrganizationId((string) $faker->numberBetween( 6000000000, 6999999999 ))
-            ->setVatNr((string) $faker->numberBetween( 6000000000, 6999999999 ))
-            ->setAddress1( $faker->streetAddress )
-            ->setAddress2( $faker->streetAddress )
-            ->setZipcode( $faker->postcode )
-            ->setCity( $faker->city )
-            ->setCountry( $faker->country)
-            ->setBgAccount((string) $faker->numberBetween( 10000000, 99999999 ))
-            ->setPgAccount((string) $faker->numberBetween( 1000000, 9999990 ))
-            ->setBic( $faker->swiftBicNumber )
-            ->setIban( $faker->iban());
+                  ->setOrganizationId((string) $faker->numberBetween( 6000000000, 6999999999 ))
+                  ->setVatNr((string) $faker->numberBetween( 6000000000, 6999999999 ))
+                  ->setAddress1( $faker->streetAddress )
+                  ->setAddress2( $faker->streetAddress )
+                  ->setZipcode( $faker->postcode )
+                  ->setCity( $faker->city )
+                  ->setCountry( $faker->country)
+                  ->setBgAccount((string) $faker->numberBetween( 10000000, 99999999 ))
+                  ->setPgAccount((string) $faker->numberBetween( 1000000, 9999990 ))
+                  ->setBic( $faker->swiftBicNumber )
+                  ->setIban( $faker->iban() )
+            ;
     }
+
 }

@@ -34,12 +34,15 @@ use Faker;
 
 class AccountingCurrencyType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         return Dto::factoryCurrency( $faker->currencyCode );
     }
+
 }

@@ -37,21 +37,19 @@ class DimensionType
     /**
      * @param int $dimensionId
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker( $dimensionId ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factoryIdName(
-            $dimensionId,
-            $faker->company
-        );
+        $dto = Dto::factoryIdName( $dimensionId, $faker->company );
         $max  = $faker->numberBetween( 2, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = ObjectType::loadFromFaker();
         }
         $dto->setObject( $load );
-        $dto->addObject( ObjectType::loadFromFaker());
+
         return $dto;
     }
 }

@@ -32,9 +32,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\SortFactory;
+use TypeError;
 
 use function array_keys;
-use function gettype;
 use function sprintf;
 use function usort;
 
@@ -50,38 +50,47 @@ class FiscalYearsType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
-        foreach( array_keys( $this->fiscalYear ) as $ix1 ) { // element ix
-            $inside = [];
-            if( ! $this->fiscalYear[$ix1]->isValid( $inside )) {
-                $local[$ix1] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys( $this->fiscalYear ) as $ix ) { // element ix
+            $inside[$ix] = [];
+            if( $this->fiscalYear[$ix]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
-        }
+        } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::FISCALYEAR );
+            $local[$key] = $inside;
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::FISCALYEARS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single FiscalYearType
+     *
      * @param FiscalYearType $fiscalYear
      * @return static
      * @throws InvalidArgumentException
      */
     public function addFiscalYear( FiscalYearType $fiscalYear ) : self
     {
-        if( ! $fiscalYear->isValid()) {
-            throw new InvalidArgumentException(
-                sprintf( self::$FMTERR6, FiscalYearType::class )
-            );
-        }
-        if( ! $this->isFiscalYearStartEndUnique( $fiscalYear->getStart(), $fiscalYear->getEnd())) {
+        if( $fiscalYear->isValid() &&
+            (
+                true !== $this->isFiscalYearStartEndUnique(
+                    $fiscalYear->getStart(),
+                    $fiscalYear->getEnd()
+                )
+            )
+        ) {
             throw new InvalidArgumentException(
                 sprintf(
                     self::$FMTERR12,
@@ -127,41 +136,18 @@ class FiscalYearsType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @param array  $fiscalYears FiscalYearType[]
+     * Set FiscalYearTypes, array
+     *
+     * @param FiscalYearType[]  $fiscalYears
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setFiscalYear( array $fiscalYears ) : self
     {
-        foreach( $fiscalYears as $ix => $fiscalYear ) {
-            switch( true ) {
-                case ( ! $fiscalYear instanceof FiscalYearType ) :
-                    $type = gettype( $fiscalYear );
-                    if( self::$OBJECT == $type ) {
-                        $type = get_class( $fiscalYear );
-                    }
-                    throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::FISCALYEAR, $ix, $type ));
-
-                case ( ! $fiscalYear->isValid()) :
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR6, FiscalYearType::class  )
-                );
-                case ( ! $this->isFiscalYearStartEndUnique( $fiscalYear->getStart(), $fiscalYear->getEnd())) :
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR12,
-                            self::FISCALYEARS,
-                            self::FISCALYEAR,
-                            $ix,
-                            $fiscalYear->getStart(),
-                            $fiscalYear->getEnd())
-                    );
-                    break;
-                default :
-                    $this->fiscalYear[$ix] = $fiscalYear;
-                    break;
-            } // end switch
+        foreach( $fiscalYears as $fiscalYear ) {
+            $this->addFiscalYear( $fiscalYear );
         } // end foreach
-        usort( $this->fiscalYear, SortFactory::$fiscalYearTypeSorter );
         return $this;
     }
 }

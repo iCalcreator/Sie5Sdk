@@ -15,8 +15,8 @@
  *            portions of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
- *            it under the terms of the GNU Lesser General Public License as 
- *            published by the Free Software Foundation, either version 3 of 
+ *            it under the terms of the GNU Lesser General Public License as
+ *            published by the Free Software Foundation, either version 3 of
  *            the License, or (at your option) any later version.
  *
  *            Sie5Sdk is distributed in the hope that it will be useful,
@@ -101,7 +101,7 @@ class GeneralObjectTypeParser extends Sie5ParserBase
                 case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
                     break;
                 case ( self::BALANCES == $this->reader->localName ) :
-                    $generalObjectType->addBalances( $parser->parse());
+                    $generalObjectType->addBalance( $parser->parse());
                     break;
                     // originalAmount
                 case (self::ORIGINALAMOUNT == $this->reader->localName ) :

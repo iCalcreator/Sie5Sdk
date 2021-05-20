@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class FixedAssetsTypeEntry extends BaseSubdividedAccountTypeEntry
 {
@@ -46,31 +44,38 @@ class FixedAssetsTypeEntry extends BaseSubdividedAccountTypeEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->primaryAccountId )) {
-            $local[self::PRIMARYACCOUNTID] = false;
+            $local[] = self::errMissing(self::class, self::PRIMARYACCOUNTID );
         }
         if( ! empty( $this->fixedAsset )) {
-            foreach( array_keys( $this->fixedAsset ) as $ix1 ) { // element ix
-                $inside = [];
-                if( ! $this->fixedAsset[$ix1]->isValid( $inside ) ) {
-                    $local[$ix1] = $inside;
+            $inside = [];
+            foreach( array_keys( $this->fixedAsset ) as $ix ) { // element ix
+                $inside[$ix] = [];
+                if( $this->fixedAsset[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::FIXEDASSET );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::FIXEDASSETS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single FixedAssetTypeEntry
+     *
      * @param FixedAssetTypeEntry $fixedAsset
      * @return static
      */
@@ -89,22 +94,16 @@ class FixedAssetsTypeEntry extends BaseSubdividedAccountTypeEntry
     }
 
     /**
+     * Set FixedAssetTypeEntry's, array
+     *
      * @param FixedAssetTypeEntry[] $fixedAsset
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setFixedAsset( array $fixedAsset ) : self
     {
-        foreach( $fixedAsset as $ix => $value ) {
-            if( $value instanceof FixedAssetTypeEntry ) {
-                $this->fixedAsset[] = $value;
-                continue;
-            }
-            $type = gettype( $value );
-            if( self::$OBJECT == $type ) {
-                $type = get_class( $value );
-            }
-            throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::FIXEDASSET, $ix, $type ));
+        foreach( $fixedAsset as $value ) {
+            $this->addFixedAsset( $value );
         } // end foreach
         return $this;
     }

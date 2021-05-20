@@ -72,21 +72,21 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
-        if(( null == $this->id ) && empty( $this->invoiceNumber )) {
-            $local[self::ID]            = false;
-            $local[self::INVOICENUMBER] = false;
+        if( empty( $this->id ) && empty( $this->invoiceNumber )) {
+            $local[] = self::errMissing(self::class, self::ID );
+            $local[] = self::errMissing(self::class, self::INVOICENUMBER );
         }
         if( empty( $this->supplierId )) {
-            $local[self::SUPPLIERID] = false;
+            $local[] = self::errMissing(self::class, self::SUPPLIERID );
         }
         if( ! empty( $local )) {
-            $expected[self::SUPPLIERINVOICE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

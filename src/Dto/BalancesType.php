@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function is_array;
@@ -60,28 +61,35 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
+        $local  = [];
+        $inside = [];
         foreach( array_keys( $this->balancesTypes ) as $ix ) {
-            $inside = [];
+            $inside[$ix] = [];
             reset( $this->balancesTypes[$ix] );
             $key    = key( $this->balancesTypes[$ix] );
-            if( ! $this->balancesTypes[$ix][$key]->isValid( $inside )) {
-                $local[self::BALANCES][$ix][$key] = $inside;
+            if( $this->balancesTypes[$ix][$key]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
-        }
+        } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::BALANCES );
+            $local[$key] = $inside;
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::BALANCES] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single (typed) BaseBalanceType
+     *
      * @param string $key
      * @param BaseBalanceType $balancesType
      * @return static
@@ -100,7 +108,6 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
                 throw new InvalidArgumentException(
                     sprintf( self::$FMTERR5, self::BASEBALANCE, $key, $balancesType )
                 );
-                break;
         } // end switch
         $this->balancesTypes[] = [ $key => $balancesType ];
         return $this;
@@ -115,9 +122,14 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set BaseBalanceTypes, array ( *( type => BaseBalanceType )) / ( type => BaseBalanceType )
+     *
+     * Type OPENINGBALANCE / CLOSINGBALANCE
+     *
      * @param array $balancesTypes
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setBalancesTypes( array $balancesTypes ) : self
     {
@@ -126,22 +138,8 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
                 $element = [ $ix => $element ];
             }
             reset( $element );
-            $key          = key( $element );
-            $balancesType = current( $element );
-            switch( true ) {
-                case (( self::OPENINGBALANCE == $key ) &&
-                    $balancesType instanceof BaseBalanceType ) :
-                    break;
-                case (( self::CLOSINGBALANCE == $key ) &&
-                    $balancesType instanceof BaseBalanceType ) :
-                    break;
-                default :
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR51, self::BASEBALANCE, $ix, $key, $balancesType )
-                    );
-                    break;
-            } // end switch
-            $this->balancesTypes[$ix] = $element;
+            $key = key( $element );
+            $this->addBalancesType( $key, current( $element ));
         } // end foreach
         return $this;
     }

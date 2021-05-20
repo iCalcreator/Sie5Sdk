@@ -36,6 +36,7 @@ class FixedAssetsTypeEntry
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -43,14 +44,14 @@ class FixedAssetsTypeEntry
         $dto = Dto::factoryPrimaryAccountId(
             (string) $faker->numberBetween( 1000, 9999 )
         )
-            ->setName( $faker->word );
-        $max  = $faker->numberBetween( 1, 3 );
+                  ->setName( $faker->word );
+        $max  = $faker->numberBetween( 1, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = FixedAssetTypeEntry::loadFromFaker();
         }
         $dto->setFixedAsset( $load );
-        $dto->addFixedAsset( FixedAssetTypeEntry::loadFromFaker());
+
         return $dto;
     }
 }

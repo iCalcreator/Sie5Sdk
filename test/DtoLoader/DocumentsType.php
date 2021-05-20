@@ -38,36 +38,25 @@ class DocumentsType implements Sie5Interface
     /**
      * $param array $docIds
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker( array $docIds ) {
         $faker = Faker\Factory::create();
 
         $dto  = new Dto();
         $load = [];
-        $cnt  = count( $docIds );
         $ix   = 0;
         foreach( $docIds as $docId ) {
             $ix += 1;
             if( 1 == $faker->numberBetween( 1, 2 )) {
-                if(( $cnt > 4 ) && ( $ix < 2 )) {
-                    $load[] = [ self::EMBEDDEDFILE => EmbeddedFileType::loadFromFaker( $docId ) ];
-                }
-                else {
-                    $dto->addDocumentsType( self::EMBEDDEDFILE,  EmbeddedFileType::loadFromFaker( $docId ));
-                }
+                $load[] = [ self::EMBEDDEDFILE => EmbeddedFileType::loadFromFaker( $docId ) ];
             } // end if
             else {
-                if(( $cnt > 4 ) && ( $ix < 2 )) {
-                    $load[] = [ self::FILEREFERENCE => FileReferenceType::loadFromFaker( $docId ) ];
-                }
-                else {
-                    $dto->addDocumentsType( self::FILEREFERENCE, FileReferenceType::loadFromFaker( $docId ));
-                }
+                $load[] = [ self::FILEREFERENCE => FileReferenceType::loadFromFaker( $docId ) ];
             } // end else
         } // end foreach
-        if( ! empty( $load )) {
-            $dto->setDocumentsTypes( $load );
-        }
+        $dto->setDocumentsTypes( $load );
+
         return $dto;
     }
 }

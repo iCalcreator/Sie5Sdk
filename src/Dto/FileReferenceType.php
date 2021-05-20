@@ -67,20 +67,20 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+        if( empty( $this->id )) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->uri )) {
-            $local[self::URI] = false;
+            $local[] = self::errMissing(self::class, self::URI );
         }
         if( ! empty( $local )) {
-            $expected[self::FILEREFERENCE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

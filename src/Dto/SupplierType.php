@@ -140,20 +140,20 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+        if( empty( $this->id )) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->name )) {
-            $local[self::NAME] = false;
+            $local[] = self::errMissing(self::class, self::NAME );
         }
         if( ! empty( $local )) {
-            $expected[self::SUPPLIER] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

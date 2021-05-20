@@ -32,9 +32,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
-use function gettype;
 use function sprintf;
 
 class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
@@ -71,7 +71,7 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     public static function factoryIdName( $id, string $name = null ) : self
     {
         $instance = self::factory()
-                   ->setId( $id );
+            ->setId( $id );
         if( ! empty( $name )) {
             $instance->setName( $name );
         }
@@ -81,36 +81,50 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( ! empty( $this->object )) {
-            foreach( array_keys( $this->object ) as $ix1 ) { // element ix
-                $inside = [];
-                if( ! $this->object[$ix1]->isValid( $inside ) ) {
-                    $local[self::OBJECT][$ix1] = $inside;
+            $inside = [];
+            foreach( array_keys( $this->object ) as $ix ) { // element ix
+                $inside[$ix] = [];
+                if( $this->object[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
             } // end foreach
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::OBJECT );
+                $local[$key] = $inside;
+            } // end if
         }
         if( empty( $this->id )) {
-            $local[self::ID] = false;
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( ! empty( $local )) {
-            $expected[self::DIMENSION] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single ObjectType
+     *
      * @param ObjectType $object
      * @return static
+     * @throws InvalidArgumentException
      */
     public function addObject( ObjectType $object ) : self
     {
+        if( $object->isValid() &&
+            ( true !== $this->isObjectIdUnique( $object->getId()))) {
+            throw new InvalidArgumentException(
+                sprintf( self::$FMTERR11, self::OBJECT, self::ID, $object->getId())
+            );
+        } // end if
         $this->object[] = $object;
         return $this;
     }
@@ -151,30 +165,17 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set ObjectTypes, array
+     *
      * @param ObjectType[] $objects
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setObject( array $objects ) : self
     {
-        foreach( $objects as $ix => $object ) {
-            switch( true ) {
-                case ( ! $object instanceof ObjectType ) :
-                    $type = gettype( $object );
-                    if( self::$OBJECT == $type ) {
-                        $type = get_class( $object );
-                    }
-                    throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::OBJECT, $ix, $type ) );
-                    break;
-                case ( true !== $this->isObjectIdUnique( $object->getId())) :
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR5, self::OBJECT, self::ID, $object->getId() )
-                    );
-                    break;
-                default :
-                    $this->object[$ix] = $object;
-                    break;
-            } // end switch
+        foreach( $objects as $object ) {
+            $this->addObject( $object );
         } // end foreach
         return $this;
     }

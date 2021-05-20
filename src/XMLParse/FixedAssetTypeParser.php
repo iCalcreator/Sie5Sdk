@@ -101,7 +101,7 @@ class FixedAssetTypeParser extends Sie5ParserBase
                 case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
                     break;
                 case ( self::BALANCES == $this->reader->localName ) :
-                    $fixedAssetType->addBalances( $parser->parse());
+                    $fixedAssetType->addBalance( $parser->parse());
                     break;
                     // originalAmount
                 case (self::ORIGINALAMOUNT == $this->reader->localName ) :

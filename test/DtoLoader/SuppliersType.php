@@ -36,6 +36,7 @@ class SuppliersType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -47,7 +48,6 @@ class SuppliersType
             $load[] = SupplierType::loadFromFaker();
         }
         $dto->setSupplier( $load );
-        $dto->addSupplier( SupplierType::loadFromFaker());
 
         return $dto;
     }

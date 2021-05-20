@@ -76,20 +76,20 @@ class LockingInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEnt
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->date )) {
-            $local[self::DATE] = false;
+            $local[] = self::errMissing(self::class, self::DATE );
         }
-        if( null == $this->by ) {
-            $local[self::BY] = false;
+        if( empty( $this->by )) {
+            $local[] = self::errMissing(self::class, self::BY );
         }
         if( ! empty( $local )) {
-            $expected[self::LOCKINGINFO] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

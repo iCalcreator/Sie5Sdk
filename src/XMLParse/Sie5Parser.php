@@ -135,7 +135,7 @@ class Sie5Parser extends Sie5ParserBase
         }
         else {
             $result = null;
-            while( @$this->reader->read() ) {
+            while( @$this->reader->read()) {
                 if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
                     $this->logger->debug(
                         sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType],
@@ -161,8 +161,7 @@ class Sie5Parser extends Sie5ParserBase
                         $result = RootSieEntryParser::factory( $this->reader )->parse();
                         break;
                     default :
-                        throw new RuntimeException( sprintf( $FMTerr2, $this->reader->localName ) );
-                        break;
+                        throw new RuntimeException( sprintf( $FMTerr2, $this->reader->localName ));
                 } // end switch
             } // end while
         } // end else

@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class SuppliersType extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -46,29 +44,35 @@ class SuppliersType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( ! empty( $this->supplier )) {
+            $inside = [];
             foreach( array_keys( $this->supplier ) as $ix ) {
-                $inside = [];
-                if( ! $this->supplier[$ix]->isValid( $inside )) {
-                    $local[self::SUPPLIER][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->supplier[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::SUPPLIER );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::SUPPLIERS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single SupplierType
+     *
      * @param SupplierType $supplier
      * @return static
      */
@@ -87,23 +91,16 @@ class SuppliersType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @param array $supplier  SupplierType[]
+     * Set SupplierTypes, array
+     *
+     * @param SupplierType[] $supplier
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setSupplier( array $supplier ) : self
     {
-        foreach( $supplier as $ix => $value ) {
-            if( $value instanceof SupplierType ) {
-                $this->supplier[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::SUPPLIER, $ix, $type ));
-            }
+        foreach( $supplier as $value ) {
+            $this->addSupplier( $value );
         } // end foreach
         return $this;
     }

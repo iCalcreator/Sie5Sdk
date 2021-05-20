@@ -31,11 +31,10 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
 use function array_search;
-use function get_class;
-use function gettype;
 use function sprintf;
 use function asort;
 
@@ -54,37 +53,45 @@ class AccountsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( ! empty( $this->account )) {
+            $inside = [];
             foreach( array_keys( $this->account ) as $ix ) {
-                $inside = [];
-                if( ! $this->account[$ix]->isValid( $inside )) {
-                    $local[self::ACCOUNT][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->account[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
+            } // end foreach
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::ACCOUNT );
+                $local[$key] = $inside;
             }
-        }
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::ACCOUNTS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single AccountTypeEntry
+     *
      * @param AccountTypeEntry $account
      * @return static
      * @throws InvalidArgumentException
      */
     public function addAccount( AccountTypeEntry $account ) : self
     {
-        if( true !== $this->isAccountIdUnique( $account->getId())) {
+        if( $account->isValid() &&
+            ( true !== $this->isAccountIdUnique( $account->getId()))) {
             throw new InvalidArgumentException(
-                sprintf( self::$FMTERR11, self::ACCOUNT, self::ID, $account->getId() )
+                sprintf( self::$FMTERR11, self::ACCOUNT, self::ID, $account->getId())
             );
         }
         $this->account[] = $account;
@@ -134,30 +141,17 @@ class AccountsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set AccountTypeEntry's, array
+     *
      * @param AccountTypeEntry[] $accounts
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setAccount( array $accounts ) : self
     {
-        foreach( $accounts as $ix => $account ) {
-            switch( true ) {
-                case ( ! $account instanceof AccountTypeEntry ) :
-                    $type = gettype( $account );
-                    if( self::$OBJECT == $type ) {
-                        $type = get_class( $account );
-                    }
-                    throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::ACCOUNTS, $ix, $type ));
-                    break;
-                case ( true !== $this->isAccountIdUnique( $account->getId())) :
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR111, self::ACCOUNT, self::ID, $ix, $account->getId())
-                    );
-                    break;
-                default :
-                    $this->account[] = $account;
-                    break;
-            } // end switch
+        foreach( $accounts as $account ) {
+            $this->addAccount( $account );
         } // end foreach
         return $this;
     }

@@ -37,6 +37,7 @@ class FiscalYearsType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -55,7 +56,7 @@ class FiscalYearsType
             $end    = $date->format( 'Y-m' );
         } // end for
         $dto->setFiscalYear( $load );
-        $dto->addFiscalYear( FiscalYearType::loadFromFaker( $start, $end ));
+
         return $dto;
     }
 }

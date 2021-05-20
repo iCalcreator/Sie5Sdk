@@ -121,13 +121,10 @@ class CommonFactory
         switch( true ) {
             case is_bool( $data ) :
                 return $data;
-                break;
             case (( 1 == $data ) || ( $TRUE == strtolower( $data ))) :
                 return true;
-                break;
             case (( 0 == $data ) || ( $FALSE == strtolower( $data ))) :
                 return false;
-                break;
         }
         $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
@@ -146,7 +143,7 @@ class CommonFactory
         if( is_string( $data ) && ctype_upper( $data ) && ( 3 == strlen( $data ))) {
             return $data;
         }
-        $argNoFmt = ( empty( $argIx ) ) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
     }
 

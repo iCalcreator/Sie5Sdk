@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class GeneralSubdividedAccountTypeEntry extends BaseSubdividedAccountTypeEntry
 {
@@ -46,29 +44,32 @@ class GeneralSubdividedAccountTypeEntry extends BaseSubdividedAccountTypeEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->primaryAccountId )) {
-            $local[self::PRIMARYACCOUNTID] = false;
+            $local[] = self::errMissing(self::class, self::PRIMARYACCOUNTID );
         }
-        foreach( array_keys( $this->generalObject ) as $ix1 ) { // element ix
-            $inside = [];
-            if( ! $this->generalObject[$ix1]->isValid( $inside )) {
-                $local[self::GENERALOBEJCT][$ix1] = $inside;
+        $inside = [];
+        foreach( array_keys( $this->generalObject ) as $ix ) { // element ix
+            $inside[$ix] = [];
+            if( $this->generalObject[$ix]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
         } // end foreach
         if( ! empty( $local )) {
-            $expected[self::GENERALSUBDIVIDEDACCOUNT] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single GeneralObjectTypeEntry
+     *
      * @param GeneralObjectTypeEntry $generalObject
      * @return static
      */
@@ -89,20 +90,12 @@ class GeneralSubdividedAccountTypeEntry extends BaseSubdividedAccountTypeEntry
     /**
      * @param GeneralObjectTypeEntry[] $generalObject
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setGeneralObject( array $generalObject ) : self
     {
-        foreach( $generalObject as $ix => $value ) {
-            if( $value instanceof GeneralObjectTypeEntry ) {
-                $this->generalObject[] = $value;
-                continue;
-            }
-            $type = gettype( $value );
-            if( self::$OBJECT == $type ) {
-                $type = get_class( $value );
-            }
-            throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::GENERALOBEJCT, $ix, $type ));
+        foreach( $generalObject as $value ) {
+            $this->addGeneralObject( $value );
         } // end foreach
         return $this;
     }

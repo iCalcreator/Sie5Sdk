@@ -47,7 +47,7 @@ class TagTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
         $XMLattributes = $tagType->getXMLattributes();
         parent::setWriterStartElement( $this->writer, self::TAG, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::NAME, $tagType->getName() );
+        parent::writeAttribute( $this->writer, self::NAME, $tagType->getName());
 
         $sccountRefs = $tagType->getAccountRef();
         if( is_array( $sccountRefs ) && ! empty( $sccountRefs )) {

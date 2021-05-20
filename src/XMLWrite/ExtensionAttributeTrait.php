@@ -31,6 +31,7 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\XMLWrite;
 
 use XMLWriter;
+use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface as XmlAttr;
 
 trait ExtensionAttributeTrait
 {
@@ -40,8 +41,12 @@ trait ExtensionAttributeTrait
      */
     private static function writeXMLExtensionAttribute( XMLWriter $writer, array $XMLattributes )
     {
-        if( isset( $XMLattributes[self::XSITYPE] )) {
-            Sie5WriterBase::writeAttribute( $writer, self::XSITYPE, $XMLattributes[self::XSITYPE] );
+        if( isset( $XMLattributes[XmlAttr::XSITYPE] )) {
+            Sie5WriterBase::writeAttribute(
+                $writer,
+                XmlAttr::XSITYPE,
+                $XMLattributes[XmlAttr::XSITYPE]
+            );
         }
     }
 

@@ -38,6 +38,7 @@ class AccountType implements Sie5Interface
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -47,30 +48,33 @@ class AccountType implements Sie5Interface
             $faker->company,
             Dto::$typeEnumeration[$faker->numberBetween( 0, 4 )]
         )
-            ->setUnit( $faker->tld );
+                   ->setUnit( $faker->tld );
         $max  = $faker->numberBetween( 1, 4 );
+        $load = [];
         for( $x = 0; $x <= $max; $x++ ) {
-            switch( $faker->numberBetween( 1, 6 ) ) {
+            switch( $faker->numberBetween( 1, 6 )) {
                 case 1 :
-                    $dto->addAccountType( Dto::OPENINGBALANCE, BaseBalanceType::loadFromFaker());
+                    $load[] = [ Dto::OPENINGBALANCE => BaseBalanceType::loadFromFaker() ];
                     break;
                 case 2 :
-                    $dto->addAccountType( Dto::CLOSINGBALANCE, BaseBalanceType::loadFromFaker());
+                    $load[] = [ Dto::CLOSINGBALANCE => BaseBalanceType::loadFromFaker() ];
                     break;
                 case 3 :
-                    $dto->addAccountType( Dto::BUDGET, BudgetType::loadFromFaker());
+                    $load[] = [ Dto::BUDGET => BudgetType::loadFromFaker() ];
                     break;
                 case 4 :
-                    $dto->addAccountType( Dto::OPENINGBALANCEMULTIDIM, BaseBalanceMultidimType::loadFromFaker());
+                    $load[] = [ Dto::OPENINGBALANCEMULTIDIM => BaseBalanceMultidimType::loadFromFaker() ];
                     break;
                 case 5 :
-                    $dto->addAccountType( Dto::CLOSINGBALANCEMULTIDIM, BaseBalanceMultidimType::loadFromFaker());
+                    $load[] = [ Dto::CLOSINGBALANCEMULTIDIM => BaseBalanceMultidimType::loadFromFaker() ];
                     break;
                 case 6 :
-                    $dto->addAccountType( Dto::BUDGETMULTIDIM, BudgetMultidimType::loadFromFaker());
+                    $load[] = [ Dto::BUDGETMULTIDIM => BudgetMultidimType::loadFromFaker() ];
                     break;
-            }
-        }
+            } // end switch
+        } // end for
+        $dto->setAccountType( $load );
+
         return $dto;
     }
 }

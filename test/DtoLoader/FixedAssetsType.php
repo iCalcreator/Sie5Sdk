@@ -36,6 +36,7 @@ class FixedAssetsType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -50,7 +51,6 @@ class FixedAssetsType
             $load[] = (string) $faker->numberBetween( 1000, 9999 );
         }
         $dto->setSecondaryAccountRef( $load );
-        $dto->addSecondaryAccountRef( (string)$faker->numberBetween( 1000, 9999 ));
 
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
@@ -58,7 +58,7 @@ class FixedAssetsType
             $load[] = FixedAssetType::loadFromFaker();
         }
         $dto->setFixedAsset( $load );
-        $dto->addFixedAsset( FixedAssetType::loadFromFaker());
+
         return $dto;
     }
 }

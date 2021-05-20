@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function current;
@@ -103,36 +104,54 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
-        foreach( array_keys( $this->baseBalanceTypes ) as $ix1 ) { // elementSet ix
-            foreach( array_keys( $this->baseBalanceTypes[$ix1] ) as $ix2 ) { // element ix
-                foreach( array_keys( $this->baseBalanceTypes[$ix1][$ix2] ) as $key ) {
-                    $inside = [];
-                    if( ! $this->baseBalanceTypes[$ix1][$ix2][$key]->isValid( $inside )) {
-                        $local[self::BASEBALANCE][$ix1][$ix2][$key] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys( $this->baseBalanceTypes ) as $x1 ) { // elementSet ix
+            $inside[$x1] = [];
+            foreach( array_keys( $this->baseBalanceTypes[$x1] ) as $x2 ) { // element ix
+                $inside[$x1][$x2] = [];
+                foreach( array_keys( $this->baseBalanceTypes[$x1][$x2] ) as $key ) {
+                    if( $this->baseBalanceTypes[$x1][$x2][$key]->isValid(
+                        $inside[$x1][$x2] )
+                    ) {
+                        unset( $inside[$x1][$x2] );
                     }
+                } // end foreach
+                if( empty( $inside[$x1][$x2] )) {
+                    unset( $inside[$x1][$x2] );
                 }
             } // end foreach
+            if( empty( $inside[$x1] )) {
+                unset( $inside[$x1] );
+            }
         } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::BASEBALANCE );
+            $local[$key] = $inside;
+        } // end if
         if( empty( $this->month )) {
-            $local[self::MONTH] = false;
+            $local[] = self::errMissing(self::class, self::MONTH );
         }
-        if( null ==  $this->amount ) {
-            $local[self::AMOUNT] = false;
+        if( null ===  $this->amount ) {
+            $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( ! empty( $local )) {
-            $expected[self::BASEBALANCE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single (typed) BaseBalanceTypesInterface
+     *
+     * Type : FOREIGNCURRENCYAMOUNT / OBJECTREFERENCE
+     *
      * @param string $key
      * @param BaseBalanceTypesInterface $baseBalanceType
      * @return static
@@ -157,7 +176,6 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
                 throw new InvalidArgumentException(
                     sprintf( self::$FMTERR5, self::BASEBALANCEMULTIDIM, $key, get_class( $baseBalanceType ))
                 );
-                break;
         } // end switch
         $this->baseBalanceTypes[$this->elementSetIndex][] = [ $key => $baseBalanceType ];
         $this->previousElement = $key;
@@ -173,9 +191,14 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
+     * Set BaseBalanceTypes, array, ( *( type => BaseBalanceTypesInterface ) = / BaseBalanceTypesInterface[]
+     *
+     * Type : FOREIGNCURRENCYAMOUNT / OBJECTREFERENCE
+     *
      * @param array $baseBalanceTypes
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setBaseBalanceTypes( array $baseBalanceTypes ) : self
     {
@@ -184,33 +207,22 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
                 $elementSet = [ $ix1 => $elementSet ];
             }
             foreach( $elementSet as $ix2 => $element ) {
-                if( ! is_array( $element )) {
-                    $element = [ $ix2 => $element ];
-                }
-                reset( $element );
-                $key             = key( $element );
-                $baseBalanceType = current( $element );
                 switch( true ) {
-                    case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
-                        $baseBalanceType instanceof ForeignCurrencyAmountType ) :
+                    case is_array( $element ) :
+                        reset( $element );
+                        $key = key( $element );
+                        $this->addBaseBalanceType( $key, current( $element ));
                         break;
-                    case (( self::OBJECTREFERENCE == $key ) &&
-                        $baseBalanceType instanceof ObjectReferenceType ) :
+                    case ( $element instanceof ForeignCurrencyAmountType ) :
+                        $this->addBaseBalanceType( self::FOREIGNCURRENCYAMOUNT, $element );
+                        break;
+                    case ( $element instanceof ObjectReferenceType ) :
+                        $this->addBaseBalanceType( self::OBJECTREFERENCE, $element );
                         break;
                     default :
-                        throw new InvalidArgumentException(
-                            sprintf(
-                                self::$FMTERR52,
-                                self::BASEBALANCE,
-                                $ix1,
-                                $ix2,
-                                $key,
-                                get_class( $baseBalanceType )
-                            )
-                        );
+                        $this->addBaseBalanceType( $ix2, $element );
                         break;
                 } // end switch
-                $this->baseBalanceTypes[$ix1][$ix2] = $element;
             } // end foreach
         } // end foreach
         return $this;

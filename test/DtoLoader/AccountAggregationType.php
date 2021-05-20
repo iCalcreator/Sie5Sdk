@@ -36,6 +36,7 @@ class AccountAggregationType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -49,7 +50,7 @@ class AccountAggregationType
             (string) $faker->numberBetween( 1000, 9999 ),
             $faker->company
         )
-            ->setTag( $tagTypes )
-            ->setTaxonomy( $faker->bs );
+                  ->setTag( $tagTypes )
+                  ->setTaxonomy( $faker->bs );
     }
 }

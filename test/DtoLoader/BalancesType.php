@@ -37,23 +37,27 @@ class BalancesType implements Sie5Interface
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factory()
                   ->setAccountId((string) $faker->numberBetween( 1000, 9999 ));
-        $max = $faker->numberBetween( 1, 3 );
+        $max  = $faker->numberBetween( 1, 3 );
+        $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             switch( $faker->numberBetween( 1, 2 ) ) {
                 case 1 :
-                    $dto->addBalancesType( self::OPENINGBALANCE, BaseBalanceType::loadFromFaker());
+                    $load[] = [ self::OPENINGBALANCE => BaseBalanceType::loadFromFaker() ];
                     break;
                 case 2 :
-                    $dto->addBalancesType( self::CLOSINGBALANCE, BaseBalanceType::loadFromFaker());
+                    $load[] = [ self::CLOSINGBALANCE => BaseBalanceType::loadFromFaker() ];
                     break;
             } // end switch
         } // end for
+        $dto->setBalancesTypes( $load );
+
         return $dto;
     }
 }

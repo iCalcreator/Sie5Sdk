@@ -107,7 +107,7 @@ class SupplierInvoiceTypeParser extends Sie5ParserBase
                 case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
                     break;
                 case ( self::BALANCES == $this->reader->localName ) :
-                    $supplierInvoiceType->addBalances( $parser->parse());
+                    $supplierInvoiceType->addBalance( $parser->parse());
                     break;
                     // originalAmount
                 case (self::ORIGINALAMOUNT == $this->reader->localName ) :

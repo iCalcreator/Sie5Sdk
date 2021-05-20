@@ -34,8 +34,10 @@ use Faker;
 
 class SubdividedAccountObjectReferenceType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -43,4 +45,5 @@ class SubdividedAccountObjectReferenceType
         return Dto::factory()
                   ->setObjectId((string) $faker->numberBetween( 1000, 9999 ));
     }
+
 }

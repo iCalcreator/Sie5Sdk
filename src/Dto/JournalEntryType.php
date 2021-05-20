@@ -33,12 +33,11 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 use DateTime;
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function array_unique;
-use function gettype;
 use function sort;
-use function sprintf;
 
 class JournalEntryType extends Sie5DtoExtAttrBase
 {
@@ -149,11 +148,15 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     {
         $instance = new self();
         $instance->setId( $id );
-        if( null == $journalDate ) {
+        if( empty( $journalDate )) {
             $journalDate = new DateTime();
         }
-        $instance->setJournalDate( $journalDate )
-            ->setEntryInfo( EntryInfoType::factoryByDate( $by, $journalDate ));
+        $instance->setJournalDate( $journalDate );
+        if( ! empty( $by )) {
+            $instance->setEntryInfo(
+                EntryInfoType::factoryByDate( $by, $journalDate )
+            );
+        }
         if( ! empty( $text )) {
             $instance->setText( $text );
         }
@@ -173,58 +176,76 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = $inside = [];
         if( empty( $this->entryInfo )) {
-            $local[self::ENTRYINFO] = false;
+            $local[] = self::errMissing(self::class, self::ENTRYINFO );
         }
         elseif( ! $this->entryInfo->isValid( $inside )) {
-            $local[self::ENTRYINFO] = $inside;
-            $inside = [];
+            $local[] = $inside;
+            $inside  = [];
         }
-        if( ! empty( $this->originalEntryInfo ) && ! $this->originalEntryInfo->isValid( $inside )) {
-            $local[self::ORIGINALENTRYINFO] = $inside;
+        if( ! empty( $this->originalEntryInfo ) &&
+            ! $this->originalEntryInfo->isValid( $inside )) {
+            $local[] = $inside;
+            $inside  = [];
         }
         if( ! empty( $this->ledgerEntry )) {
             foreach( array_keys( $this->ledgerEntry ) as $ix ) { // element ix
-                if( ! $this->ledgerEntry[$ix]->isValid( $inside ) ) {
-                    $local[self::LEDGERENTRY][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->ledgerEntry[$ix]->isValid( $inside[$ix] )) {
+                    unset($inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
-        if( ! empty( $this->lockingInfo ) && ! $this->lockingInfo->isValid( $inside )) {
-            $local[self::LOCKINGINFO] = $inside;
-            $inside = [];
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::LEDGERENTRY );
+                $local[$key] = $inside;
+                $inside = [];
+            } // end if
+        } // end if
+        if( ! empty( $this->lockingInfo ) &&
+            ! $this->lockingInfo->isValid( $inside )) {
+            $local[] = $inside;
+            $inside  = [];
+        } // end if
         if( ! empty( $this->voucherReference )) {
             foreach( array_keys( $this->voucherReference ) as $ix ) { // element ix
-                if( ! $this->voucherReference[$ix]->isValid( $inside ) ) {
-                    $local[self::VOUCHERREFERENCE][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->voucherReference[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::VOUCHERREFERENCE );
+                $local[$key] = $inside;
+                $inside = [];
+            } // end if
+        } // end if
         if( ! empty( $this->correctedBy )) {
             foreach( array_keys( $this->correctedBy ) as $ix ) { // element ix
-                if( ! $this->correctedBy[$ix]->isValid( $inside ) ) {
-                    $local[self::CORRECTEDBY][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->correctedBy[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::CORRECTEDBY );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
+        if( null === $this->id ) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->journalDate )) {
-            $local[self::JOURNALDATE] = false;
+            $local[] = self::errMissing(self::class, self::JOURNALDATE );
         }
         if( ! empty( $local )) {
-            $expected[self::JOURNALENTRY] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
@@ -267,6 +288,8 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Add single LedgerEntryType
+     *
      * @param LedgerEntryType $ledgerEntry
      * @return static
      */
@@ -314,23 +337,16 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Set LedgerEntryTypes, array
+     *
      * @param LedgerEntryType[] $ledgerEntry
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setLedgerEntry( array $ledgerEntry ) : self
     {
-        foreach( $ledgerEntry as $ix => $value ) {
-            if( $value instanceof LedgerEntryType ) {
-                $this->ledgerEntry[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::LEDGERENTRY, $ix, $type ));
-            }
+        foreach( $ledgerEntry as $value ) {
+            $this->addLedgerEntry( $value );
         } // end foreach
         return $this;
     }
@@ -354,6 +370,8 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Add single VoucherReferenceType
+     *
      * @param VoucherReferenceType $voucherReference
      * @return static
      */
@@ -386,28 +404,23 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Setn VoucherReferenceTypes, array
+     *
      * @param VoucherReferenceType[] $voucherReference
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setVoucherReference( array $voucherReference ) : self
     {
-        foreach( $voucherReference as $ix => $value ) {
-            if( $value instanceof VoucherReferenceType ) {
-                $this->voucherReference[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::VOUCHERREFERENCE, $ix, $type ));
-            }
+        foreach( $voucherReference as $value ) {
+            $this->addVoucherReference( $value );
         } // end foreach
         return $this;
     }
 
     /**
+     * Add single CorrectedByType
+     *
      * @param CorrectedByType $correctedBy
      * @return static
      */
@@ -425,23 +438,16 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
+     * Set CorrectedByTypes, array
+     *
      * @param CorrectedByType[] $correctedBy
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setCorrectedBy( array $correctedBy ) : self
     {
-        foreach( $correctedBy as $ix => $value ) {
-            if( $value instanceof CorrectedByType ) {
-                $this->correctedBy[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::CORRECTEDBY, $ix, $type ));
-            }
+        foreach( $correctedBy as $value ) {
+            $this->addCorrectedBy( $value );
         } // end foreach
         return $this;
     }

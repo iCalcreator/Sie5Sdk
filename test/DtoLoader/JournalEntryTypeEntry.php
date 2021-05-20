@@ -37,16 +37,17 @@ class JournalEntryTypeEntry
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factory()
-            ->setOriginalEntryInfo( OriginalEntryInfoType::loadFromFaker())
-            ->setId( $faker->randomNumber() )
-            ->setJournalDate( $faker->dateTimeThisMonth())
-            ->setText( $faker->text())
-            ->setReferenceId( $faker->word );
+                  ->setOriginalEntryInfo( OriginalEntryInfoType::loadFromFaker())
+                  ->setId( $faker->randomNumber() )
+                  ->setJournalDate( $faker->dateTimeThisMonth())
+                  ->setText( $faker->text())
+                  ->setReferenceId( $faker->word );
 
         // Assure balanced ledgerEntries
         $max  = $faker->numberBetween( 1, 3 );
@@ -70,7 +71,7 @@ class JournalEntryTypeEntry
             $load[] = VoucherReferenceType::loadFromFaker();
         }
         $dto->setVoucherReference( $load );
-        $dto->addVoucherReference( VoucherReferenceType::loadFromFaker());
+
         return $dto;
     }
 }

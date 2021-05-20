@@ -31,11 +31,10 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
 use function array_search;
-use function get_class;
-use function gettype;
 use function is_null;
 use function sprintf;
 use function asort;
@@ -52,33 +51,41 @@ class DimensionsType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null) : bool
+    public function isValid( array & $outSide = null) : bool
     {
-        $local = [];
-        foreach (array_keys($this->dimension) as $ix1) { // element ix
-            $inside = [];
-            if ( ! $this->dimension[$ix1]->isValid($inside)) {
-                $local[self::DIMENSION][$ix1] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys($this->dimension) as $ix)  { // element ix
+            $inside[$ix] = [];
+            if ( $this->dimension[$ix]->isValid($inside[$ix] )) {
+                unset( $inside[$ix] );
             }
         } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::DIMENSION );
+            $local[$key] = $inside;
+        } // end if
         if ( ! empty($local)) {
-            $expected[self::DIMENSIONS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single DimensionType
+     *
      * @param DimensionType $dimension
      * @return static
      * @throws InvalidArgumentException
      */
     public function addDimension( DimensionType $dimension ) : self
     {
-        if (true !== $this->isDimensionsIdUnique($dimension->getId())) {
+        if( $dimension->isValid() &&
+            ( true !== $this->isDimensionsIdUnique( $dimension->getId()))) {
             throw new InvalidArgumentException(
                 sprintf(self::$FMTERR11, self::DIMENSION, self::ID, $dimension->getId())
             );
@@ -130,30 +137,17 @@ class DimensionsType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set DimensionTypes, array
+     *
      * @param array $dimensions [ *DimensionType ]
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setDimension( array $dimensions ) : self
     {
-        foreach ($dimensions as $ix => $dimension) {
-            switch (true) {
-                case ( ! $dimension instanceof DimensionType) :
-                    $type = gettype($dimension);
-                    if (self::$OBJECT == $type) {
-                        $type = get_class($dimension);
-                    }
-                    throw new InvalidArgumentException(sprintf(self::$FMTERR1, self::DIMENSION, $ix, $type));
-                    break;
-                case (true !== $this->isDimensionsIdUnique($dimension->getId())) :
-                    throw new InvalidArgumentException(
-                        sprintf(self::$FMTERR111, self::DIMENSION, self::ID, $ix, $dimension->getId())
-                    );
-                    break;
-                default :
-                    $this->dimension[$ix] = $dimension;
-                    break;
-            } // end switch
+        foreach( $dimensions as $dimension) {
+            $this->addDimension( $dimension );
         } // end foreach
         return $this;
     }

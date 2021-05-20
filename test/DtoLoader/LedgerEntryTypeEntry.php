@@ -38,31 +38,40 @@ class LedgerEntryTypeEntry implements Sie5Interface
     /**
      * @param float $amount
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker( $amount ) {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factoryAccountAmount(
-            (string) $faker->numberBetween( 1000, 9999 ),
-            $amount
-        )
-            ->setQuantity( $faker->numberBetween( 1, 5 ))
-            ->setText((string) $faker->sentences( 5, true ))
-            ->setLedgerDate( $faker->dateTimeThisMonth());
+        $dto = Dto::factory()
+                  ->setAccountId((string) $faker->numberBetween( 1000, 9999 ))
+                  ->setAmount( $amount )
+                  ->setQuantity( $faker->numberBetween( 1, 5 ))
+                  ->setText((string) $faker->sentences( 5, true ))
+                  ->setLedgerDate( $faker->dateTimeThisMonth());
 
-        $max = $faker->numberBetween( 1, 3 );
-        for( $x = 0; $x < $max; $x++ ) {
-            if( 1 == $faker->numberBetween( 1, 2 )) {
-                $dto->addLedgerEntryTypeEntry( self::FOREIGNCURRENCYAMOUNT, ForeignCurrencyAmountType::loadFromFaker());
-            }
-            $max2  = $faker->numberBetween( 0, 2 );
-            for( $x2 = 0; $x2 < $max2; $x2++ ) {
-                $dto->addLedgerEntryTypeEntry( self::OBJECTREFERENCE, ObjectReferenceType::loadFromFaker());
-            }
-            if( 1 == $faker->numberBetween( 1, 2 )) {
-                $dto->addLedgerEntryTypeEntry( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE, SubdividedAccountObjectReferenceType::loadFromFaker());
-            }
+        $load = [];
+        if( 1 == $faker->numberBetween( 1, 2 ) ) {
+            $load[] = [
+                self::FOREIGNCURRENCYAMOUNT =>
+                    ForeignCurrencyAmountType::loadFromFaker(),
+            ];
         }
+        $max2 = $faker->numberBetween( 0, 3 );
+        for( $x2 = 0; $x2 < $max2; $x2++ ) {
+            $load[] = [
+                self::OBJECTREFERENCE =>
+                    ObjectReferenceType::loadFromFaker(),
+            ];
+        } // end for
+        if( 1 == $faker->numberBetween( 1, 2 ) ) {
+            $load[] = [
+                self::SUBDIVIDEDACCOUNTOBJECTREFERENCE =>
+                    SubdividedAccountObjectReferenceType::loadFromFaker(),
+            ];
+        }
+        $dto->setLedgerEntryTypeEntries( $load );
+
         return $dto;
     }
 }

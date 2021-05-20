@@ -34,14 +34,15 @@ use Faker;
 
 class VoucherReferenceType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        return Dto::factoryId(
-            $faker->numberBetween( 2000, 2999 )
-        );
+        return Dto::factory()
+                  ->setDocumentId( $faker->numberBetween( 2000, 2999 ));
     }
 }

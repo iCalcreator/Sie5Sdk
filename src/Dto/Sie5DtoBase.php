@@ -58,14 +58,9 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
     protected static $FMTERR3   = '%s type \'%s\' requires 2+';
     protected static $FMTERR4   = '%s type #%s \'%s\' requires 2+';
     protected static $FMTERR11  = '%s::%s (%s) is not unique';
-    protected static $FMTERR111 = '%s::%s #%d (%s) is not unique';
-    protected static $FMTERR112 = '%s::%s #%d-%d (%s) is not unique';
     protected static $FMTERR12  = '%s::%s (%s-%s) is not unique';
     protected static $FMTERR5   = '%s Imparity error key \'%s\' and type \'%s\'';
-    protected static $FMTERR51  = '%s #%d Imparity error key \'%s\' and type \'%s\'';
-    protected static $FMTERR52  = '%s #%d-%d Imparity error key \'%s\' and type \'%s\'';
     protected static $OBJECT    = 'object';
-    protected static $FMTERR6   = '%s is invalid';
 
     /**
      * @var mixed
@@ -285,5 +280,34 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
             } // end switch
         } // end foreach
         return $string;
+    }
+
+    /**
+     * Return rendered error message
+     *
+     * @param string    $classFqcn fqcn
+     * @param string    $propName
+     * @return string
+     */
+    protected static function errMissing( string $classFqcn, string $propName ) : string
+    {
+        static $FMT = ' is required';
+        return self::getClassPropStr( $classFqcn, $propName ) . $FMT ;
+    }
+
+    /**
+     * @param string $classFqcn
+     * @param string $propName
+     * @return string
+     */
+    protected static function getClassPropStr( string $classFqcn, string $propName ) : string
+    {
+        static $FMT = '%s::%s';
+        static $BS  = '\\';
+        return sprintf(
+            $FMT,
+            substr( $classFqcn, ( strrpos( $classFqcn, $BS )) + 1 ),
+            $propName
+        );
     }
 }

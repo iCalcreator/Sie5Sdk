@@ -32,9 +32,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
-use function sprintf;
 
 class AccountTypeEntry extends Sie5DtoExtAttrBase
 {
@@ -104,35 +104,42 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
+        $local  = [];
+        $inside = [];
         foreach( array_keys( $this->budget ) as $ix ) {
-            $inside = [];
-            if( ! $this->budget[$ix]->isValid( $inside )) {
-                $local[self::BUDGET][$ix] = $inside;
+            $inside[$ix] = [];
+            if( $this->budget[$ix]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
-        }
+        } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::ACCOUNT );
+            $local[$key] = $inside;
+        } // end if
         if( empty( $this->id )) {
-            $local[self::ID] = false;
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->name )) {
-            $local[self::NAME] = false;
+            $local[] = self::errMissing(self::class, self::NAME );
         }
         if( empty( $this->type )) {
-            $local[self::TYPE] = false;
+            $local[] = self::errMissing(self::class, self::TYPE );
         }
         if( ! empty( $local )) {
-            $expected[self::ACCOUNT] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single BudgetType
+     *
      * @param BudgetType $budget
      * @return static
      */
@@ -151,19 +158,16 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @param array  $budget  [ *BudgetType ]
+     * Set BudgetTypes, array
+     *
+     * @param BudgetType[]  $budget
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setBudget( array $budget ) : self
     {
-        foreach( $budget as $ix => $value) {
-            if( $value instanceof BudgetType ) {
-                $this->budget[] = $value;
-            }
-            else {
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::BUDGET, $ix, self::BUDGET ));
-            }
+        foreach( $budget as $value) {
+            $this->addBudget( $value );
         }
         return $this;
     }

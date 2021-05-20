@@ -37,8 +37,8 @@ use Psr\Log\LogLevel;
 use XMLWriter;
 
 use function get_called_class;
-use function in_array;
 use function sprintf;
+use function strtolower;
 use function substr;
 
 abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
@@ -102,8 +102,15 @@ abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XML
         }
         $writer->startElement( $elementName );
         foreach( $XMLattributes as $key => $value ) {
-            if( in_array( $key, self::XMLSCHEMAKEYS ) ||
-                ( self::XMLNS == substr( $key, 0, 5 ))) {
+            $found = false;
+            $lKey  = strtolower( $key );
+            foreach( self::XMLSCHEMAKEYS as $schemaKey ) {
+                if( $lKey == strtolower( $schemaKey )) {
+                    $found = true;
+                    break;
+                }
+            } // end foreach
+            if( $found || ( self::XMLNS == substr( $key, 0, 5 ))) {
                 self::writeAttribute( $writer, $key, $value );
             }
         }

@@ -31,9 +31,9 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function sprintf;
 
 class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -79,37 +79,44 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->tag )) {
-            $local[self::TAG] = self::TAG;
+            $local[] = self::errMissing( self::class, self::TAG );
         }
         else {
+            $inside = [];
             foreach( array_keys( $this->tag ) as $ix ) {
-                $inside = [];
-                if( ! $this->tag[$ix]->isValid( $inside )) {
-                    $local[self::TAG][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->tag[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-            }
-        }
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+            } // end foreach
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::TAG );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
+        if( empty( $this->id )) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->name )) {
-            $local[self::NAME] = false;
+            $local[] = self::errMissing(self::class, self::NAME );
         }
         if( ! empty( $local )) {
-            $expected[self::ACCOUNTAGGREGATION] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single TagType
+     *
      * @param TagType $tag
      * @return static
      */
@@ -128,19 +135,16 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set TagTypes. array
+     *
      * @param TagType[] $tag
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setTag( array $tag ) : self
     {
-        foreach( $tag as $ix => $value) {
-            if( $value instanceof TagType ) {
-                $this->tag[] = $value;
-            }
-            else {
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::ACCOUNTAGGREGATION, $ix, self::TAG ));
-            }
+        foreach( $tag as $value) {
+            $this->addTag( $value );
         }
         return $this;
     }

@@ -34,8 +34,10 @@ use Faker;
 
 class OriginalAmountType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -44,6 +46,7 @@ class OriginalAmountType
             $faker->dateTimeThisMonth(),
             ( $faker->numberBetween( -999999, 999999 ) / 100 )
         )
-            ->setForeignCurrencyAmount( ForeignCurrencyAmountType::loadFromFaker());
+                  ->setForeignCurrencyAmount( ForeignCurrencyAmountType::loadFromFaker());
     }
+
 }

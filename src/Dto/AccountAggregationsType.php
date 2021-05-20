@@ -30,10 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function sprintf;
 
 class AccountAggregationsType extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -47,31 +46,38 @@ class AccountAggregationsType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->accountAggregation )) {
-            $local[self::ACCOUNTAGGREGATIONS] = false;
+            $local[] = self::errMissing(self::class, self::ACCOUNTAGGREGATIONS );
         }
         else {
+            $inside = [];
             foreach( array_keys( $this->accountAggregation ) as $ix ) {
-                $inside = [];
-                if( ! $this->accountAggregation[$ix]->isValid( $inside )) {
-                    $local[$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->accountAggregation[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
+            }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::ACCOUNTAGGREGATION );
+                $local[$key] = $inside;
             }
         }
         if( ! empty( $local )) {
-            $expected[self::ACCOUNTAGGREGATIONS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single AccountAggregationType
+     *
      * @param AccountAggregationType $accountAggregation
      * @return static
      */
@@ -90,19 +96,16 @@ class AccountAggregationsType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @param array $accountAggregation   *AccountAggregationType
+     * Set AccountAggregationTypes, array
+     *
+     * @param AccountAggregationType[] $accountAggregation
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setAccountAggregation( array $accountAggregation ) : self
     {
-        foreach( $accountAggregation as $ix => $value) {
-            if( $value instanceof AccountAggregationType ) {
-                $this->accountAggregation[] = $value;
-            }
-            else {
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::ACCOUNTAGGREGATIONS, $ix, self::ACCOUNTAGGREGATION ));
-            }
+        foreach( $accountAggregation as $value) {
+            $this->addAccountAggregation( $value );
         }
         return $this;
     }

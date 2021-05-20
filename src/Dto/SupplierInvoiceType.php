@@ -74,37 +74,43 @@ class SupplierInvoiceType extends SubdividedAccountObjectType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = $inside = [];
         if( ! empty( $this->balances )) {
+            $inside = [];
             foreach( array_keys( $this->balances ) as $ix ) {
-                if( ! $this->balances[$ix]->isValid( $inside )) {
-                    $local[self::BALANCES] = $inside;
+                $inside[$ix] = [];
+                if( $this->balances[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::BALANCES );
+                $local[$key] = $inside;
+                $inside = [];
+            } // end if
+        } // end if
         if( empty( $this->originalAmount )) {
-            $local[self::ORIGINALAMOUNT] = false;
+            $local[] = self::errMissing(self::class, self::ORIGINALAMOUNT );
         }
         elseif( ! $this->originalAmount->isValid( $inside )) {
-            $local[self::ORIGINALAMOUNT] = $inside;
-            $inside = [];
+            $local[] = $inside;
+            $inside  = [];
         }
-        // both are required...
-        if(( null == $this->id ) && empty( $this->invoiceNumber )) {
-            $local[self::ID] = false;
-            $local[self::INVOICENUMBER] = false;
+        // but both are required...
+        if(( null === $this->id ) && empty( $this->invoiceNumber )) {
+            $local[] = self::errMissing(self::class, self::ID );
+            $local[] = self::errMissing(self::class, self::INVOICENUMBER );
         }
         if( empty( $this->supplierId )) {
-            $local[self::SUPPLIERID] = false;
+            $local[] = self::errMissing(self::class, self::SUPPLIERID );
         }
         if( ! empty( $local )) {
-            $expected[self::SUPPLIERINVOICE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

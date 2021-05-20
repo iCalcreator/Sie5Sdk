@@ -32,9 +32,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
-use function gettype;
 use function sprintf;
 
 class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
@@ -86,32 +86,39 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
+        $local  = [];
+        $inside = [];
         foreach( array_keys( $this->budgetMultidimTypes ) as $ix ) {  // element ix
-            $inside = [];
-            if( ! $this->budgetMultidimTypes[$ix]->isValid( $inside )) {
-                $local[self::BUDGETMULTIDIM][$ix][self::OBJECTREFERENCE] = $inside;
+            $inside[$ix] = [];
+            if( $this->budgetMultidimTypes[$ix]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
         } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::BUDGETMULTIDIM );
+            $local[$key] = $inside;
+        } // end if
         if( empty( $this->month )) {
-            $local[self::MONTH] = false;
+            $local[] = self::errMissing(self::class, self::MONTH );
         }
-        if( null == $this->amount ) {
-            $local[self::AMOUNT] = false;
+        if( null === $this->amount ) {
+            $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( ! empty( $local )) {
-            $expected[self::BUDGETMULTIDIM] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single ObjectReferenceType
+     *
      * @param ObjectReferenceType $budgetMultidimType
      * @return static
      * @throws InvalidArgumentException
@@ -131,25 +138,19 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
+     * Set ObjectReferenceTypes, array
+     *
      * @param ObjectReferenceType[] $budgetMultidimTypes
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setBudgetMultidimTypes( array $budgetMultidimTypes ) : self
     {
         $cnt = 0;
-        foreach( $budgetMultidimTypes as $ix => $value ) {
-            if( $value instanceof ObjectReferenceType ) {
-                $this->budgetMultidimTypes[] = $value;
-                $cnt += 1;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::BUDGETMULTIDIM, $ix, $type ));
-            }
+        foreach( $budgetMultidimTypes as $value ) {
+            $this->addBudgetMultidimType( $value );
+            $cnt += 1;
         } // end foreach
         if(( 0 > $cnt ) && ( 2 > $cnt )) { // if set, min 2
             throw new InvalidArgumentException(

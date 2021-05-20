@@ -31,6 +31,7 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
 use function current;
@@ -64,36 +65,54 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
-        foreach( array_keys( $this->documentsTypes ) as $ix1 ) { // elementSet ix
-            foreach( array_keys( $this->documentsTypes[$ix1] ) as $ix2 ) { // element ix
-                $inside = [];
-                reset( $this->documentsTypes[$ix1][$ix2] );
-                $key    = key( $this->documentsTypes[$ix1][$ix2] );
-                if( ! $this->documentsTypes[$ix1][$ix2][$key]->isValid( $inside )) {
-                    $local[$ix1][$ix1][$key] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys( $this->documentsTypes ) as $x1 ) { // elementSet x1
+            $inside[$x1] = [];
+            foreach( array_keys( $this->documentsTypes[$x1] ) as $x2 ) { // keyed element x2
+                $inside[$x1][$x2] = [];
+                reset( $this->documentsTypes[$x1][$x2] );
+                $key    = key( $this->documentsTypes[$x1][$x2] );
+                if( $this->documentsTypes[$x1][$x2][$key]->isValid(
+                    $inside[$x1][$x2] )
+                ) {
+                    unset( $inside[$x1][$x2] );
                 }
             } // end foreach
+            if( empty( $inside[$x1] )) {
+                unset( $inside[$x1] );
+            }
         } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::DOCUMENTS );
+            $local[$key] = $inside;
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::DOCUMENTS] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single (typed) DocumentsTypesInterface
+     *
+     * key : self::EMBEDDEDFILE / self::FILEREFERENCE
+     *
      * @param string $key
      * @param DocumentsTypesInterface $documentsType
      * @return static
      * @throws InvalidArgumentException
      */
-    public function addDocumentsType( string $key, DocumentsTypesInterface $documentsType ) : DocumentsType
+    public function addDocumentsType(
+        string $key,
+        DocumentsTypesInterface $documentsType
+    ) : DocumentsType
     {
         switch( true ) {
             case (( self::EMBEDDEDFILE == $key ) &&
@@ -106,9 +125,9 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
                 throw new InvalidArgumentException(
                     sprintf( self::$FMTERR5, self::DOCUMENTS, $key, get_class( $documentsType ))
                 );
-                break;
         } // end switch
-        if( true !== $this->isDocumentIdUnique( $documentsType->getId())) {
+        if( $documentsType->isValid() &&
+            ( true !== $this->isDocumentIdUnique( $documentsType->getId()))) {
             throw new InvalidArgumentException(
                 sprintf( self::$FMTERR11, self::DOCUMENTS, self::ID, $documentsType->getId())
             );
@@ -174,13 +193,14 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * Set DocumentsType, array, *EmbeddedFileType/FileReferenceType OR *[ type => EmbeddedFileType/FileReferenceType ]
+     * Set DocumentsTypes, array, *EmbeddedFileType/FileReferenceType OR *[ type => EmbeddedFileType/FileReferenceType ]
      *
      * Type : self::EMBEDDEDFILE / self::FILEREFERENCE
      *
      * @param array $documentsTypes
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setDocumentsTypes( array $documentsTypes ) : self
     {
@@ -202,25 +222,8 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
                         $element = [ $ix2 => $element ];
                 } // end switch
                 reset( $element );
-                $key           = key( $element );
-                $documentsType = current( $element );
-                switch( true ) {
-                    case (( self::EMBEDDEDFILE == $key ) && $documentsType instanceof EmbeddedFileType ) :
-                        break;
-                    case (( self::FILEREFERENCE == $key ) &&  $documentsType instanceof FileReferenceType ) :
-                        break;
-                    default :
-                        throw new InvalidArgumentException(
-                            sprintf( self::$FMTERR52, self::DOCUMENTS, $ix1, $ix2, $key, get_class( $documentsType ))
-                        );
-                        break;
-                } // end switch
-                if( true !== $this->isDocumentIdUnique( $documentsType->getId())) {
-                    throw new InvalidArgumentException(
-                        sprintf( self::$FMTERR112, $key, self::ID, $ix1, $ix2, $documentsType->getId() )
-                    );
-                }
-                $this->documentsTypes[$ix1][$ix2] = $element;
+                $key = key( $element );
+                $this->addDocumentsType( $key, current( $element ));
             } // end foreach
         } // end foreach
         return $this;

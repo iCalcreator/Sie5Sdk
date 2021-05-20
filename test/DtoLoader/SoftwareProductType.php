@@ -35,15 +35,17 @@ use Kigkonsult\Sie5Sdk\Sie5Interface;
 
 class SoftwareProductType implements Sie5Interface
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
 //        $faker = Faker\Factory::create();
 
-        return Dto::factoryNameVersion(
-            self::PRODUCTNAME,
-            self::PRODUCTVERSION
-        );
+        return Dto::factory()
+                  ->setName( self::PRODUCTNAME )
+                  ->setVersion( self::PRODUCTVERSION );
     }
+
 }

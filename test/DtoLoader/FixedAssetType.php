@@ -36,21 +36,24 @@ class FixedAssetType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
-        $dto = Dto::factory()
-            ->setOriginalAmount( OriginalAmountType::loadFromFaker())
-            ->setId((string) $faker->numberBetween( 1000, 9999 ) )
+        $dto = Dto::factoryIdDateAmount(
+            (string) $faker->numberBetween( 1000, 9999 ),
+            $faker->dateTimeThisMonth(),
+            ( $faker->numberBetween( -999999, 999999 ) / 100 )
+        )
             ->setName( $faker->company );
-        $max  = $faker->numberBetween( 1, 2 );
+        $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = BalancesType::loadFromFaker();
         }
         $dto->setBalances( $load );
-        $dto->addBalances( BalancesType::loadFromFaker());
+
         return $dto;
     }
 }

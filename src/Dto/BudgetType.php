@@ -32,10 +32,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class BudgetType extends Sie5DtoBase implements AccountTypesInterface
 {
@@ -88,29 +87,36 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
-        foreach( array_keys( $this->objectReference ) as $ix1 ) { // element ix
-            $inside = [];
-            if( ! $this->objectReference[$ix1]->isValid( $inside )) {
-                $local[self::OBJECTREFERENCE][$ix1] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys( $this->objectReference ) as $ix ) { // element ix
+            $inside[$ix] = [];
+            if( $this->objectReference[$ix]->isValid( $inside )) {
+                unset( $inside[$ix] );
             }
         } // end foreach
-        if( null == $this->amount ) {
-            $local[self::AMOUNT] = false;
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::OBJECTREFERENCE );
+            $local[$key] = $inside;
+        } // end if
+        if( null === $this->amount ) {
+            $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( ! empty( $local )) {
-            $expected[self::BUDGET] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single ObjectReferenceType
+     *
      * @param ObjectReferenceType $objectReference
      * @return static
      */
@@ -129,23 +135,16 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
-     * @param array $objectReference  ObjectReferenceType[]
+     * Set ObjectReferenceTypes, array
+     *
+     * @param ObjectReferenceType[] $objectReference
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setObjectReference( array $objectReference ) : self
     {
-        foreach( $objectReference as $ix => $value ) {
-            if( $value instanceof ObjectReferenceType ) {
-                $this->objectReference[] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::OBJECTREFERENCE, $ix, $type ));
-            }
+        foreach( $objectReference as $value ) {
+            $this->addObjectReference( $value );
         } // end foreach
         return $this;
     }

@@ -34,8 +34,10 @@ use Faker;
 
 class OverstrikeType
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -45,4 +47,5 @@ class OverstrikeType
             $faker->dateTimeThisMonth()
         );
     }
+
 }

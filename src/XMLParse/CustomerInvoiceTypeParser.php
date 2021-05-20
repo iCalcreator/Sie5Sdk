@@ -122,7 +122,7 @@ class CustomerInvoiceTypeParser extends Sie5ParserBase
                 case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
                     break;
                 case ( self::BALANCES == $this->reader->localName  ) :
-                    $customerInvoiceType->addBalances( $parser->parse());
+                    $customerInvoiceType->addBalance( $parser->parse());
                     break;
                 case (self::ORIGINALAMOUNT == $this->reader->localName ) :
                     $customerInvoiceType->setOriginalAmount(

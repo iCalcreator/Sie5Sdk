@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class CustomersType extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -46,26 +44,33 @@ class CustomersType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
-        foreach( array_keys( $this->customer ) as $ix1 ) { // element ix
-            $inside = [];
-            if( ! $this->customer[$ix1]->isValid( $inside )) {
-                $local[$ix1] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys( $this->customer ) as $ix ) { // element ix
+            $inside[$ix] = [];
+            if( $this->customer[$ix]->isValid( $inside[$ix] )) {
+                unset( $inside[$ix] );
             }
         } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::CUSTOMER );
+            $local[$key] = $inside;
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::CUSTOMER] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single CustomerType
+     *
      * @param CustomerType $customer
      * @return static
      */
@@ -84,23 +89,16 @@ class CustomersType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @param array $customer
+     * Set CustomerTypes, array
+     *
+     * @param CustomerType[] $customer
      * @return CustomersType
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setCustomer( array $customer ) : self
     {
-        foreach( $customer as $ix => $value ) {
-            if( $value instanceof CustomerType ) {
-                $this->customer[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::CUSTOMER, $ix, $type ));
-            }
+        foreach( $customer as $value ) {
+            $this->addCustomer( $value );
         }
         return $this;
     }

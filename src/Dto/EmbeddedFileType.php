@@ -36,19 +36,23 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
 {
     /**
-     * @var string - xsd:base64Binary
+     * @var string
+     *
+     * xsd:base64Binary
      */
     private $embeddedFile = null;
 
     /**
      * @var int
-     *         attribute name="id" type="xsd:positiveInteger" use="required"
+     *
+     * Attribute name="id" type="xsd:positiveInteger" use="required"
      */
     private $id = null;
 
     /**
      * @var string
-     *            Attribute name="fileName" type="xsd:string" use="required"
+     *
+     * Attribute name="fileName" type="xsd:string" use="required"
      */
     private $fileName = null;
 
@@ -72,20 +76,20 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->id )) {
-            $local[self::ID] = false;
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( empty( $this->fileName )) {
-            $local[self::FILENAME] = false;
+            $local[] = self::errMissing(self::class, self::FILENAME );
         }
         if( ! empty( $local )) {
-            $expected[self::EMBEDDEDFILE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

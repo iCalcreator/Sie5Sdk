@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 class TagType extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -67,26 +68,28 @@ class TagType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->accountRef )) {
-            $local[self::ACCOUNTREF] = false;
+            $local[] = self::errMissing(self::class, self::ACCOUNTREF );
         }
         if( empty( $this->name )) {
-            $local[self::NAME] = false;
+            $local[] = self::errMissing(self::class, self::NAME );
         }
         if( ! empty( $local )) {
-            $expected[self::TAG] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single accountRef
+     *
      * @param string $accountNumber
      * @return static
      * @throws InvalidArgumentException
@@ -106,14 +109,17 @@ class TagType extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @param array $accountRef string[]
+     * SEt accountRef's. array
+     *
+     * @param string[] $accountRef
      * @return TagType
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setAccountRef( array $accountRef ) : self
     {
-        foreach( $accountRef as $ix => $accountNumber ) {
-            $this->accountRef[] = CommonFactory::assertAccountNumber( $accountNumber, $ix );
+        foreach( $accountRef as $accountNumber ) {
+            $this->addAccountRef( $accountNumber );
         }
         return $this;
     }

@@ -37,17 +37,17 @@ class GeneralObjectTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+        if( null === $this->id ) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
-        if( ! empty( $local ) ) {
-            $expected[self::GENERALOBEJCT] = $local;
+        if( ! empty( $local )) {
+            $outSide[] = $local;
             return false;
         }
         return true;

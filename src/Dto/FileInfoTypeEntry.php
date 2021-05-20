@@ -64,39 +64,39 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = $inside = [];
         if( empty( $this->softwareProduct )) {
-            $local[self::SOFTWAREPRODUCT] = false;
+            $local[] = self::errMissing(self::class, self::SOFTWAREPRODUCT );
         }
         elseif( ! $this->softwareProduct->isValid( $inside )) {
-            $local[self::SOFTWAREPRODUCT] = $inside;
-            $inside = [];
+            $local[] = $inside;
+            $inside  = [];
         }
         if( empty( $this->fileCreation )) {
-            $local[self::FILECREATION] = false;
+            $local[] = self::errMissing(self::class, self::FILECREATION );
         }
         elseif( ! $this->fileCreation->isValid( $inside )) {
-            $local[self::FILECREATION] = $inside;
-            $inside = [];
+            $local[] = $inside;
+            $inside  = [];
         }
         if( empty( $this->company )) {
-            $local[self::COMPANY] = false;
+            $local[] = self::errMissing(self::class, self::COMPANY );
         }
         elseif( ! $this->company->isValid( $inside )) {
-            $local[self::COMPANY] = $inside;
-            $inside = [];
+            $local[] = $inside;
+            $inside  = [];
         }
-        if( ! empty( $this->accountingCurrency ) && ! $this->accountingCurrency->isValid( $inside )) {
-            $local[self::ACCOUNTINGCURRENCY] = $inside;
-            $inside = [];
+        if( ! empty( $this->accountingCurrency ) &&
+            ! $this->accountingCurrency->isValid( $inside )) {
+            $local[] = $inside;
         }
         if( ! empty( $local )) {
-            $expected[self::FILEINFO] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

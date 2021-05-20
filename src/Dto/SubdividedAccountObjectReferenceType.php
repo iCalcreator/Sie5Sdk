@@ -45,17 +45,17 @@ class SubdividedAccountObjectReferenceType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->objectId )) {
-            $local[self::OBJECTID] = false;
+            $local[] = self::errMissing(self::class, self::OBJECTID );
         }
         if( ! empty( $local )) {
-            $expected[self::SUBDIVIDEDACCOUNTOBJECTREFERENCE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

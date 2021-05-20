@@ -34,8 +34,10 @@ use Faker;
 
 class GeneralObjectTypeEntry
 {
+
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -43,6 +45,8 @@ class GeneralObjectTypeEntry
         return Dto::factoryId(
             (string) $faker->numberBetween( 1000, 9999 )
         )
-            ->setName( $faker->company );
+                  ->setName( $faker->company );
     }
+
+
 }

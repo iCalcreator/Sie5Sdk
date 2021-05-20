@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
+use TypeError;
 
 use function array_keys;
 use function current;
@@ -47,7 +48,7 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
      * @var array
      *
      * maxOccurs="unbounded" minOccurs="0"
-     * Sequence of one OR both
+     * Sequences of
      *   ForeignCurrencyAmount - 0-1        ForeignCurrencyAmountType
      *   ObjectReference       - 2-unbound  ObjectReferenceType
      * List of objects associated with this balance
@@ -104,42 +105,61 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
-        foreach( array_keys( $this->baseBalanceMultidimTypes ) as $ix1 ) { // elementSet ix
-            foreach( array_keys( $this->baseBalanceMultidimTypes[$ix1] ) as $ix2 ) { // element ix
-                foreach( array_keys( $this->baseBalanceMultidimTypes[$ix1][$ix2] ) as $key ) {
-                    $inside = [];
-                    if( ! $this->baseBalanceMultidimTypes[$ix1][$ix2][$key]->isValid( $inside )) {
-                        $local[self::BASEBALANCEMULTIDIM][$ix1][$ix2][$key] = $inside;
+        $local  = [];
+        $inside = [];
+        foreach( array_keys( $this->baseBalanceMultidimTypes ) as $x1 ) { // elementSet x1
+            $inside[$x1] = [];
+            foreach( array_keys( $this->baseBalanceMultidimTypes[$x1] ) as $x2 ) { // keyed element x2
+                $inside[$x1][$x2] = [];
+                foreach( array_keys( $this->baseBalanceMultidimTypes[$x1][$x2] ) as $key ) {
+                    if( $this->baseBalanceMultidimTypes[$x1][$x2][$key]->isValid(
+                        $inside[$x1][$x2] )
+                    ) {
+                        unset( $inside[$x1][$x2] );
                     }
+                } // end foreach
+                if( empty( $inside[$x1][$x2] )) {
+                    unset( $inside[$x1][$x2] );
                 }
             } // end foreach
+            if( empty( $inside[$x1] )) {
+                unset( $inside[$x1] );
+            }
         } // end foreach
+        if( ! empty( $inside )) {
+            $key         = self::getClassPropStr( self::class, self::BASEBALANCEMULTIDIM );
+            $local[$key] = $inside;
+        } // end if
         if( empty( $this->month )) {
-            $local[self::MONTH] = false;
+            $local[] = self::errMissing(self::class, self::MONTH );
         }
-        if( null == $this->amount ) {
-            $local[self::AMOUNT] = false;
+        if( null === $this->amount ) {
+            $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( ! empty( $local )) {
-            $expected[self::BASEBALANCEMULTIDIM] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single (typed) BaseBalanceTypesInterface
+     *
      * @param string $key
      * @param BaseBalanceTypesInterface $baseBalanceMultidimType
      * @return static
      * @throws InvalidArgumentException
      */
-    public function addBaseBalanceMultidimType( string $key, BaseBalanceTypesInterface $baseBalanceMultidimType ) : self
+    public function addBaseBalanceMultidimType(
+        string $key,
+        BaseBalanceTypesInterface $baseBalanceMultidimType
+    ) : self
     {
         switch( true ) {
             case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
@@ -153,11 +173,16 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
                 break;
             default :
                 throw new InvalidArgumentException(
-                    sprintf( self::$FMTERR5, self::BASEBALANCEMULTIDIM, $key, get_class( $baseBalanceMultidimType ))
+                    sprintf(
+                        self::$FMTERR5,
+                        self::BASEBALANCEMULTIDIM,
+                        $key,
+                        get_class( $baseBalanceMultidimType )
+                    )
                 );
-                break;
         } // end switch
-        $this->baseBalanceMultidimTypes[$this->elementSetIndex][] = [ $key => $baseBalanceMultidimType ];
+        $this->baseBalanceMultidimTypes[$this->elementSetIndex][] =
+            [ $key => $baseBalanceMultidimType ];
         $this->previousElement = $key;
         return $this;
     }
@@ -171,53 +196,59 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     }
 
     /**
+     * Set baseBalanceMultidimTypes, array ( *( type => BaseBalanceTypesInterface )) / BaseBalanceTypesInterface[]
+     *
+     * Type : FOREIGNCURRENCYAMOUNT / OBJECTREFERENCE
+     *
      * @param array $baseBalanceMultidimTypes
      * @return static
      * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setBaseBalanceMultidimTypes( array $baseBalanceMultidimTypes ) : self
     {
+        $cnt = 0;
         foreach( $baseBalanceMultidimTypes as $ix1 => $elementSet ) {
             if( ! is_array( $elementSet )) {
                 $elementSet = [ $ix1 => $elementSet ];
             }
-            $cnt = 0;
             foreach( $elementSet as $ix2 => $element ) {
-                if( ! is_array( $element )) {
-                    $element = [ $ix2 => $element ];
-                }
-                reset( $element );
-                $key = key( $element );
-                $baseBalanceMultidimType = current( $element );
                 switch( true ) {
-                    case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
-                        $baseBalanceMultidimType instanceof ForeignCurrencyAmountType ) :
+                    case is_array( $element ) :
+                        reset( $element );
+                        $key = (string) key( $element );
+                        $this->addBaseBalanceMultidimType( $key, current( $element ));
+                        if( self::OBJECTREFERENCE == $key ) {
+                            $cnt += 1;
+                        }
                         break;
-                    case (( self::OBJECTREFERENCE == $key ) &&
-                        $baseBalanceMultidimType instanceof ObjectReferenceType ) :
+                    case ( $element instanceof ForeignCurrencyAmountType ) :
+                        $this->addBaseBalanceMultidimType(
+                            self::FOREIGNCURRENCYAMOUNT,
+                            $element
+                        );
+                        break;
+                    case ( $element instanceof ObjectReferenceType ) :
+                        $this->addBaseBalanceMultidimType(
+                            self::OBJECTREFERENCE,
+                            $element
+                        );
                         $cnt += 1;
                         break;
                     default :
-                        throw new InvalidArgumentException(
-                            sprintf(
-                                self::$FMTERR52,
-                                self::BASEBALANCEMULTIDIM,
-                                $ix1,
-                                $ix2,
-                                $key,
-                                get_class( $baseBalanceMultidimType )
-                            )
-                        );
+                        $this->addBaseBalanceMultidimType((string) $ix2, $element );
+                        if( self::OBJECTREFERENCE == $ix2 ) {
+                            $cnt += 1;
+                        }
                         break;
                 } // end switch
-                $this->baseBalanceMultidimTypes[$ix1][$ix2] = $element;
             } // end foreach
-            if( 1 == $cnt ) {
-                throw new InvalidArgumentException(
-                    sprintf( self::$FMTERR4, self::BASEBALANCEMULTIDIM, $ix1, self::OBJECTREFERENCE )
-                );
-            }
         } // end foreach
+        if( 1 == $cnt ) {
+            throw new InvalidArgumentException(
+                sprintf( self::$FMTERR3, self::BASEBALANCEMULTIDIM, self::OBJECTREFERENCE )
+            );
+        }
         return $this;
     }
 

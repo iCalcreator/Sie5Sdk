@@ -36,18 +36,18 @@ class TagType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         $dto  = Dto::factoryName( $faker->word );
-        $max  = $faker->numberBetween( 1, 3 );
+        $max  = $faker->numberBetween( 1, 4 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
-            $load[] = $faker->numberBetween( 1000, 9999 );
+            $load[] = (string) $faker->numberBetween( 1000, 9999 );
         }
         $dto->setAccountRef( $load );
-        $dto->addAccountRef((string) $faker->numberBetween( 1000, 9999 ));
 
         return $dto;
     }

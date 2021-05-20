@@ -36,18 +36,19 @@ class CustomersType
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
 
         $dto  = new Dto();
-        $max  = $faker->numberBetween( 1, 2 );
+        $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             $load[] = CustomerType::loadFromFaker();
         }
         $dto->setCustomer( $load );
-        $dto->addCustomer( CustomerType::loadFromFaker());
+
         return $dto;
     }
 }

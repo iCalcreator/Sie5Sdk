@@ -36,14 +36,16 @@ class OriginalEntryInfoType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
      * @var DateTime
-     *            Attribute name="date" type="xsd:date" use="required"
+     *
+     * Attribute name="date" type="xsd:date" use="required"
      */
     private $date = null;
 
     /**
      * @var string
-     *            Attribute name="by" type="xsd:string" use="required"
-     *            Name of the person, routine or system who/which enterded the record.
+     *
+     * Attribute name="by" type="xsd:string" use="required"
+     * Name of the person, routine or system who/which enterded the record.
      */
     private $by = null;
 
@@ -74,20 +76,20 @@ class OriginalEntryInfoType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->date )) {
-            $local[self::DATE] = false;
+            $local[] = self::errMissing(self::class, self::DATE );
         }
-        if( null == $this->by ) {
-            $local[self::BY] = false;
+        if( empty( $this->by )) {
+            $local[] = self::errMissing(self::class, self::BY );
         }
         if( ! empty( $local )) {
-            $expected[self::ORIGINALENTRYINFO] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

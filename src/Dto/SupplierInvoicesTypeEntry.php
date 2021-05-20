@@ -30,11 +30,9 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
+use TypeError;
 
 use function array_keys;
-use function gettype;
-use function sprintf;
 
 class SupplierInvoicesTypeEntry extends BaseSubdividedAccountTypeEntry
 {
@@ -46,32 +44,39 @@ class SupplierInvoicesTypeEntry extends BaseSubdividedAccountTypeEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
         if( empty( $this->primaryAccountId )) {
-            $local[self::PRIMARYACCOUNTID] = false;
+            $local[] = self::errMissing(self::class, self::PRIMARYACCOUNTID );
         }
         if( ! empty( $this->supplierInvoice )) {
-            foreach( array_keys( $this->supplierInvoice ) as $ix1 ) { // element ix
-                $inside = [];
-                if( ! $this->supplierInvoice[$ix1]->isValid( $inside )) {
-                    $local[self::SUPPLIERINVOICE][$ix1] = $inside;
+            $inside = [];
+            foreach( array_keys( $this->supplierInvoice ) as $ix ) { // element ix
+                $inside[$ix] = [];
+                if( $this->supplierInvoice[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
                 $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::SUPPLIERINVOICE );
+                $local[$key] = $inside;
+            } // end if
+        } // end if
         if( ! empty( $local )) {
-            $expected[self::SUPPLIERINVOICES] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
     }
 
     /**
+     * Add single SupplierInvoiceTypeEntry
+     *
      * @param SupplierInvoiceTypeEntry $supplierInvoice
      * @return static
      */
@@ -105,22 +110,16 @@ class SupplierInvoicesTypeEntry extends BaseSubdividedAccountTypeEntry
     }
 
     /**
+     * Set SupplierInvoiceTypeEntry's, array
+     *
      * @param SupplierInvoiceTypeEntry[] $supplierInvoice
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setSupplierInvoice( array $supplierInvoice ) : self
     {
-        foreach( $supplierInvoice as $ix => $value ) {
-            if( $value instanceof SupplierInvoiceTypeEntry ) {
-                $this->supplierInvoice[] = $value;
-                continue;
-            }
-            $type = gettype( $value );
-            if( self::$OBJECT == $type ) {
-                $type = get_class( $value );
-            }
-            throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::SUPPLIERINVOICE, $ix, $type ));
+        foreach( $supplierInvoice as $value ) {
+            $this->addSupplierInvoice( $value );
         } // end foreach
         return $this;
     }

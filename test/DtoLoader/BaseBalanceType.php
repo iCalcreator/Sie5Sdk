@@ -37,6 +37,7 @@ class BaseBalanceType implements Sie5Interface
 {
     /**
      * @return Dto
+     * @access static
      */
     public static function loadFromFaker() {
         $faker = Faker\Factory::create();
@@ -45,21 +46,37 @@ class BaseBalanceType implements Sie5Interface
             $faker->date( 'Y-m' ),
             ( $faker->numberBetween( -999999, 999999 ) / 100 )
         )
-            ->setQuantity( $faker->numberBetween( 1, 9 ));
-        $max = $faker->numberBetween( 1, 2 );
+                  ->setQuantity( $faker->numberBetween( 1, 9 ));
+
+        $max  = $faker->numberBetween( 1, 3 );
+        $load = [];
         for( $x = 0; $x < $max; $x++ ) {
             switch( $faker->numberBetween( 1, 3 )) {
                 case 1 :
-                    $dto->addBaseBalanceType( self::FOREIGNCURRENCYAMOUNT, ForeignCurrencyAmountType::loadFromFaker());
+                    $load[] = [
+                        self::FOREIGNCURRENCYAMOUNT =>
+                            ForeignCurrencyAmountType::loadFromFaker()
+                    ];
                     break;
                 case 2 :
-                    $dto->addBaseBalanceType( self::OBJECTREFERENCE, ObjectReferenceType::loadFromFaker());
+                    $load[] = [
+                        self::OBJECTREFERENCE =>
+                            ObjectReferenceType::loadFromFaker()
+                    ];
                     break;
                 default :
-                    $dto->addBaseBalanceType( self::FOREIGNCURRENCYAMOUNT, ForeignCurrencyAmountType::loadFromFaker());
-                    $dto->addBaseBalanceType( self::OBJECTREFERENCE, ObjectReferenceType::loadFromFaker());
-            }
-        }
+                    $load[] = [
+                        self::FOREIGNCURRENCYAMOUNT =>
+                            ForeignCurrencyAmountType::loadFromFaker()
+                    ];
+                    $load[] = [
+                        self::OBJECTREFERENCE =>
+                            ObjectReferenceType::loadFromFaker()
+                    ];
+            } // end switch
+        } // end for
+        $dto->setBaseBalanceTypes( $load );
+
         return $dto;
     }
 }

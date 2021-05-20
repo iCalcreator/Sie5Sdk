@@ -37,32 +37,37 @@ class GeneralObjectType extends SubdividedAccountObjectType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
-        $local = [];
+        $local  = [];
+        $inside = [];
         if( ! empty( $this->balances )) {
             foreach( array_keys( $this->balances ) as $ix ) {
-                $inside = [];
-                if( ! $this->balances[$ix]->isValid( $inside )) {
-                    $local[self::BALANCES] = $inside;
+                $inside[$ix] = [];
+                if( $this->balances[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::BALANCES );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
         if( empty( $this->originalAmount )) {
-            $local[self::ORIGINALAMOUNT] = false;
+            $local[] = self::errMissing(self::class, self::ORIGINALAMOUNT );
         }
         elseif( ! $this->originalAmount->isValid( $inside )) {
-            $local[self::ORIGINALAMOUNT] = $inside;
+            $local[] = $inside;
         }
-        if( null == $this->id ) {
-            $local[self::ID] = false;
+        if( null === $this->id ) {
+            $local[] = self::errMissing(self::class, self::ID );
         }
         if( ! empty( $local )) {
-            $expected[self::GENERALOBEJCT] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;

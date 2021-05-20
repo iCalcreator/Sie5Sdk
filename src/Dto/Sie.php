@@ -30,15 +30,13 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
 use Kigkonsult\DsigSdk\Dto\SignatureType;
 use Kigkonsult\Sie5Sdk\Impl\SortFactory;
+use TypeError;
 
 use function array_keys;
 use function array_unique;
-use function gettype;
 use function sort;
-use function sprintf;
 use function usort;
 
 /**
@@ -146,91 +144,121 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $expected
+     * @param array $outSide
      * @return bool
      */
-    public function isValid( array & $expected = null ) : bool
+    public function isValid( array & $outSide = null ) : bool
     {
         $local = $inside = [];
         if( empty( $this->fileInfo )) {
-            $local[self::FILEINFO] = false;
+            $local[] = self::errMissing(self::class, self::FILEINFO );
         }
         elseif( ! $this->fileInfo->isValid( $inside )) {
-            $local[self::FILEINFO] = $inside;
-            $inside = [];
+            $local[] = $inside;
+            $inside  = [];
         }
         if( empty( $this->accounts )) {
-            $local[self::ACCOUNTS] = false;
+            $local[] = self::errMissing(self::class, self::ACCOUNTS );
         }
         elseif( ! $this->accounts->isValid( $inside )) {
-            $local[self::ACCOUNTS] = $inside;
+            $local[] = $inside;
             $inside = [];
         }
-        if( ! empty( $this->dimensions ) && ! $this->dimensions->isValid( $inside )) {
-            $local[self::DIMENSIONS] = $inside;
+        if( ! empty( $this->dimensions ) &&
+            ! $this->dimensions->isValid( $inside )) {
+            $local[] = $inside;
             $inside = [];
         }
         if( ! empty( $this->customerInvoices )) {
             foreach( array_keys( $this->customerInvoices ) as $ix ) {
-                if( ! $this->customerInvoices[$ix]->isValid( $inside )) {
-                    $local[self::CUSTOMERINVOICES][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->customerInvoices[$ix]->isValid( $inside[$ix] )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::CUSTOMERINVOICES );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
         if( ! empty( $this->supplierInvoices )) {
             foreach( array_keys( $this->supplierInvoices ) as $ix ) {
-                if( ! $this->supplierInvoices[$ix]->isValid( $inside )) {
-                    $local[self::SUPPLIERINVOICES][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->supplierInvoices[$ix]->isValid( $inside )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::SUPPLIERINVOICES );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
         if( ! empty( $this->fixedAssets )) {
             foreach( array_keys( $this->fixedAssets ) as $ix ) {
-                if( ! $this->fixedAssets[$ix]->isValid( $inside )) {
-                    $local[self::FIXEDASSETS][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->fixedAssets[$ix]->isValid( $inside )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::FIXEDASSETS );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
         if( ! empty( $this->generalSubdividedAccount )) {
             foreach( array_keys( $this->generalSubdividedAccount ) as $ix ) {
-                if( ! $this->generalSubdividedAccount[$ix]->isValid( $inside )) {
-                    $local[self::GENERALSUBDIVIDEDACCOUNT][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->generalSubdividedAccount[$ix]->isValid( $inside )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
-        if( ! empty( $this->customers ) && ! $this->customers->isValid( $inside )) {
-            $local[self::CUSTOMERS] = $inside;
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::GENERALSUBDIVIDEDACCOUNT );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
+        if( ! empty( $this->customers ) &&
+            ! $this->customers->isValid( $inside )) {
+            $local[] = $inside;
             $inside = [];
         }
-        if( ! empty( $this->suppliers ) && ! $this->suppliers->isValid( $inside )) {
-            $local[self::SUPPLIERS] = $inside;
+        if( ! empty( $this->suppliers ) &&
+            ! $this->suppliers->isValid( $inside )) {
+            $local[] = $inside;
             $inside = [];
         }
-        if( ! empty( $this->accountAggregations ) && ! $this->accountAggregations->isValid( $inside )) {
-            $local[self::ACCOUNTAGGREGATIONS] = $inside;
+        if( ! empty( $this->accountAggregations ) &&
+            ! $this->accountAggregations->isValid( $inside )) {
+            $local[] = $inside;
             $inside = [];
         }
         if( ! empty( $this->journal )) {
             foreach( array_keys( $this->journal ) as $ix ) {
-                if( ! $this->journal[$ix]->isValid( $inside )) {
-                    $local[self::JOURNAL][$ix] = $inside;
+                $inside[$ix] = [];
+                if( $this->journal[$ix]->isValid( $inside )) {
+                    unset( $inside[$ix] );
                 }
-                $inside = [];
             } // end foreach
-        }
-        if( ! empty( $this->documents ) && ! $this->documents->isValid( $inside )) {
-            $local[self::DOCUMENTS] = $inside;
+            if( ! empty( $inside )) {
+                $key         = self::getClassPropStr( self::class, self::JOURNAL );
+                $local[$key] = $inside;
+                $inside      = [];
+            } // end if
+        } // end if
+        if( ! empty( $this->documents ) &&
+            ! $this->documents->isValid( $inside )) {
+            $local[] = $inside;
             $inside = [];
         }
         if( empty( $this->signature )) {
-            $local[self::SIGNATURE] = self::SIGNATURE;
+            $local[] = self::errMissing(self::class, self::SIGNATURE );
         }
         if( ! empty( $local )) {
-            $expected[self::SIE] = $local;
+            $outSide[] = $local;
             return false;
         }
         return true;
@@ -335,6 +363,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Add single CustomerInvoicesType
+     *
      * @param CustomerInvoicesType $customerInvoices
      * @return static
      */
@@ -368,28 +398,23 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set CustomerInvoicesTypes, array
+     *
      * @param CustomerInvoicesType[] $customerInvoices
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setCustomerInvoices( array $customerInvoices ) : self
     {
-        foreach( $customerInvoices as $ix => $value ) {
-            if( $value instanceof CustomerInvoicesType ) {
-                $this->customerInvoices[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::CUSTOMERINVOICES, $ix, $type ));
-            }
+        foreach( $customerInvoices as $value ) {
+            $this->addCustomerInvoices( $value );
         } // end foreach
         return $this;
     }
 
     /**
+     * Add single SupplierInvoicesType
+     *
      * @param SupplierInvoicesType $supplierInvoices
      * @return static
      */
@@ -424,28 +449,23 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set SupplierInvoicesTypes, array
+     *
      * @param SupplierInvoicesType[]     $supplierInvoices
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setSupplierInvoices( array $supplierInvoices ) : self
     {
-        foreach( $supplierInvoices as $ix => $value ) {
-            if( $value instanceof SupplierInvoicesType ) {
-                $this->supplierInvoices[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::SUPPLIERINVOICES, $ix, $type ));
-            }
+        foreach( $supplierInvoices as $value ) {
+            $this->addSupplierInvoices( $value );
         } // end foreach
         return $this;
     }
 
     /**
+     * Add single FixedAssetsType
+     *
      * @param FixedAssetsType $fixedAsset
      * @return static
      */
@@ -464,28 +484,23 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set FixedAssetsTypes, array
+     *
      * @param FixedAssetsType[] $fixedAssets
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setFixedAssets( array $fixedAssets ) : self
     {
-        foreach( $fixedAssets as $ix => $value ) {
-            if( $value instanceof FixedAssetsType ) {
-                $this->fixedAssets[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::FIXEDASSETS, $ix, $type ));
-            }
+        foreach( $fixedAssets as $value ) {
+            $this->addFixedAsset( $value );
         } // end foreach
         return $this;
     }
 
     /**
+     * Add single GeneralSubdividedAccountType
+     *
      * @param GeneralSubdividedAccountType $generalSubdividedAccount
      * @return static
      */
@@ -504,23 +519,16 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set GeneralSubdividedAccountTypes, array
+     *
      * @param GeneralSubdividedAccountType[] $generalSubdividedAccount
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setGeneralSubdividedAccount( array $generalSubdividedAccount ) : self
     {
-        foreach( $generalSubdividedAccount as $ix => $value ) {
-            if( $value instanceof GeneralSubdividedAccountType ) {
-                $this->generalSubdividedAccount[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::GENERALSUBDIVIDEDACCOUNT, $ix, $type ));
-            }
+        foreach( $generalSubdividedAccount as $value ) {
+            $this->addGeneralSubdividedAccount( $value );
         } // end foreach
         return $this;
     }
@@ -580,6 +588,8 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Add single JournalType
+     *
      * @param JournalType $journal
      * @return static
      */
@@ -647,25 +657,17 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
+     * Set JournalTypes, array
+     *
      * @param JournalType[] $journal
      * @return static
-     * @throws InvalidArgumentException
+     * @throws TypeError
      */
     public function setJournal( array $journal ) : self
     {
-        foreach( $journal as $ix => $value ) {
-            if( $value instanceof JournalType ) {
-                $this->journal[$ix] = $value;
-            }
-            else {
-                $type = gettype( $value );
-                if( self::$OBJECT == $type ) {
-                    $type = get_class( $value );
-                }
-                throw new InvalidArgumentException( sprintf( self::$FMTERR1, self::JOURNAL, $ix, $type ));
-            }
+        foreach( $journal as $value ) {
+            $this->addJournal( $value );
         } // end foreach
-        $this->sortJournal();
         return $this;
     }
 

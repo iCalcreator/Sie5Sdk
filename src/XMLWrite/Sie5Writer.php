@@ -63,7 +63,6 @@ class Sie5Writer extends Sie5WriterBase implements Sie5WriterInterface
                 break;
             default :
                 throw new InvalidArgumentException( sprintf( $FMTerr1, get_class( $sie5DtoBase )));
-                break;
         }
         return $this->writer->outputMemory();
     }
