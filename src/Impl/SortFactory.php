@@ -84,7 +84,10 @@ class SortFactory
      * @param JournalEntryType $b
      * @return int
      */
-    public static function journalEntryTypeSortOnId( JournalEntryType $a, JournalEntryType $b ) : int
+    public static function journalEntryTypeSortOnId(
+        JournalEntryType $a,
+        JournalEntryType $b
+    ) : int
     {
         $aId = $a->getId();
         $bId = $b->getId();
@@ -118,7 +121,10 @@ class SortFactory
      * @param JournalEntryTypeEntry $b
      * @return int
      */
-    public static function journalEntryTypeEntrySortOnId( JournalEntryTypeEntry $a, JournalEntryTypeEntry $b ) : int
+    public static function journalEntryTypeEntrySortOnId(
+        JournalEntryTypeEntry $a,
+        JournalEntryTypeEntry $b
+    ) : int
     {
         $aId = $a->getId();
         $bId = $b->getId();
@@ -152,7 +158,10 @@ class SortFactory
      * @param FiscalYearType $b
      * @return int
      */
-    public static function fiscalYearTypeSortOnStart( FiscalYearType $a, FiscalYearType $b ) : int
+    public static function fiscalYearTypeSortOnStart(
+        FiscalYearType $a,
+        FiscalYearType $b
+    ) : int
     {
         $aStart = $a->getStart();
         $bStart = $b->getStart();
@@ -192,7 +201,10 @@ class SortFactory
      * @param JournalTypeEntry $b
      * @return int
      */
-    public static function journalTypeEntrySortOnId( JournalTypeEntry $a, JournalTypeEntry $b ) : int
+    public static function journalTypeEntrySortOnId(
+        JournalTypeEntry $a,
+        JournalTypeEntry $b
+    ) : int
     {
         $aId = $a->getId();
         $bId = $b->getId();

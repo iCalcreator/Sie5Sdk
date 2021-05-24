@@ -12,3 +12,9 @@
 1.0.4
  upd class instance validation
  upd objects array property add-/set-methods
+
+1.0.5
+  sort moved from add- to get-methods
+    Sie/SieEntry : journal sort
+    JournalType/JournalTypeEntry : journalType sort
+  new Dto render class

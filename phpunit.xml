@@ -135,6 +135,7 @@
             <file>./src/Dto/TagType.php</file>
             <file>./src/Dto/VoucherReferenceType.php</file>
             <file>./src/Impl/CommonFactory.php</file>
+            <file>./src/Impl/RenderFactory.php</file>
             <file>./src/Impl/SortFactory.php</file>
             <file>./src/XMLParse/AccountAggregationsTypeParser.php</file>
             <file>./src/XMLParse/AccountAggregationTypeParser.php</file>

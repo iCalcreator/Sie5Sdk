@@ -32,6 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 use InvalidArgumentException;
 use Kigkonsult\LoggerDepot\LoggerDepot;
+use Kigkonsult\Sie5Sdk\Impl\RenderFactory;
 use Kigkonsult\Sie5Sdk\Sie5Interface;
 use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface;
 use Psr\Log\LogLevel;
@@ -39,15 +40,9 @@ use XMLReader;
 
 use function get_called_class;
 use function get_class;
-use function get_object_vars;
 use function is_array;
-use function is_null;
-use function is_object;
-use function is_scalar;
-use function method_exists;
 use function str_replace;
 use function sprintf;
-use function var_export;
 
 abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
 {
@@ -134,7 +129,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      */
     protected static function traversPrefixDown( Sie5DtoBase $sie5DtoBase, string $value )
     {
-        foreach( get_object_vars( $sie5DtoBase ) as $propertyValue ) {
+        foreach( RenderFactory::getInstancePropValues( $sie5DtoBase ) as $propertyValue ) {
             if( $propertyValue instanceof Sie5DtoBase ) {
                 $propertyValue->setXMLattribute( self::PREFIX,  $value );
             }
@@ -186,100 +181,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      */
     public function toString() : string
     {
-        return Sie5DtoBase::dispObject( $this );
-    }
-
-    /**
-     * Return string
-     *
-     * @param Sie5DtoBase $instance
-     * @return string
-     */
-    protected static function dispObject( Sie5DtoBase $instance ) : string
-    {
-        static $START   = 'start %s -----v%s';
-        static $XATTRS  = 'XMLattributes : ';
-        static $SP0     = '';
-        static $SP1     = ' ';
-        static $XATTRST = 'XMLattributes';
-        static $SP1C    = ' : ';
-        static $TS      = 'toString';
-        static $Q2      = '??';
-        static $END     = 'end %s -----^%s';
-        $class   = get_class( $instance );
-        $string  = sprintf( $START, $class, PHP_EOL );
-        $string .= $XATTRS .
-            str_replace( [ PHP_EOL, $SP1 ], $SP0, var_export( $instance->getXMLattributes(), true )) .
-            PHP_EOL;
-        foreach( get_object_vars( $instance ) as $property => $value ) {
-            if( $XATTRST == $property ) {
-                continue;
-            }
-            switch( true ) {
-                case ( is_null( $value )) :
-                    $string .= $property . $SP1C . PHP_EOL;
-                    break;
-                case ( is_scalar( $value )) :
-                    $string .= $property . $SP1C . ( empty( $value ) ? $SP0 : $value ) . PHP_EOL;
-                    break;
-                case ( is_array( $value )) :
-                    $string .= Sie5DtoBase::dispArray( $property, $value );
-                    break;
-                case ( is_object( $value )) :
-                    $string .= $property . $SP1C;
-                    $string .= ( method_exists( $value, $TS ))
-                        ? PHP_EOL . $value->toString()
-                        : $Q2 . PHP_EOL;
-                    break;
-                default :
-                    $string .= $property . $SP1C . PHP_EOL . var_export( $value, true ) . PHP_EOL;
-            } // end switch
-        } // end foreach
-        $string .= sprintf( $END, $class, PHP_EOL );
-        return $string;
-    }
-
-    /**
-     * Return string
-     *
-     * @param string $property
-     * @param array $value
-     * @return string
-     */
-    protected static function dispArray( string $property, array $value ) : string
-    {
-        static $SP0  = '';
-        static $IB1  = '[';
-        static $IB2  = '] : ';
-        static $IBB  = '][';
-        static $SP1C = ' : ';
-        static $TS   = 'toString';
-        static $Q2   = '??';
-        $string = $SP0;
-        foreach( $value as $key2 => $value2 ) {
-            switch( true ) {
-                case ( is_scalar( $value2 )) :
-                    $string .= $property . $IB1 . $key2 . $IB2 .
-                        ( empty( $value2 ) ? $SP0 : $value2 ) . PHP_EOL;
-                    break;
-                case ( is_array( $value2 )) :
-                    foreach( $value2 as $key3 => $value3 ) {
-                        $string .= $property . $IB1 . $key2 . $IBB . $key3 .  $IB2 .
-                            ( empty( $value3 ) ? $SP0 : $value3 ) . PHP_EOL;
-                    }
-                    break;
-                case ( is_object( $value2 )) :
-                    $string .= $property . $SP1C;
-                    $string .= ( method_exists( $value2, $TS ))
-                        ? PHP_EOL . $value2->toString()
-                        : $Q2 . PHP_EOL;
-                    break;
-                default :
-                    $string .= $property . $IB1 . $key2 . $IB2 . var_export( $value2, true ) . PHP_EOL;
-                    break;
-            } // end switch
-        } // end foreach
-        return $string;
+        return RenderFactory::dispObject( $this );
     }
 
     /**

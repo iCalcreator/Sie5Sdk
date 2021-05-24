@@ -596,7 +596,6 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     public function addJournal( JournalType $journal ) : self
     {
         $this->journal[] = $journal;
-        $this->sortJournal();
         return $this;
     }
 
@@ -605,6 +604,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function getJournal() : array
     {
+        $this->sortJournal();
         return $this->journal;
     }
 

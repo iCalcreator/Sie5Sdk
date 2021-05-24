@@ -100,9 +100,6 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
     public function __construct( $reader = null )
     {
         $this->logger = LoggerDepot::getLogger( __CLASS__ );
-        if( empty( $this->logger )) {
-            $this->logger = new NullLogger();
-        }
         if( ! empty( $reader )) {
             $this->reader = $reader;
         }
