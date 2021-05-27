@@ -287,7 +287,7 @@ class TestSieEntry3 extends BaseTest
         $xml1       = Sie5Writer::factory()->write( $sieEntry );
         $sieEntry2  = Sie5Parser::factory()->parse( $xml1 );
 
-        echo $sieEntry2->toString(); // test ###
+        // echo $sieEntry2->toString(); // test ###
 
         $xml2       = Sie5Writer::factory()->write( $sieEntry2 );
 

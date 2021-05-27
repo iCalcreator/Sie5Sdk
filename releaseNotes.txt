@@ -18,3 +18,6 @@
     Sie/SieEntry : journal sort
     JournalType/JournalTypeEntry : journalType sort
   new Dto render class
+
+1.0.6
+  composer.json upd
