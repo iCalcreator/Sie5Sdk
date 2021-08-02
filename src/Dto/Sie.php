@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -185,7 +184,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
         if( ! empty( $this->supplierInvoices )) {
             foreach( array_keys( $this->supplierInvoices ) as $ix ) {
                 $inside[$ix] = [];
-                if( $this->supplierInvoices[$ix]->isValid( $inside )) {
+                if( $this->supplierInvoices[$ix]->isValid( $inside[$ix] )) {
                     unset( $inside[$ix] );
                 }
             } // end foreach
@@ -198,7 +197,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
         if( ! empty( $this->fixedAssets )) {
             foreach( array_keys( $this->fixedAssets ) as $ix ) {
                 $inside[$ix] = [];
-                if( $this->fixedAssets[$ix]->isValid( $inside )) {
+                if( $this->fixedAssets[$ix]->isValid( $inside[$ix] )) {
                     unset( $inside[$ix] );
                 }
             } // end foreach
@@ -211,7 +210,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
         if( ! empty( $this->generalSubdividedAccount )) {
             foreach( array_keys( $this->generalSubdividedAccount ) as $ix ) {
                 $inside[$ix] = [];
-                if( $this->generalSubdividedAccount[$ix]->isValid( $inside )) {
+                if( $this->generalSubdividedAccount[$ix]->isValid( $inside[$ix] )) {
                     unset( $inside[$ix] );
                 }
             } // end foreach
@@ -224,12 +223,12 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
         if( ! empty( $this->customers ) &&
             ! $this->customers->isValid( $inside )) {
             $local[] = $inside;
-            $inside = [];
+            $inside  = [];
         }
         if( ! empty( $this->suppliers ) &&
             ! $this->suppliers->isValid( $inside )) {
             $local[] = $inside;
-            $inside = [];
+            $inside  = [];
         }
         if( ! empty( $this->accountAggregations ) &&
             ! $this->accountAggregations->isValid( $inside )) {
@@ -239,7 +238,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
         if( ! empty( $this->journal )) {
             foreach( array_keys( $this->journal ) as $ix ) {
                 $inside[$ix] = [];
-                if( $this->journal[$ix]->isValid( $inside )) {
+                if( $this->journal[$ix]->isValid( $inside[$ix] )) {
                     unset( $inside[$ix] );
                 }
             } // end foreach

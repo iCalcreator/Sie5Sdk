@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -84,7 +83,6 @@ class AccountType extends Sie5DtoExtAttrBase
 
     /**
      * @var string[]
-     * @static
      */
     public static $typeEnumeration = [ self::ASSET, self::LIABILITY, self::EQUITY, self::COST, self::INCOME ];
 
@@ -134,13 +132,13 @@ class AccountType extends Sie5DtoExtAttrBase
             $key         = self::getClassPropStr( self::class, self::ACCOUNT );
             $local[$key] = $inside;
         } // end if
-        if( empty( $this->id )) {
+        if( null === $this->id ) {
             $local[] = self::errMissing(self::class, self::ID );
         }
-        if( empty( $this->name )) {
+        if( null === $this->name ) {
             $local[] = self::errMissing(self::class, self::NAME );
         }
-        if( empty( $this->type )) {
+        if( null ===$this->type ) {
             $local[] = self::errMissing(self::class, self::TYPE );
         }
         if( ! empty( $local )) {

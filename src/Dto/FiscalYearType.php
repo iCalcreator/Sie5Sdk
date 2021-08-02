@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -134,10 +133,10 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     public function isValid( array & $outSide = null ) : bool
     {
         $local = [];
-        if( empty( $this->start )) {
+        if( null === $this->start ) {
             $local[] = self::errMissing(self::class, self::START );
         }
-        if( empty( $this->end )) {
+        if( null === $this->end ) {
             $local[] = self::errMissing(self::class, self::END );
         }
         if( ! empty( $local )) {

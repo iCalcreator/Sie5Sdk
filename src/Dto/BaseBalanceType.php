@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -134,10 +133,10 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
             $key         = self::getClassPropStr( self::class, self::BASEBALANCE );
             $local[$key] = $inside;
         } // end if
-        if( empty( $this->month )) {
+        if( null === $this->month ) {
             $local[] = self::errMissing(self::class, self::MONTH );
         }
-        if( null ===  $this->amount ) {
+        if( null === $this->amount ) {
             $local[] = self::errMissing(self::class, self::AMOUNT );
         }
         if( ! empty( $local )) {
@@ -174,7 +173,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
                 break;
             default :
                 throw new InvalidArgumentException(
-                    sprintf( self::$FMTERR5, self::BASEBALANCEMULTIDIM, $key, get_class( $baseBalanceType ))
+                    sprintf( self::$FMTERR5, self::BASEBALANCE, $key, get_class( $baseBalanceType ))
                 );
         } // end switch
         $this->baseBalanceTypes[$this->elementSetIndex][] = [ $key => $baseBalanceType ];

@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -34,7 +33,6 @@ use Kigkonsult\LoggerDepot\LoggerDepot;
 use Kigkonsult\Sie5Sdk\Sie5Interface;
 use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface;
 use Psr\Log\LogLevel;
-use Psr\Log\NullLogger;
 use XMLReader;
 
 use function get_called_class;
@@ -43,7 +41,6 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
 {
     /**
      * @var string
-     * @static
      */
     protected static $FMTERRDATE = 'Error parsing %s';
     /**
@@ -53,7 +50,6 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
 
     /**
      * @var string
-     * @static
      */
     protected static $FMTstartNode    = '%s Start (%s) %s';
     protected static $FMTattrFound    = '%s attribute %s = %s';
@@ -63,7 +59,6 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
 
     /**
      * @var array $nodeTypes
-     * @static
      */
     protected static $nodeTypes = [
         0  => 'NONE',
@@ -110,7 +105,6 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
      *
      * @param XMLReader $reader
      * @return static
-     * @static
      */
     public static function factory( $reader = null  ) : self
     {

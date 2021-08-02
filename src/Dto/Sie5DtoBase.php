@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -30,12 +29,14 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
+use Exception;
 use InvalidArgumentException;
 use Kigkonsult\LoggerDepot\LoggerDepot;
 use Kigkonsult\Sie5Sdk\Impl\RenderFactory;
 use Kigkonsult\Sie5Sdk\Sie5Interface;
 use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface;
 use Psr\Log\LogLevel;
+use RuntimeException;
 use XMLReader;
 
 use function get_called_class;
@@ -125,11 +126,17 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @param Sie5DtoBase $sie5DtoBase (if Sie5DtoBase ), if array, travers down
      * @param string $value
-     * @static
+     * @throws RuntimeException
      */
     protected static function traversPrefixDown( Sie5DtoBase $sie5DtoBase, string $value )
     {
-        foreach( RenderFactory::getInstancePropValues( $sie5DtoBase ) as $propertyValue ) {
+        try {
+            $propArr = RenderFactory::getInstancePropValues( $sie5DtoBase );
+        }
+        catch( Exception $e ) {
+            throw new RuntimeException( $e->getMessage(), null, $e );
+        }
+        foreach( $propArr as $propertyValue ) {
             if( $propertyValue instanceof Sie5DtoBase ) {
                 $propertyValue->setXMLattribute( self::PREFIX,  $value );
             }
@@ -144,7 +151,6 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @param array $arrayValue
      * @param string $value
-     * @static
      */
     protected static function traversPrefixDownArray( array $arrayValue, string $value )
     {
@@ -178,10 +184,16 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * Return string
      *
      * @return string
+     * @throws RuntimeException
      */
     public function toString() : string
     {
-        return RenderFactory::dispObject( $this );
+        try {
+            return RenderFactory::dispObject( $this );
+        }
+        catch( Exception $e ) {
+            throw new RuntimeException( $e->getMessage(), null, $e );
+        }
     }
 
     /**

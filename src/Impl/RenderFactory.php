@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -31,7 +30,9 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Impl;
 
 use DateTime;
+use Exception;
 use Kigkonsult\Sie5Sdk\Dto\Sie5DtoBase;
+use RuntimeException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -79,6 +80,7 @@ class RenderFactory
      *
      * @param Sie5DtoBase $instance
      * @return string
+     * @throws RuntimeException
      */
     public static function dispObject( Sie5DtoBase $instance ) : string {
         static $START   = 'start %s -----v%s';
@@ -93,7 +95,13 @@ class RenderFactory
                 $SP0,
                 var_export( $instance->getXMLattributes(), true )
             ) . PHP_EOL;
-        foreach( self::getInstancePropValues( $instance ) as $propName => $propValue ) {
+        try {
+            $propArr = self::getInstancePropValues( $instance );
+        }
+        catch( Exception $e ) {
+            throw new RuntimeException( $e->getMessage(), null, $e );
+        }
+        foreach( $propArr as $propName => $propValue ) {
             if( $XATTRST == $propName ) {
                 continue;
             }

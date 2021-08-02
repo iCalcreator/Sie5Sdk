@@ -8,11 +8,10 @@
  * @author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  * @copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  * @link      https://kigkonsult.se
- * @version   1.0
  * @license   Subject matter of licence is the software Sie5Sdk.
- *            The above copyright, link, package and version notices,
- *            this licence notice shall be included in all copies or substantial
- *            portions of the Sie5Sdk.
+ *            The above copyright, link and package notices, this licence
+ *            notice shall be included in all copies or substantial portions
+ *            of the Sie5Sdk.
  *
  *            Sie5Sdk is free software: you can redistribute it and/or modify
  *            it under the terms of the GNU Lesser General Public License as
@@ -93,7 +92,6 @@ class Sie5Parser extends Sie5ParserBase
      * @param string $fileName
      * @return string
      * @throws InvalidArgumentException
-     * @static
      */
     private static function getContentFromFile( string $fileName ) : string
     {
@@ -191,7 +189,6 @@ class Sie5Parser extends Sie5ParserBase
      * @param LoggerInterface $logger
      * @param array           $libXarr
      * @return bool           true on critical
-     * @static
      */
     private static function logLibXmlErrors( LoggerInterface $logger, array $libXarr ) : bool
     {
