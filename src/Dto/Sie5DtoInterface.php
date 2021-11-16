@@ -32,8 +32,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 interface Sie5DtoInterface
 {
     /**
-     * @param array $outSide
+     * @param array|null $outSide
      * return bool
+     * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool;
+    public function isValid( ? array & $outSide = [] ) : bool;
 }

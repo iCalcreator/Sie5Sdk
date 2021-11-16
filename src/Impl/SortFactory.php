@@ -40,7 +40,7 @@ class SortFactory
     /**
      * @var string
      */
-    static $YMDHIS = 'YmdHis';
+    public static string $YMDHIS = 'YmdHis';
 
     /**
      * @var callable

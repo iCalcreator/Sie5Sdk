@@ -41,23 +41,23 @@ class AccountTypeEntryWriter extends Sie5WriterBase implements Sie5WriterInterfa
      * @param AccountTypeEntry $accountTypeEntry
      *
      */
-    public function write( AccountTypeEntry $accountTypeEntry )
+    public function write( AccountTypeEntry $accountTypeEntry ) : void
     {
         $XMLattributes = $accountTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ACCOUNT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ACCOUNT, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $accountTypeEntry->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $accountTypeEntry->getName());
-        parent::writeAttribute( $this->writer, self::TYPE, $accountTypeEntry->getType());
+        self::writeAttribute( $this->writer, self::ID, $accountTypeEntry->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $accountTypeEntry->getName() );
+        self::writeAttribute( $this->writer, self::TYPE, $accountTypeEntry->getType() );
         $unit = $accountTypeEntry->getUnit();
         if( ! empty( $unit )) {
-            parent::writeAttribute( $this->writer, self::UNIT, $unit );
+            self::writeAttribute( $this->writer, self::UNIT, $unit );
         }
         foreach( $accountTypeEntry->getExtensionAttributes() as $key => $value ) { // will not work here ...
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $budgets = $accountTypeEntry->getBudget();

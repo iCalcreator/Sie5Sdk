@@ -40,16 +40,14 @@ class VoucherReferenceTypeWriter extends Sie5WriterBase implements Sie5WriterInt
      * @param VoucherReferenceType $voucherReferenceType
      *
      */
-    public function write( VoucherReferenceType $voucherReferenceType )
+    public function write( VoucherReferenceType $voucherReferenceType ) : void
     {
         $XMLattributes = $voucherReferenceType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::VOUCHERREFERENCE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::VOUCHERREFERENCE, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer,
             self::DOCUMENTID,
-            (string) $voucherReferenceType->getDocumentId()
-        );
+            (string)$voucherReferenceType->getDocumentId() );
 
         $this->writer->endElement();
     }

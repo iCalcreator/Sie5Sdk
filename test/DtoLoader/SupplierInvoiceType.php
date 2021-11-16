@@ -38,14 +38,15 @@ class SupplierInvoiceType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $id = null ) {
+    public static function loadFromFaker( $id = null ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         if( empty( $id )) {
             $id = $faker->numberBetween( 7000000000, 7999999999 );
         }
         $dto = Dto::factoryIdDateAmount(
-            $id,
+            (string) $id,
             $faker->dateTimeThisMonth(),
             ( $faker->numberBetween( -999999, 999999 ) / 100 )
         )
@@ -53,7 +54,7 @@ class SupplierInvoiceType
                   ->setInvoiceNumber((string) $faker->numberBetween( 7000000000, 7999999999 ))
                   ->setOcrNumber((string) $faker->numberBetween( 7000000000, 7999999999 ))
                   ->setDueDate( $faker->dateTimeThisYear( '+1 month' ));
-       $dto->setSupplierId( $id );
+       $dto->setSupplierId((string) $id );
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {

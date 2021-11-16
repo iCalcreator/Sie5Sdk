@@ -46,72 +46,72 @@ use function usort;
 class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var FileInfoTypeEntry
+     * @var FileInfoTypeEntry|null
      *
      * Attribute maxOccurs="1" minOccurs="1"
      * General information about the file
      */
-    private $fileInfo = null;
+    private ?FileInfoTypeEntry $fileInfo = null;
 
     /**
-     * @var AccountsTypeEntry
+     * @var AccountsTypeEntry|null
      *
      * Attribute minOccurs="0"
      * Chart of accounts
      */
-    private $accounts = null;
+    private ?AccountsTypeEntry $accounts = null;
 
     /**
-     * @var DimensionsTypeEntry
+     * @var DimensionsTypeEntry|null
      *
      * Attribute minOccurs="0"
      * Container for dimensions
      */
-    private $dimensions = null;
+    private ?DimensionsTypeEntry $dimensions = null;
 
     /**
      * @var CustomerInvoicesTypeEntry[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $customerInvoices = [];
+    private array $customerInvoices = [];
 
     /**
      * @var SupplierInvoicesTypeEntry[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $supplierInvoices = [];
+    private array $supplierInvoices = [];
 
     /**
      * @var FixedAssetsTypeEntry[]
      *
      *   Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $fixedAssets = [];
+    private array $fixedAssets = [];
 
     /**
      * @var GeneralSubdividedAccountTypeEntry[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $generalSubdividedAccount = [];
+    private array $generalSubdividedAccount = [];
 
     /**
-     * @var CustomersType
+     * @var CustomersType|null
      *
      * Attribute minOccurs="0"
      * Container for customers
      */
-    private $customers = null;
+    private ?CustomersType $customers = null;
 
     /**
-     * @var SuppliersType
+     * @var SuppliersType|null
      *
      * Attribute minOccurs="0"
      * Container for suppliers
      */
-    private $suppliers = null;
+    private ?SuppliersType $suppliers = null;
 
     /**
      * @var JournalTypeEntry[]
@@ -119,30 +119,30 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute minOccurs="0"  maxOccurs="unbounded"
      * Container for individual journal
      */
-    private $journal = [];
+    private array $journal = [];
 
     /**
-     * @var DocumentsType
+     * @var DocumentsType|null
      *
      * Attribute minOccurs="0"
      * Container for documents
      */
-    private $documents = null;
+    private ?DocumentsType $documents = null;
 
     /**
-     * @var SignatureType
+     * @var SignatureType|null
      *
      * Attribute minOccurs="0"
      */
-    private $signature = null;
+    private ?SignatureType $signature = null;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = $inside = [];
         if( empty( $this->fileInfo )) {
@@ -251,7 +251,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|FileInfoTypeEntry
      */
-    public function getFileInfo()
+    public function getFileInfo() : ?FileInfoTypeEntry
     {
         return $this->fileInfo;
     }
@@ -269,7 +269,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|AccountsTypeEntry
      */
-    public function getAccounts()
+    public function getAccounts() : ?AccountsTypeEntry
     {
         return $this->accounts;
     }
@@ -309,7 +309,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DimensionsTypeEntry
      */
-    public function getDimensions()
+    public function getDimensions() : ?DimensionsTypeEntry
     {
         return $this->dimensions;
     }
@@ -332,8 +332,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function isDimensionsIdUnique( int $id )
     {
-        $hitIx = $this->dimensions->isDimensionsIdUnique( $id );
-        return ( true !== $hitIx ) ? $hitIx : true;
+        return $this->dimensions->isDimensionsIdUnique( $id );
     }
 
     /**
@@ -521,7 +520,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return CustomersType
      */
-    public function getCustomers()
+    public function getCustomers() : ?CustomersType
     {
         return $this->customers;
     }
@@ -539,7 +538,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|SuppliersType
      */
-    public function getSuppliers()
+    public function getSuppliers() : ?SuppliersType
     {
         return $this->suppliers;
     }
@@ -584,7 +583,9 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     {
         $accountIds = [];
         foreach( array_keys( $this->journal ) as $ix1 ) {
-            $accountIds = array_merge( $accountIds, $this->journal[$ix1]->getAllJournalEntryLedgerEntryAccountIds());
+            foreach($this->journal[$ix1]->getAllJournalEntryLedgerEntryAccountIds() as $accountId ) {
+                $accountIds[] = $accountId;
+            }
         } // end foreach
         sort( $accountIds );
         return array_unique( $accountIds );
@@ -610,7 +611,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param array $errorIx
      * @return bool  bool true on success, on error $errorIx holds error Journal LedgerEntry indexes
      */
-    public function hasBalancedJournalLedgerEntries( & $errorIx = [] ) : bool
+    public function hasBalancedJournalLedgerEntries( array & $errorIx = [] ) : bool
     {
         foreach( array_keys( $this->journal ) as $ix1 ) {
             $errorIx2 = [];
@@ -654,7 +655,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DocumentsType
      */
-    public function getDocuments()
+    public function getDocuments() : ?DocumentsType
     {
         return $this->documents;
     }
@@ -693,7 +694,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|SignatureType
      */
-    public function getSignature()
+    public function getSignature() : ?SignatureType
     {
         return $this->signature;
     }

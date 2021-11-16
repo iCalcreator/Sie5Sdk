@@ -41,10 +41,10 @@ class DimensionsTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param DimensionsType $dimensionsType
      *
      */
-    public function write( DimensionsType $dimensionsType )
+    public function write( DimensionsType $dimensionsType ) : void
     {
         $XMLattributes = $dimensionsType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::DIMENSIONS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::DIMENSIONS, $XMLattributes );
 
         $dimensions = $dimensionsType->getDimension();
         if( is_array( $dimensions ) && ! empty( $dimensions )) {

@@ -32,7 +32,7 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class AccountingCurrencyType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="currency" use="required" type="sie:Currency"
      * ISO 4217 code of the default accounting currency used by the company.
@@ -41,7 +41,7 @@ class AccountingCurrencyType extends Sie5DtoBase implements Sie5DtoInterface
      *
      * pattern value="[A-Z][A-Z][A-Z]"
      */
-    private $currency = null;
+    private ?string $currency = null;
 
     /**
      * Factory method, set currency
@@ -57,10 +57,10 @@ class AccountingCurrencyType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->currency ) {
@@ -76,7 +76,7 @@ class AccountingCurrencyType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getCurrency()
+    public function getCurrency() : ?string
     {
         return $this->currency;
     }

@@ -41,52 +41,42 @@ class FiscalYearTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param FiscalYearType $fiscalYearType
      *
      */
-    public function write( FiscalYearType $fiscalYearType )
+    public function write( FiscalYearType $fiscalYearType ) : void
     {
         $XMLattributes = $fiscalYearType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FISCALYEAR, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FISCALYEAR, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::START,   $fiscalYearType->getStart());
-        parent::writeAttribute( $this->writer, self::END,     $fiscalYearType->getEnd());
+        self::writeAttribute( $this->writer, self::START, $fiscalYearType->getStart() );
+        self::writeAttribute( $this->writer, self::END, $fiscalYearType->getEnd() );
         $bool = $fiscalYearType->getPrimary();
         if( is_bool( $bool )) {
-            parent::writeAttribute(
-                $this->writer,
+            self::writeAttribute( $this->writer,
                 self::PRIMARY,
-                ( $bool ? self::TRUE : self::FALSE )
-            );
+                ( $bool ? self::TRUE : self::FALSE ) );
         }
         $bool = $fiscalYearType->getClosed();
         if( is_bool( $bool )) {
-            parent::writeAttribute(
-                $this->writer,
+            self::writeAttribute( $this->writer,
                 self::CLOSED,
-                ( $bool ? self::TRUE : self::FALSE )
-            );
+                ( $bool ? self::TRUE : self::FALSE ) );
         }
         $bool = $fiscalYearType->getHasLedgerEntries();
         if( is_bool( $bool )) {
-            parent::writeAttribute(
-                $this->writer,
+            self::writeAttribute( $this->writer,
                 self::HASLEDGERENTRIES,
-                ( $bool ? self::TRUE : self::FALSE )
-            );
+                ( $bool ? self::TRUE : self::FALSE ) );
         }
         $bool = $fiscalYearType->getHasSubordinateAccounts();
         if( is_bool( $bool )) {
-            parent::writeAttribute(
-                $this->writer,
+            self::writeAttribute( $this->writer,
                 self::HASSUBORDINATEACCOUNTS,
-                ( $bool ? self::TRUE : self::FALSE )
-            );
+                ( $bool ? self::TRUE : self::FALSE ) );
         }
         $bool = $fiscalYearType->getHasAttachedVoucherFiles();
         if( is_bool( $bool )) {
-            parent::writeAttribute(
-                $this->writer,
+            self::writeAttribute( $this->writer,
                 self::HASATTACHEDVOUCHERFILES,
-                ( $bool ? self::TRUE : self::FALSE)
-            );
+                ( $bool ? self::TRUE : self::FALSE ) );
         }
         $lastCoveredDate = $fiscalYearType->getLastCoveredDate();
         if( ! empty( $lastCoveredDate )) {

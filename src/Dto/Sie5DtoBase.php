@@ -30,7 +30,6 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use Exception;
-use InvalidArgumentException;
 use Kigkonsult\LoggerDepot\LoggerDepot;
 use Kigkonsult\Sie5Sdk\Impl\RenderFactory;
 use Kigkonsult\Sie5Sdk\Sie5Interface;
@@ -39,7 +38,6 @@ use Psr\Log\LogLevel;
 use RuntimeException;
 use XMLReader;
 
-use function get_called_class;
 use function get_class;
 use function is_array;
 use function str_replace;
@@ -50,23 +48,21 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
     /**
      * @var string
      */
-    protected static $FMTERR1   = 'Unknown %s type #%s \'%s\'';
-    protected static $FMTERR3   = '%s type \'%s\' requires 2+';
-    protected static $FMTERR4   = '%s type #%s \'%s\' requires 2+';
-    protected static $FMTERR11  = '%s::%s (%s) is not unique';
-    protected static $FMTERR12  = '%s::%s (%s-%s) is not unique';
-    protected static $FMTERR5   = '%s Imparity error key \'%s\' and type \'%s\'';
-    protected static $OBJECT    = 'object';
+    protected static string $FMTERR3   = '%s type \'%s\' requires 2+';
+    protected static string $FMTERR11  = '%s::%s (%s) is not unique';
+    protected static string $FMTERR12  = '%s::%s (%s-%s) is not unique';
+    protected static string $FMTERR5   = '%s Imparity error key \'%s\' and type \'%s\'';
+    protected static string $OBJECT    = 'object';
 
     /**
      * @var mixed
      */
-    protected $logger = null;
+    protected $logger;
 
     /**
      * @var array
      */
-    protected $XMLattributes = [];
+    protected array $XMLattributes = [];
 
     /**
      * Class constructor
@@ -90,7 +86,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      */
     public static function factory() : self
     {
-        $class = get_called_class();
+        $class = static::class;
         return new $class();
     }
 
@@ -110,12 +106,11 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * @param string $name
      * @param string $value
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setXMLattribute( string $name, string $value ) : self
     {
         $this->XMLattributes[$name] = $value;
-        if( self::PREFIX == $name ) {
+        if( self::PREFIX === $name ) {
             self::traversPrefixDown( $this, $value );
         }
         return $this;
@@ -126,15 +121,14 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @param Sie5DtoBase $sie5DtoBase (if Sie5DtoBase ), if array, travers down
      * @param string $value
-     * @throws RuntimeException
      */
-    protected static function traversPrefixDown( Sie5DtoBase $sie5DtoBase, string $value )
+    protected static function traversPrefixDown( Sie5DtoBase $sie5DtoBase, string $value ) : void
     {
         try {
             $propArr = RenderFactory::getInstancePropValues( $sie5DtoBase );
         }
         catch( Exception $e ) {
-            throw new RuntimeException( $e->getMessage(), null, $e );
+            throw new RuntimeException( $e->getMessage(), 1004, $e );
         }
         foreach( $propArr as $propertyValue ) {
             if( $propertyValue instanceof Sie5DtoBase ) {
@@ -152,7 +146,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      * @param array $arrayValue
      * @param string $value
      */
-    protected static function traversPrefixDownArray( array $arrayValue, string $value )
+    protected static function traversPrefixDownArray( array $arrayValue, string $value ) : void
     {
         foreach( $arrayValue as $array2Value ) {
             if( $array2Value instanceof Sie5DtoBase ) {
@@ -192,15 +186,15 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
             return RenderFactory::dispObject( $this );
         }
         catch( Exception $e ) {
-            throw new RuntimeException( $e->getMessage(), null, $e );
+            throw new RuntimeException( $e->getMessage(), 1009, $e );
         }
     }
 
     /**
      * Return rendered error message
      *
-     * @param string    $classFqcn fqcn
-     * @param string    $propName
+     * @param string $classFqcn fqcn
+     * @param string $propName
      * @return string
      */
     protected static function errMissing( string $classFqcn, string $propName ) : string

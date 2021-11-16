@@ -40,20 +40,18 @@ class OriginalAmountTypeWriter extends Sie5WriterBase implements Sie5WriterInter
      * @param OriginalAmountType $originalAmountType
      *
      */
-    public function write( OriginalAmountType $originalAmountType )
+    public function write( OriginalAmountType $originalAmountType ) : void
     {
         $XMLattributes = $originalAmountType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ORIGINALAMOUNT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ORIGINALAMOUNT, $XMLattributes );
 
         $date = $originalAmountType->getDate();
         if( ! empty( $date )) {
             self::writeAttribute( $this->writer, self::DATE, $date->format( self::FMTDATE ));
         }
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer,
             self::AMOUNT,
-            CommonFactory::formatAmount( $originalAmountType->getAmount())
-        );
+            CommonFactory::formatAmount( $originalAmountType->getAmount() ) );
 
         $foreignCurrencyAmount = $originalAmountType->getForeignCurrencyAmount();
         if( ! empty( $foreignCurrencyAmount )) {

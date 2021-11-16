@@ -41,10 +41,10 @@ class DocumentsTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param DocumentsType $documentsType
      *
      */
-    public function write( DocumentsType $documentsType )
+    public function write( DocumentsType $documentsType ) : void
     {
         $XMLattributes = $documentsType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::DOCUMENTS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::DOCUMENTS, $XMLattributes );
 
         $documentsTypes = $documentsType->getDocumentsTypes();
         if( is_array( $documentsTypes ) && ! empty( $documentsTypes )) {

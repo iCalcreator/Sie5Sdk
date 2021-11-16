@@ -39,34 +39,33 @@ class CustomerInvoiceTypeEntryWriter extends Sie5WriterBase implements Sie5Write
      * @param CustomerInvoiceTypeEntry $customerInvoiceTypeEntry
      *
      */
-    public function write( CustomerInvoiceTypeEntry $customerInvoiceTypeEntry )
+    public function write( CustomerInvoiceTypeEntry $customerInvoiceTypeEntry ) : void
     {
         $XMLattributes = $customerInvoiceTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CUSTOMERINVOICE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CUSTOMERINVOICE, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $customerInvoiceTypeEntry->getId());
+        self::writeAttribute( $this->writer, self::ID, $customerInvoiceTypeEntry->getId() );
         $var = $customerInvoiceTypeEntry->getName();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::NAME, $var );
+            self::writeAttribute( $this->writer, self::NAME, $var );
         }
-        parent::writeAttribute( $this->writer, self::CUSTOMERID, $customerInvoiceTypeEntry->getCustomerId());
-        parent::writeAttribute( $this->writer, self::INVOICENUMBER, $customerInvoiceTypeEntry->getInvoiceNumber());
+        self::writeAttribute( $this->writer, self::CUSTOMERID, $customerInvoiceTypeEntry->getCustomerId() );
+        self::writeAttribute( $this->writer, self::INVOICENUMBER, $customerInvoiceTypeEntry->getInvoiceNumber() );
         $var = $customerInvoiceTypeEntry->getOcrNumber();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::OCRNUMBER, $var );
+            self::writeAttribute( $this->writer, self::OCRNUMBER, $var );
         }
         $dueDate = $customerInvoiceTypeEntry->getDueDate();
         if( ! empty( $dueDate )) {
             self::writeAttribute( $this->writer, self::DUEDATE, $dueDate->format( self::FMTDATE ));
         }
         foreach( $customerInvoiceTypeEntry->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $this->writer->endElement();
     }
 }
-

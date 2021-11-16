@@ -34,25 +34,25 @@ use DateTime;
 class OriginalEntryInfoType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="date" type="xsd:date" use="required"
      */
-    private $date = null;
+    private ?DateTime $date;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="by" type="xsd:string" use="required"
      * Name of the person, routine or system who/which enterded the record.
      */
-    private $by = null;
+    private ?string $by = null;
 
     /**
      * Factory method, set by/date (both required)
      *
-     * @param string    $by
-     * @param DateTime  $date
+     * @param string $by
+     * @param DateTime $date
      * @return static
      */
     public static function factoryByDate( string $by, DateTime $date ) : self
@@ -75,10 +75,10 @@ class OriginalEntryInfoType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( empty( $this->date )) {

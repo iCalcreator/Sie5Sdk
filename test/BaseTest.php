@@ -37,34 +37,53 @@ use Psr\Log\NullLogger;
 abstract class BaseTest extends TestCase
 {
 
-    protected static $CMPERR1 = 'Failed asserting that two Sie (%s) documents are equal.';
-    protected static $FMTTIME = '%s %s : %01.6f%s';
+    /**
+     * @var string
+     */
+    protected static string $CMPERR1 = 'Failed asserting that two Sie (%s) documents are equal.';
 
-    public static $SieXMLAttributes = [
+    /**
+     * @var string
+     */
+    protected static string $FMTTIME = '%s %s : %01.6f%s';
+
+    /**
+     * @var string[]
+     */
+    public static array $SieXMLAttributes = [
         'xmlns:xsi'          => "http://www.w3.org/2001/XMLSchema-instance",
         'xmlns:xsd'          => "http://www.w3.org/2001/XMLSchema",
-        'xsi:schemaLocation' => "http://www.sie.se/sie5 http://www.sie.se/sie5.xsd",
-        'xmlns'              => "http://www.sie.se/sie5"
+        'xmlns'              => "http://www.sie.se/sie5",
+        'xsi:schemaLocation' => "http://www.sie.se/sie5 http://www.sie.se/sie5.xsd"
     ];
 
-    public static $DsigXMLAttributes = [
+    /**
+     * @var string[]
+     */
+    public static array $DsigXMLAttributes = [
         'xmlns' => "http://www.w3.org/2000/09/xmldsig#"
     ];
 
-    public static function getCm( $name ) {
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function getCm( string $name ) : string
+    {
         return substr( $name, ( strrpos($name,  '\\' ) + 1 ));
     }
 
-    public static function getBasePath() {
+    public static function getBasePath() : string
+    {
         $dir0 = $dir = __DIR__;
         $level = 6;
         while( ! is_dir( $dir . DIRECTORY_SEPARATOR . 'test' )) {
             $dir = realpath( __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR );
-            if( false == $dir ) {
+            if( false === $dir ) {
                 $dir = $dir0;
                 break;
             }
-            $level -= 1;
+            --$level;
             if( empty( $level )) {
                 $dir = $dir0;
                 break;
@@ -73,10 +92,11 @@ abstract class BaseTest extends TestCase
         return $dir . DIRECTORY_SEPARATOR;
     }
 
-    public static function setUpBeforeClass() {
+    public static function setUpBeforeClass() : void
+    {
         if( defined( 'LOG' ) && ( false !== LOG )) {
             $basePath = self::getBasePath() . LOG . DIRECTORY_SEPARATOR;
-            $fileName = self::getCm( get_called_class()) . '.log';
+            $fileName = self::getCm( static::class ) . '.log';
             file_put_contents( $basePath . $fileName, '' );
             $logger   = new KLogger(
                 $basePath,
@@ -93,10 +113,10 @@ abstract class BaseTest extends TestCase
         }
     }
 
-    public static function tearDownAfterClass() {
+    public static function tearDownAfterClass() : void
+    {
         foreach( LoggerDepot::getLoggerKeys() as $key ) {
             LoggerDepot::unregisterLogger( $key );
         }
     }
-
 }

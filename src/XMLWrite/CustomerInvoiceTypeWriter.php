@@ -41,28 +41,28 @@ class CustomerInvoiceTypeWriter extends Sie5WriterBase implements Sie5WriterInte
      * @param CustomerInvoiceType $customerInvoiceType
      *
      */
-    public function write( CustomerInvoiceType $customerInvoiceType )
+    public function write( CustomerInvoiceType $customerInvoiceType ) : void
     {
         $XMLattributes = $customerInvoiceType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CUSTOMERINVOICE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CUSTOMERINVOICE, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $customerInvoiceType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $customerInvoiceType->getName());
-        parent::writeAttribute( $this->writer, self::CUSTOMERID, $customerInvoiceType->getCustomerId());
-        parent::writeAttribute( $this->writer, self::INVOICENUMBER, $customerInvoiceType->getInvoiceNumber());
+        self::writeAttribute( $this->writer, self::ID, $customerInvoiceType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $customerInvoiceType->getName() );
+        self::writeAttribute( $this->writer, self::CUSTOMERID, $customerInvoiceType->getCustomerId() );
+        self::writeAttribute( $this->writer, self::INVOICENUMBER, $customerInvoiceType->getInvoiceNumber() );
         $ocrNumber = $customerInvoiceType->getOcrNumber();
         if( ! empty( $ocrNumber )) {
-            parent::writeAttribute( $this->writer, self::OCRNUMBER, $ocrNumber );
+            self::writeAttribute( $this->writer, self::OCRNUMBER, $ocrNumber );
         }
         $dueDate = $customerInvoiceType->getDueDate();
         if( ! empty( $dueDate )) {
             self::writeAttribute( $this->writer, self::DUEDATE, $dueDate->format( self::FMTDATE ));
         }
         foreach( $customerInvoiceType->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $balances = $customerInvoiceType->getBalances();
@@ -74,11 +74,10 @@ class CustomerInvoiceTypeWriter extends Sie5WriterBase implements Sie5WriterInte
         } // end if
 
         $originalAmount = $customerInvoiceType->getOriginalAmount();
-        if( null != $originalAmount ) {
+        if( null !== $originalAmount ) {
             OriginalAmountTypeWriter::factory( $this->writer )->write( $originalAmount );
         }
 
         $this->writer->endElement();
     }
 }
-

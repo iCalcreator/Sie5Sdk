@@ -41,20 +41,17 @@ class BaseBalanceMultidimTypeWriter extends Sie5WriterBase implements Sie5Writer
      *
      * @param BaseBalanceMultidimType $baseBalanceMultidimType
      * @param string $elementName
-     *
      */
-    public function write( BaseBalanceMultidimType $baseBalanceMultidimType, string $elementName )
+    public function write( BaseBalanceMultidimType $baseBalanceMultidimType, string $elementName ) : void
     {
         $XMLattributes = $baseBalanceMultidimType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, $elementName, $XMLattributes );
+        self::setWriterStartElement( $this->writer, $elementName, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::MONTH,    $baseBalanceMultidimType->getMonth());
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer, self::MONTH, $baseBalanceMultidimType->getMonth() );
+        self::writeAttribute( $this->writer,
             self::AMOUNT,
-            CommonFactory::formatAmount( $baseBalanceMultidimType->getAmount())
-        );
-        parent::writeAttribute( $this->writer, self::QUANTITY, (string) $baseBalanceMultidimType->getQuantity());
+            CommonFactory::formatAmount( $baseBalanceMultidimType->getAmount() ) );
+        self::writeAttribute( $this->writer, self::QUANTITY, (string)$baseBalanceMultidimType->getQuantity() );
 
         $baseBalanceMultidimTypes = $baseBalanceMultidimType->getBaseBalanceMultidimTypes();
         if( is_array( $baseBalanceMultidimTypes ) && ! empty( $baseBalanceMultidimTypes )) {

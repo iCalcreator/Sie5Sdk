@@ -52,11 +52,9 @@ class TagTypeParser extends Sie5ParserBase
                 $this->logger->debug(
                     sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                 );
-                switch( $this->reader->name ) {
-                    case self::NAME :
-                        $tagType->setName( $this->reader->value );
-                        break;
-                } // end switch
+                if( self::NAME === $this->reader->name ) {
+                    $tagType->setName( $this->reader->value );
+                }
             } // end while
             $this->reader->moveToElement();
         } // end if
@@ -65,23 +63,23 @@ class TagTypeParser extends Sie5ParserBase
         }
         $headElement = $this->reader->localName;
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::ACCOUNTREF == $this->reader->localName ) : // maxOccurs="unbounded" minOccurs="0"
+                case ( self::ACCOUNTREF === $this->reader->localName ) : // maxOccurs="unbounded" minOccurs="0"
                     if( $this->reader->hasAttributes ) {
                         while( $this->reader->moveToNextAttribute()) {
-                            if( self::ACCOUNTID == $this->reader->localName ) {
+                            if( self::ACCOUNTID === $this->reader->localName ) {
                                 $tagType->addAccountRef( $this->reader->value );
                             }
                         }

@@ -49,9 +49,10 @@ class TestFiles extends BaseTest
      * sieFiles dataProvider
      * @return array
      */
-    public function sieFilesProvider() {
+    public function sieFilesProvider() : array
+    {
 
-        $testPath = parent::getBasePath() . 'test/files';
+        $testPath = self::getBasePath() . 'test/files';
         $dir      = new DirectoryIterator( $testPath );
         $dataArr  = [];
 
@@ -83,7 +84,8 @@ class TestFiles extends BaseTest
      * @throws RuntimeException
      * @throws Exception
      */
-    public function sieFiles( $case, $fileName ) {
+    public function sieFiles( int $case, string $fileName ) : void
+    {
         static $FMT0 = '%s START %s on \'%s\'%s';
         static $FMT1 = '%s \'%s\' not valid%s%s%s';
         static $FMT2 = 'Failed asserting that two Sie documents (#%d, %s) are equal.';
@@ -103,7 +105,14 @@ class TestFiles extends BaseTest
         */
         $xml = Sie5Writer::factory()->write( $sie );
 
+        /* will not work... TypeError...
         $this->assertXmlStringEqualsXmlString(
+            file_get_contents( $fileName ),
+            $xml,
+            sprintf( $FMT2, $case, basename( $fileName ))
+        );
+        */
+        $this->assertSame(
             file_get_contents( $fileName ),
             $xml,
             sprintf( $FMT2, $case, basename( $fileName ))

@@ -38,7 +38,8 @@ class BudgetMultidimType implements Sie5Interface
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
+    public static function loadFromFaker() : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factoryMonthAmount(

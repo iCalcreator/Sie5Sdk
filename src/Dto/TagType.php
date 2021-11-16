@@ -43,14 +43,14 @@ class TagType extends Sie5DtoBase implements Sie5DtoInterface
      *   <xsd:pattern value="[0-9]+"/>
      * </xsd:restriction>
      */
-    private $accountRef = [];
+    private array $accountRef = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="required"
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
      * Return instance, set name
@@ -67,10 +67,10 @@ class TagType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( empty( $this->accountRef )) {
@@ -91,7 +91,6 @@ class TagType extends Sie5DtoBase implements Sie5DtoInterface
      *
      * @param string $accountNumber
      * @return static
-     * @throws InvalidArgumentException
      */
     public function addAccountRef( string $accountNumber ) : self
     {
@@ -126,7 +125,7 @@ class TagType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

@@ -38,14 +38,15 @@ class CustomerInvoiceType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $id = null ) {
+    public static function loadFromFaker( $id = null ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         if( empty( $id )) {
             $id = $faker->numberBetween( 6000000000, 6999999999 );
         }
         $dto = Dto::factoryIdDateAmount(
-            $id,
+            (string) $id,
             $faker->dateTimeThisYear( '+1 month' ),
             ( $faker->numberBetween( -999999, 999999 ) / 100 )
         )

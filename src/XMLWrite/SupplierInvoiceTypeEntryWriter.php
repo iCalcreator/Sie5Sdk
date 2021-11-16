@@ -39,21 +39,21 @@ class SupplierInvoiceTypeEntryWriter extends Sie5WriterBase implements Sie5Write
      * @param SupplierInvoiceTypeEntry $supplierInvoiceTypeEntry
      *
      */
-    public function write( SupplierInvoiceTypeEntry $supplierInvoiceTypeEntry )
+    public function write( SupplierInvoiceTypeEntry $supplierInvoiceTypeEntry ) : void
     {
         $XMLattributes = $supplierInvoiceTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::SUPPLIERINVOICE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SUPPLIERINVOICE, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $supplierInvoiceTypeEntry->getId());
+        self::writeAttribute( $this->writer, self::ID, $supplierInvoiceTypeEntry->getId() );
         $var = $supplierInvoiceTypeEntry->getName();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::NAME, $var );
+            self::writeAttribute( $this->writer, self::NAME, $var );
         }
-        parent::writeAttribute( $this->writer, self::SUPPLIERID, $supplierInvoiceTypeEntry->getSupplierId());
-        parent::writeAttribute( $this->writer, self::INVOICENUMBER, $supplierInvoiceTypeEntry->getInvoiceNumber());
+        self::writeAttribute( $this->writer, self::SUPPLIERID, $supplierInvoiceTypeEntry->getSupplierId() );
+        self::writeAttribute( $this->writer, self::INVOICENUMBER, $supplierInvoiceTypeEntry->getInvoiceNumber() );
         $var = $supplierInvoiceTypeEntry->getOcrNumber();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::OCRNUMBER, $var );
+            self::writeAttribute( $this->writer, self::OCRNUMBER, $var );
         }
         $dueDate = $supplierInvoiceTypeEntry->getDueDate();
         if( ! empty( $dueDate )) {

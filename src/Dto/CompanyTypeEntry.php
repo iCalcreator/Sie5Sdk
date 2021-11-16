@@ -32,13 +32,13 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class CompanyTypeEntry extends Sie5DtoExtAttrBase
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="organizationId" type="xsd:string" use="required"
      * Organization identifier. In Sweden the assigned "Organisationsnummer/personnummer" must be used.
      * För organisationer som verkligen saknar organisationsnummer, t ex syföreningar, anges "000000-0000"
      */
-    private $organizationId = null;
+    private ?string $organizationId = null;
 
     /**
      * @var int
@@ -47,34 +47,34 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
      * A serial number if more than one company exists with the same organization identifier,
      * which can be the case when many sole proprietorships are run seperately by the same proprietor.
      */
-    private $multiple = 1;
+    private int $multiple = 1;
 
     /**
      * @var int 1
      */
-    public static $multipleDefault = 1;
+    public static int $multipleDefault = 1;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="optional"
      * Name of the company/organization
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="clientId" type="xsd:string"
      * ???: Bör vara mandatory i en totalfil från ett redovisningssystem, men optional vid en "importfil"
      */
-    private $clientId = null;
+    private ?string $clientId = null;
 
     /**
      * Factory method, set organizationId and name (opt)
      *
      * @param string $organizationId
-     * @param string $name
+     * @param string|null $name
      * @return static
      */
     public static function factoryOrganizationIdName( string $organizationId, string $name = null ) : self
@@ -90,10 +90,10 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->organizationId ) {
@@ -109,7 +109,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return string
      */
-    public function getOrganizationId()
+    public function getOrganizationId() : ?string
     {
         return $this->organizationId;
     }
@@ -127,9 +127,9 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return int|null
      */
-    public function getMultiple()
+    public function getMultiple() : ?int
     {
-        return ( $this->multiple != self::$multipleDefault ) ? $this->multiple : null;
+        return ( $this->multiple !== self::$multipleDefault ) ? $this->multiple : null;
     }
 
     /**
@@ -145,7 +145,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -163,7 +163,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return string
      */
-    public function getClientId()
+    public function getClientId() : ?string
     {
         return $this->clientId;
     }

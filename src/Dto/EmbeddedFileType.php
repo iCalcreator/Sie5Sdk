@@ -35,25 +35,25 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * xsd:base64Binary
      */
-    private $embeddedFile = null;
+    private ?string $embeddedFile = null;
 
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="id" type="xsd:positiveInteger" use="required"
      */
-    private $id = null;
+    private ?int $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="fileName" type="xsd:string" use="required"
      */
-    private $fileName = null;
+    private ?string $fileName = null;
 
     /**
      * Factory method, set id, fileName and file content
@@ -62,7 +62,6 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
      * @param string $fileName
      * @param string $content
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdNameContent( $id, string $fileName, string $content ) : self
     {
@@ -75,10 +74,10 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->id ) {
@@ -97,7 +96,7 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * @return null|string
      */
-    public function getEmbeddedFile()
+    public function getEmbeddedFile() : ?string
     {
         return $this->embeddedFile;
     }
@@ -115,7 +114,7 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * @return null|int
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -134,7 +133,7 @@ class EmbeddedFileType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * @return null|string
      */
-    public function getFileName()
+    public function getFileName() : ?string
     {
         return $this->fileName;
     }

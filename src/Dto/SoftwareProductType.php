@@ -37,7 +37,7 @@ class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @var string
      */
-    private static $FMT = '%s (%s)';
+    private static string $FMT = '%s (%s)';
 
     /**
      * @var string
@@ -45,7 +45,7 @@ class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute name="name" use="required"
      * Name of the software that has created the file
      */
-    private $name = self::PRODUCTNAME;
+    private string $name = self::PRODUCTNAME;
 
     /**
      * @var string
@@ -53,7 +53,7 @@ class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute name="version" use="required"
      * Version of the software that has created the file
      */
-    private $version = self::PRODUCTVERSION;
+    private string $version = self::PRODUCTVERSION;
 
     /**
      * Factory method, set name and version
@@ -72,10 +72,10 @@ class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         return true;
     }

@@ -62,10 +62,11 @@ class TestSieEntry3 extends BaseTest
      *
      * @test
      */
-    public function sieEntry3() {
+    public function sieEntry3() : void
+    {
         static $FMT0 = '%s START %s%s';
         static $FMT1 = 'SieEntry not valid %s%s';
-        static $FMT2 = 'Failed asserting that two Sie documents (%s) are equal.';
+        static $FMT2 = '%s Failed asserting that two Sie documents (%s) are equal.';
 
         echo sprintf( $FMT0, PHP_EOL, __METHOD__, PHP_EOL );
 
@@ -138,13 +139,13 @@ class TestSieEntry3 extends BaseTest
                                 )
                                     ->setLedgerEntry(
                                         [
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3020, -4000.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 2610, -1000.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 1510, 5000.00 )
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3020, -4000.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 2610, -1000.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 1510, 5000.00 )
                                                 ->addLedgerEntryTypeEntry (
                                                     SieEntry::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
                                                     SubdividedAccountObjectReferenceType::factory()
-                                                        ->setObjectId( 100 )
+                                                        ->setObjectId((string) 100 )
                                                 ),
                                         ] // end LedgerEntryTypeEntry[]
                                     ) // end setLedgerEntry
@@ -158,15 +159,15 @@ class TestSieEntry3 extends BaseTest
                                 )
                                     ->setLedgerEntry(
                                         [
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3010, -3000.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3010, -35.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 2610, -758.75 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3740, -0.25 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 1510, 3794.00 )
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3010, -3000.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3010, -35.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 2610, -758.75 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3740, -0.25 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 1510, 3794.00 )
                                                 ->addLedgerEntryTypeEntry (
                                                     SieEntry::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
                                                     SubdividedAccountObjectReferenceType::factory()
-                                                        ->setObjectId( 101 )
+                                                        ->setObjectId((string) 101 )
                                                 ),
                                         ] // end LedgerEntryTypeEntry[]
                                     ) // end setLedgerEntry
@@ -180,13 +181,13 @@ class TestSieEntry3 extends BaseTest
                                 )
                                     ->setLedgerEntry(
                                         [
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3020, -28000.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 2610, -7000.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 1510, 35000.00 )
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3020, -28000.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 2610, -7000.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 1510, 35000.00 )
                                                 ->addLedgerEntryTypeEntry (
                                                     SieEntry::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
                                                     SubdividedAccountObjectReferenceType::factory()
-                                                        ->setObjectId( 102 )
+                                                        ->setObjectId((string) 102 )
                                                 ),
                                         ] // end LedgerEntryTypeEntry[]
                                     ) // end setLedgerEntry
@@ -200,13 +201,13 @@ class TestSieEntry3 extends BaseTest
                                 )
                                     ->setLedgerEntry(
                                          [
-                                             LedgerEntryTypeEntry::factoryAccountAmount( 3010, -3000.00 ),
-                                             LedgerEntryTypeEntry::factoryAccountAmount( 2610, -750.00 ),
-                                             LedgerEntryTypeEntry::factoryAccountAmount( 1510, 3750.00 )
+                                             LedgerEntryTypeEntry::factoryAccountAmount((string) 3010, -3000.00 ),
+                                             LedgerEntryTypeEntry::factoryAccountAmount((string) 2610, -750.00 ),
+                                             LedgerEntryTypeEntry::factoryAccountAmount((string) 1510, 3750.00 )
                                                  ->addLedgerEntryTypeEntry (
                                                      SieEntry::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
                                                      SubdividedAccountObjectReferenceType::factory()
-                                                         ->setObjectId( 103 )
+                                                         ->setObjectId((string) 103 )
                                                  ),
                                          ] // end LedgerEntryTypeEntry[]
                                     ) // end setLedgerEntry
@@ -220,15 +221,15 @@ class TestSieEntry3 extends BaseTest
                                 )
                                     ->setLedgerEntry(
                                         [
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3020, -41600.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3020, -7853.00 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 2610, -12363.25 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 3740, 0.25 ),
-                                            LedgerEntryTypeEntry::factoryAccountAmount( 1510, 61816.00 )
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3020, -41600.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3020, -7853.00 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 2610, -12363.25 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 3740, 0.25 ),
+                                            LedgerEntryTypeEntry::factoryAccountAmount((string) 1510, 61816.00 )
                                                   ->addLedgerEntryTypeEntry (
                                                       SieEntry::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
                                                       SubdividedAccountObjectReferenceType::factory()
-                                                          ->setObjectId( 104 )
+                                                          ->setObjectId((string) 104 )
                                                   ),
                                         ] // end LedgerEntryTypeEntry[]
                                     ) // end setLedgerEntry
@@ -290,7 +291,8 @@ class TestSieEntry3 extends BaseTest
 
         $xml2       = Sie5Writer::factory()->write( $sieEntry2 );
 
-        $fileName = parent::getBasePath() . 'test/files/' . 'SampleEntry3.sie';
+        $fileName = self::getBasePath() . 'test/files/' . 'SampleEntry3.sie';
+
         $this->assertXmlStringEqualsXmlString(
             file_get_contents( $fileName ),
             $xml2,

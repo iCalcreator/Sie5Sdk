@@ -40,17 +40,15 @@ class ForeignCurrencyAmountTypeWriter extends Sie5WriterBase implements Sie5Writ
      * @param ForeignCurrencyAmountType $foreignCurrencyAmountType
      *
      */
-    public function write( ForeignCurrencyAmountType $foreignCurrencyAmountType )
+    public function write( ForeignCurrencyAmountType $foreignCurrencyAmountType ) : void
     {
         $XMLattributes = $foreignCurrencyAmountType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FOREIGNCURRENCYAMOUNT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FOREIGNCURRENCYAMOUNT, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer,
             self::AMOUNT,
-            CommonFactory::formatAmount( $foreignCurrencyAmountType->getAmount())
-        );
-        parent::writeAttribute( $this->writer, self::CURRENCY, $foreignCurrencyAmountType->getCurrency());
+            CommonFactory::formatAmount( $foreignCurrencyAmountType->getAmount() ) );
+        self::writeAttribute( $this->writer, self::CURRENCY, $foreignCurrencyAmountType->getCurrency() );
 
         $this->writer->endElement();
     }

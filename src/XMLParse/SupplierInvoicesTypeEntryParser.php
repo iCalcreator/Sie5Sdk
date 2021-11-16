@@ -71,20 +71,20 @@ class SupplierInvoicesTypeEntryParser extends Sie5ParserBase
         $headElement = $this->reader->localName;
         $parser      = new SupplierInvoiceTypeEntryParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::SUPPLIERINVOICE == $this->reader->localName ) :
+                case ( self::SUPPLIERINVOICE === $this->reader->localName ) :
                     $supplierInvoicesTypeEntry->addSupplierInvoice( $parser->parse());
                     break;
             } // end switch

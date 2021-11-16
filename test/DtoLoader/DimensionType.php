@@ -38,7 +38,8 @@ class DimensionType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $dimensionId ) {
+    public static function loadFromFaker( int $dimensionId ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factoryIdName( $dimensionId, $faker->company );

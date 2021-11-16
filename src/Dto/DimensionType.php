@@ -43,29 +43,28 @@ class DimensionType extends Sie5DtoBase implements Sie5DtoInterface
      *
      * minOccurs="0" maxOccurs="unbounded"
      */
-    private $object = [];
+    private array $object = [];
 
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="id" type="xsd:positiveInteger" use="required"
      */
-    private $id = null;
+    private ?int $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="required"
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
      * Factory method, set id and name
      *
-     * @param mixed  $id
+     * @param mixed $id
      * @param string $name
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdName( $id, string $name ) : self
     {
@@ -77,10 +76,10 @@ class DimensionType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( ! empty( $this->object )) {
@@ -154,11 +153,11 @@ class DimensionType extends Sie5DtoBase implements Sie5DtoInterface
      * Return int index if Object id is set or bool true if not
      *
      * @param string $id
-     * @return int|bool  ObjectType index or true if not found
+     * @return bool|int|string  ObjectType index or true if not found
      */
     public function isObjectIdUnique( string $id )
     {
-        $hitIx = array_search( $id, $this->getAllObjectIds());
+        $hitIx = array_search( $id, $this->getAllObjectIds(), true );
         return ( false !== $hitIx ) ? $hitIx : true;
     }
 
@@ -181,7 +180,7 @@ class DimensionType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|int
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -200,7 +199,7 @@ class DimensionType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

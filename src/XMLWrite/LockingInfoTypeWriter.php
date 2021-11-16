@@ -39,16 +39,16 @@ class LockingInfoTypeWriter extends Sie5WriterBase implements Sie5WriterInterfac
      * @param LockingInfoType $lockingInfoType
      *
      */
-    public function write( LockingInfoType $lockingInfoType )
+    public function write( LockingInfoType $lockingInfoType ) : void
     {
         $XMLattributes = $lockingInfoType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::LOCKINGINFO, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::LOCKINGINFO, $XMLattributes );
 
         $date = $lockingInfoType->getDate();
         if( ! empty( $date )) {
             self::writeAttribute( $this->writer, self::DATE, $date->format( self::FMTDATE ));
         }
-        parent::writeAttribute( $this->writer, self::BY, $lockingInfoType->getBy());
+        self::writeAttribute( $this->writer, self::BY, $lockingInfoType->getBy() );
 
         $this->writer->endElement();
     }

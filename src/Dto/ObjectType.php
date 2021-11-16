@@ -32,18 +32,18 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id" type="xsd:string" use="required"
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="required"
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
      * Factory method, set id and name
@@ -62,10 +62,10 @@ class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->id ) {
@@ -84,7 +84,7 @@ class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -102,7 +102,7 @@ class ObjectType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

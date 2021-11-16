@@ -39,13 +39,13 @@ class ObjectReferenceTypeWriter extends Sie5WriterBase implements Sie5WriterInte
      * @param ObjectReferenceType $objectReferenceType
      *
      */
-    public function write( ObjectReferenceType $objectReferenceType )
+    public function write( ObjectReferenceType $objectReferenceType ) : void
     {
         $XMLattributes = $objectReferenceType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::OBJECTREFERENCE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::OBJECTREFERENCE, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::DIMID,    (string) $objectReferenceType->getDimId());
-        parent::writeAttribute( $this->writer, self::OBJECTID, $objectReferenceType->getObjectId());
+        self::writeAttribute( $this->writer, self::DIMID, (string)$objectReferenceType->getDimId() );
+        self::writeAttribute( $this->writer, self::OBJECTID, $objectReferenceType->getObjectId() );
 
         $this->writer->endElement();
     }

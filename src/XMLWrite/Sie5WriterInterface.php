@@ -34,6 +34,6 @@ interface Sie5WriterInterface
     /**
      * Date format constants
      */
-    const FMTDATE                  = 'Y-m-d';
-    const FMTDATETIME              = 'Y-m-d\TH:i:s\Z'; // ISO 8601 extended format
+    public const FMTDATE                  = 'Y-m-d';
+    public const FMTDATETIME              = 'Y-m-d\TH:i:s\Z'; // ISO 8601 extended format
 }

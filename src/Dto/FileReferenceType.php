@@ -35,18 +35,18 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
 {
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="id" type="xsd:positiveInteger" use="required"
      */
-    private $id = null;
+    private ?int $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="URI" type="xsd:string" use="required"
      */
-    private $uri = null;
+    private ?string $uri = null;
 
     /**
      * Factory method, set id and uri
@@ -54,7 +54,6 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
      * @param mixed $id
      * @param string $uri
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdUri( $id, string $uri ) : self
     {
@@ -66,10 +65,10 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->id ) {
@@ -88,7 +87,7 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * @return null|int
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -107,7 +106,7 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
     /**
      * @return null|string
      */
-    public function getUri()
+    public function getUri() : ?string
     {
         return $this->uri;
     }

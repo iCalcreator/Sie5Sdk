@@ -44,7 +44,6 @@ use function count;
 use function file_get_contents;
 use function libxml_clear_errors;
 use function libxml_get_errors;
-use function libxml_disable_entity_loader;
 use function libxml_use_internal_errors;
 use function sprintf;
 
@@ -56,16 +55,15 @@ class Sie5Parser extends Sie5ParserBase
      * Parse from file
      *
      * @param string $fileName
-     * @param bool   $asDomNode
+     * @param null|bool $asDomNode
      * @return Sie|SieEntry|DOMNode
-     * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function parseXmlFromFile( string $fileName, bool $asDomNode = false )
+    public function parseXmlFromFile( string $fileName, ? bool $asDomNode = false )
     {
         CommonFactory::assertFileName( $fileName );
         self::assertIsValidXML( $fileName );
-        $content = $this->getContentFromFile( $fileName );
+        $content = self::getContentFromFile( $fileName );
         $this->logger->debug( 'Got content from ' . $fileName );
         return $this->parse( $content, $asDomNode );
     }
@@ -74,11 +72,11 @@ class Sie5Parser extends Sie5ParserBase
      * Parse from string, alias of method parse
      *
      * @param string $xml
-     * @param bool   $asDomNode
+     * @param bool $asDomNode
      * @return Sie|SieEntry|DOMNode
      * @throws Exception
      */
-    public function parseXmlFromString( string $xml, bool $asDomNode = false )
+    public function parseXmlFromString( string $xml, ? bool $asDomNode = false )
     {
         return $this->parse( $xml, $asDomNode );
     }
@@ -91,7 +89,6 @@ class Sie5Parser extends Sie5ParserBase
      *
      * @param string $fileName
      * @return string
-     * @throws InvalidArgumentException
      */
     private static function getContentFromFile( string $fileName ) : string
     {
@@ -113,28 +110,26 @@ class Sie5Parser extends Sie5ParserBase
      * Parse xml-string
      *
      * @param string $xml
-     * @param bool   $asDomNode
+     * @param null|bool $asDomNode
      * @return Sie|SieEntry|DOMNode
-     * @throws RuntimeException
      * @throws Exception
      */
-    public function parse( string $xml, bool $asDomNode = false )
+    public function parse( string $xml, ? bool $asDomNode = false )
     {
         static $FMTerr1 = 'Error #%d parsing xml';
         static $FMTerr2 = 'Unknown xml root element \'%s\'';
         static $FMTerr3 = 'No xml root element found';
         CommonFactory::assertString( $xml );
-        $this->reader   = new XMLReader();
         $xmlInitError   = false;
-        $loadEntities         = libxml_disable_entity_loader( true );
         $useInternalXmlErrors = libxml_use_internal_errors( true ); // enable user error handling
+        $this->reader   = new XMLReader();
         if( false === $this->reader->XML( $xml, null, self::$XMLReaderOptions )) {
             $xmlInitError     = true;
         }
         else {
             $result = null;
             while( @$this->reader->read()) {
-                if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+                if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                     $this->logger->debug(
                         sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType],
                                  $this->reader->localName
@@ -142,16 +137,16 @@ class Sie5Parser extends Sie5ParserBase
                     );
                 }
                 switch( true ) {
-                    case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                    case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                         break;
-                    case ( self::SIE == $this->reader->localName ) :
+                    case ( self::SIE === $this->reader->localName ) :
                         if( $asDomNode ) {
                             $result = $this->reader->expand();
                             break 2;
                         }
                         $result = RootSieParser::factory( $this->reader )->parse();
                         break;
-                    case ( self::SIEENTRY == $this->reader->localName ):
+                    case ( self::SIEENTRY === $this->reader->localName ):
                         if( $asDomNode ) {
                             $result = $this->reader->expand();
                             break 2;
@@ -164,14 +159,11 @@ class Sie5Parser extends Sie5ParserBase
             } // end while
         } // end else
         $libxmlErrors = libxml_get_errors();
-        libxml_disable_entity_loader( $loadEntities );
         libxml_use_internal_errors( $useInternalXmlErrors ); // disable user error handling
         libxml_clear_errors();
         $libXarr = self::renderXmlError( $libxmlErrors, null, $xml );
-        if( 0 < count( $libXarr )) {
-            if( self::logLibXmlErrors( LoggerDepot::getLogger( get_class()), $libXarr )) {
-                throw new RuntimeException( sprintf( $FMTerr1, 2 ));
-            }
+        if(( 0 < count( $libXarr )) && self::logLibXmlErrors( LoggerDepot::getLogger( get_class()), $libXarr )) {
+            throw new RuntimeException( sprintf( $FMTerr1, 2 ));
         }
         if( $xmlInitError ) {
             throw new InvalidArgumentException( sprintf( $FMTerr1, 1 ));
@@ -196,7 +188,7 @@ class Sie5Parser extends Sie5ParserBase
         foreach( $libXarr as $errorSets ) {
             foreach( $errorSets as $logLevel => $msg ) {
                 $logger->log( $logLevel, $msg );
-                if( self::CRITICAL == $logLevel ) {
+                if( self::CRITICAL === $logLevel ) {
                     $critical = true;
                 }
             }

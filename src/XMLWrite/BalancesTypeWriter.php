@@ -41,12 +41,12 @@ class BalancesTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param BalancesType $balancesType
      *
      */
-    public function write( BalancesType $balancesType )
+    public function write( BalancesType $balancesType ) : void
     {
         $XMLattributes = $balancesType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::BALANCES, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::BALANCES, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ACCOUNTID, $balancesType->getAccountId());
+        self::writeAttribute( $this->writer, self::ACCOUNTID, $balancesType->getAccountId() );
 
         $balancesTypes = $balancesType->getBalancesTypes();
         if( is_array( $balancesTypes ) && ! empty( $balancesTypes )) {

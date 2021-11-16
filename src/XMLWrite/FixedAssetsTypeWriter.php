@@ -41,26 +41,26 @@ class FixedAssetsTypeWriter extends Sie5WriterBase implements Sie5WriterInterfac
      * @param FixedAssetsType $fixedAssetsType
      *
      */
-    public function write( FixedAssetsType $fixedAssetsType )
+    public function write( FixedAssetsType $fixedAssetsType ) : void
     {
         $XMLattributes = $fixedAssetsType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FIXEDASSETS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FIXEDASSETS, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $fixedAssetsType->getPrimaryAccountId()
-        );
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $fixedAssetsType->getPrimaryAccountId() );
         $var = $fixedAssetsType->getName();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::NAME, $var );
+            self::writeAttribute( $this->writer, self::NAME, $var );
         }
 
         $var = $fixedAssetsType->getSecondaryAccountRef();
         if( ! empty( $var )) {
             foreach( $var as $accountId ) {
-                parent::setWriterStartElement(
-                    $this->writer, self::SECONDARYACCOUNTREF, $fixedAssetsType->getXMLattributes()
+                self::setWriterStartElement(
+                    $this->writer,
+                    self::SECONDARYACCOUNTREF,
+                    $fixedAssetsType->getXMLattributes()
                 );
-                parent::writeAttribute( $this->writer, self::ACCOUNTID, $accountId );
+                self::writeAttribute( $this->writer, self::ACCOUNTID, $accountId );
                 $this->writer->endElement();
             } // end foreach
         } // end if

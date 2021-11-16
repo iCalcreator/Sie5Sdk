@@ -39,16 +39,16 @@ class OriginalEntryInfoTypeWriter extends Sie5WriterBase implements Sie5WriterIn
      * @param OriginalEntryInfoType $originalEntryInfoType
      *
      */
-    public function write( OriginalEntryInfoType $originalEntryInfoType )
+    public function write( OriginalEntryInfoType $originalEntryInfoType ) : void
     {
         $XMLattributes = $originalEntryInfoType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ORIGINALENTRYINFO, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ORIGINALENTRYINFO, $XMLattributes );
 
-        $date = $originalEntryInfoType->getDate();
-        if( ! empty( $date )) {
-            self::writeAttribute( $this->writer, self::DATE, $date->format( self::FMTDATE ));
-        }
-        parent::writeAttribute( $this->writer, self::BY, $originalEntryInfoType->getBy());
+        self::writeAttribute( $this->writer,
+            self::DATE,
+            $originalEntryInfoType->getDate()->format( self::FMTDATE )
+        );
+        self::writeAttribute( $this->writer, self::BY, $originalEntryInfoType->getBy() );
 
         $this->writer->endElement();
     }

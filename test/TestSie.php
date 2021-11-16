@@ -51,7 +51,8 @@ class TestSie extends BaseTest
      *
      * @test
      */
-    public function sieTest2mini() {
+    public function sieTest2mini() : void
+    {
 
         echo PHP_EOL . ' START  (mini) ' . __FUNCTION__ . PHP_EOL;
         $startTime = microtime( true );               // ---- load
@@ -112,7 +113,15 @@ class TestSie extends BaseTest
         if( defined( 'SAVEXML' ) && ( false !== SAVEXML )) {
             file_put_contents( SAVEXML . DIRECTORY_SEPARATOR . __FUNCTION__ . '2.xml', $xml2 );
         }
+
+        /* will not work... TypeError...
         $this->assertXmlStringEqualsXmlString(
+            $xml1,
+            $xml2,
+            sprintf( self::$CMPERR1, __FUNCTION__ )
+        );
+        */
+        $this->assertSame(
             $xml1,
             $xml2,
             sprintf( self::$CMPERR1, __FUNCTION__ )
@@ -124,7 +133,8 @@ class TestSie extends BaseTest
      *
      * @test
      */
-    public function sieTest3full() {
+    public function sieTest3full() : void
+    {
 
         echo PHP_EOL . ' START  (full) ' . __FUNCTION__ . PHP_EOL;
         $startTime = microtime( true );               // ---- load
@@ -252,11 +262,24 @@ class TestSie extends BaseTest
         if( defined( 'SAVEXML' ) && ( false !== SAVEXML )) {
             file_put_contents( SAVEXML . DIRECTORY_SEPARATOR . __FUNCTION__ . '2.xml', $xml2 );
         }
+
+        $this->assertSame(
+            $xml1,
+            $xml2,
+            sprintf( self::$CMPERR1, __FUNCTION__ )
+        );
+        /* will not work... TypeError...
         $this->assertXmlStringEqualsXmlString(
             $xml1,
             $xml2,
             sprintf( self::$CMPERR1, __FUNCTION__ )
 
+        );
+        */
+        $this->assertSame(
+            $xml1,
+            $xml2,
+            sprintf( self::$CMPERR1, __FUNCTION__ )
         );
     }
 
@@ -265,7 +288,8 @@ class TestSie extends BaseTest
      *
      * @test
      */
-    public function sieTest5mini() {
+    public function sieTest5mini() : void
+    {
 
         echo PHP_EOL . ' START (mini+prefix) ' . __FUNCTION__ . PHP_EOL;
         $startTime = microtime( true );               // ---- load
@@ -356,7 +380,8 @@ class TestSie extends BaseTest
      *
      * @test
      */
-    public function sieTest6mini() {
+    public function sieTest6mini() : void
+    {
 
         echo PHP_EOL . ' START (mini+DomNode) ' . __FUNCTION__ . PHP_EOL;
         $sie = Sie2::loadFromFaker();
@@ -368,7 +393,7 @@ class TestSie extends BaseTest
 
         $domNode = Sie5Parser::factory()->parse( $xml, true );
 
-        $this->assertTrue( $domNode instanceof DOMNode );
+        $this->assertInstanceOf( DOMNode::class, $domNode );
 
     }
 

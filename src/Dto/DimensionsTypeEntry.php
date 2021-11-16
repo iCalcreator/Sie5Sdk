@@ -45,15 +45,15 @@ class DimensionsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      *
      * Container element for individual dimensions
      */
-    private $dimension = [];
+    private array $dimension = [];
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -96,10 +96,10 @@ class DimensionsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return DimensionTypeEntry if (DimensionTypeEntry-)id given, (bool false on not found) otherwise array
      *
-     * @param int $id
+     * @param null|int $id
      * @return array|DimensionTypeEntry|bool   if id given DimensionTypeEntry, bool false on not found otherwise array
      */
-    public function getDimension( int $id = null )
+    public function getDimension( ? int $id = null )
     {
         if( ! is_null( $id )) {
             $ix = $this->isDimensionsIdUnique( $id );
@@ -127,11 +127,11 @@ class DimensionsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * Return int index if DimensionTypeEntry id is set or bool false
      *
      * @param int $id
-     * @return int|bool  DimensionTypeEntry index or false if not found
+     * @return bool|int|string  DimensionTypeEntry index or false if not found
      */
     public function isDimensionsIdUnique( int $id )
     {
-        $hitIx = array_search( $id, $this->getAllDimensionIds());
+        $hitIx = array_search( $id, $this->getAllDimensionIds(), true );
         return ( false !== $hitIx ) ? $hitIx : true;
     }
 

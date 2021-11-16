@@ -35,11 +35,11 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class VoucherReferenceType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="documentId" type="xsd:positiveInteger" use="required"
      */
-    private $documentId = null;
+    private ?int $documentId = null;
 
     /**
      * Factory method, set id, name and type
@@ -57,10 +57,10 @@ class VoucherReferenceType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->documentId ) {
@@ -76,7 +76,7 @@ class VoucherReferenceType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|int
      */
-    public function getDocumentId()
+    public function getDocumentId() : ?int
     {
         return $this->documentId;
     }

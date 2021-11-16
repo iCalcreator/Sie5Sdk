@@ -39,7 +39,8 @@ class EmbeddedFileType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $docId ) {
+    public static function loadFromFaker( int $docId ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         return Dto::factory()

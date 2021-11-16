@@ -38,15 +38,15 @@ class FixedAssetsType extends BaseSubdividedAccountType
     /**
      * @var FixedAssetType[]
      */
-    private $fixedAsset = [];
+    private array $fixedAsset = [];
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->primaryAccountId ) {

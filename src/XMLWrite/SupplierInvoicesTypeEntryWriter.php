@@ -41,15 +41,13 @@ class SupplierInvoicesTypeEntryWriter extends Sie5WriterBase implements Sie5Writ
      * @param SupplierInvoicesTypeEntry $supplierInvoicesTypeEntry
      *
      */
-    public function write( SupplierInvoicesTypeEntry $supplierInvoicesTypeEntry )
+    public function write( SupplierInvoicesTypeEntry $supplierInvoicesTypeEntry ) : void
     {
         $XMLattributes = $supplierInvoicesTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::SUPPLIERINVOICES, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SUPPLIERINVOICES, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $supplierInvoicesTypeEntry->getPrimaryAccountId()
-        );
-        parent::writeAttribute( $this->writer, self::NAME, $supplierInvoicesTypeEntry->getName());
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $supplierInvoicesTypeEntry->getPrimaryAccountId() );
+        self::writeAttribute( $this->writer, self::NAME, $supplierInvoicesTypeEntry->getName() );
 
         $invoices = $supplierInvoicesTypeEntry->getSupplierInvoice();
         if( is_array( $invoices ) && ! empty( $invoices )) {

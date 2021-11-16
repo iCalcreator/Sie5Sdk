@@ -102,28 +102,28 @@ class JournalEntryTypeEntryParser extends Sie5ParserBase
         $ledgerEntryTypeEntryParser = new LedgerEntryTypeEntryParser( $this->reader );
         $voucherReferenceTypeParser = new VoucherReferenceTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::ORIGINALENTRYINFO == $this->reader->localName ) :
+                case ( self::ORIGINALENTRYINFO === $this->reader->localName ) :
                     $journalEntryTypeEntry->setOriginalEntryInfo(
                         OriginalEntryInfoTypeParser::factory( $this->reader )->parse()
                     );
                     break;
-                case ( self::LEDGERENTRY == $this->reader->localName ) :
+                case ( self::LEDGERENTRY === $this->reader->localName ) :
                     $journalEntryTypeEntry->addLedgerEntry( $ledgerEntryTypeEntryParser->parse());
                     break;
-                case (self::VOUCHERREFERENCE == $this->reader->localName ):
+                case (self::VOUCHERREFERENCE === $this->reader->localName ):
                     $journalEntryTypeEntry->addVoucherReference( $voucherReferenceTypeParser->parse());
                     break;
             } // end switch

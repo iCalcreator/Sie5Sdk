@@ -32,95 +32,95 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class SupplierType extends Sie5DtoExtAttrBase
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id"             type="xsd:string" use="required"
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name"           type="xsd:string" use="required"
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="organizationId" type="xsd:string"
      */
-    private $organizationId = null;
+    private ?string $organizationId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="vatNr"          type="xsd:string"
      */
-    private $vatNr = null;
+    private ?string $vatNr = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="address1"       type="xsd:string"
      */
-    private $address1 = null;
+    private ?string $address1 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="address2"       type="xsd:string"
      */
-    private $address2 = null;
+    private ?string $address2 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="zipcode"        type="xsd:string"
      */
-    private $zipcode = null;
+    private ?string $zipcode = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="city"           type="xsd:string"
      */
-    private $city = null;
+    private ?string $city = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="country"        type="xsd:string"
      */
-    private $country = null;
+    private ?string $country = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="BgAccount"      type="xsd:string"
      */
-    private $bgAccount = null;
+    private ?string $bgAccount = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="PgAccount"      type="xsd:string"
      */
-    private $pgAccount = null;
+    private ?string $pgAccount = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="BIC"            type="xsd:string"
      */
-    private $bic = null;
+    private ?string $bic = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="IBAN"           type="xsd:string"
      */
-    private $iban = null;
+    private ?string $iban = null;
 
     /**
      * Return instance, set id and name
@@ -139,10 +139,10 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->id ) {
@@ -161,7 +161,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -179,7 +179,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -197,7 +197,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getOrganizationId()
+    public function getOrganizationId() : ?string
     {
         return $this->organizationId;
     }
@@ -215,7 +215,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getVatNr()
+    public function getVatNr() : ?string
     {
         return $this->vatNr;
     }
@@ -233,7 +233,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getAddress1()
+    public function getAddress1() : ?string
     {
         return $this->address1;
     }
@@ -251,7 +251,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getAddress2()
+    public function getAddress2() : ?string
     {
         return $this->address2;
     }
@@ -269,7 +269,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getZipcode()
+    public function getZipcode() : ?string
     {
         return $this->zipcode;
     }
@@ -287,7 +287,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getCity()
+    public function getCity() : ?string
     {
         return $this->city;
     }
@@ -305,7 +305,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getCountry()
+    public function getCountry() : ?string
     {
         return $this->country;
     }
@@ -323,7 +323,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getBgAccount()
+    public function getBgAccount() : ?string
     {
         return $this->bgAccount;
     }
@@ -341,7 +341,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getPgAccount()
+    public function getPgAccount() : ?string
     {
         return $this->pgAccount;
     }
@@ -359,7 +359,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getBic()
+    public function getBic() : ?string
     {
         return $this->bic;
     }
@@ -377,7 +377,7 @@ class SupplierType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getIban()
+    public function getIban() : ?string
     {
         return $this->iban;
     }

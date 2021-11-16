@@ -49,11 +49,9 @@ class VoucherReferenceTypeParser extends Sie5ParserBase
                 $this->logger->debug(
                     sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                 );
-                switch( $this->reader->name ) {
-                    case self::DOCUMENTID :
-                        $voucherReferenceType->setDocumentId( $this->reader->value );
-                        break;
-                } // end switch
+                if( self::DOCUMENTID === $this->reader->name ) {
+                    $voucherReferenceType->setDocumentId( $this->reader->value );
+                }
             } // end while
             $this->reader->moveToElement();
         } // end if

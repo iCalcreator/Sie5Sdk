@@ -31,7 +31,9 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 
 interface DocumentsTypesInterface extends Sie5DtoInterface
 {
-
-    public function getId();
+    /**
+     * @return int|null
+     */
+    public function getId() : ?int;
 
 }

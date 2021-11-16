@@ -35,32 +35,30 @@ use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface;
 use Psr\Log\LogLevel;
 use XMLReader;
 
-use function get_called_class;
-
 abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
 {
     /**
      * @var string
      */
-    protected static $FMTERRDATE = 'Error parsing %s';
+    protected static string $FMTERRDATE = 'Error parsing %s';
     /**
      * @var mixed
      */
-    protected $logger = null;
+    protected $logger;
 
     /**
      * @var string
      */
-    protected static $FMTstartNode    = '%s Start (%s) %s';
-    protected static $FMTattrFound    = '%s attribute %s = %s';
-    protected static $FMTextAttrSaved = 'save extensionAttributes %s';
-    protected static $GLUE            = ',';
-    protected static $FMTreadNode     = '%s Found (%s) %s';
+    protected static string $FMTstartNode    = '%s Start (%s) %s';
+    protected static string $FMTattrFound    = '%s attribute %s = %s';
+    protected static string $FMTextAttrSaved = 'save extensionAttributes %s';
+    protected static string $GLUE            = ',';
+    protected static string $FMTreadNode     = '%s Found (%s) %s';
 
     /**
      * @var array $nodeTypes
      */
-    protected static $nodeTypes = [
+    protected static array $nodeTypes = [
         0  => 'NONE',
         1  => 'ELEMENT',
         2  => 'ATTRIBUTE',
@@ -83,16 +81,16 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
 
 
     /**
-     * @var XMLReader
+     * @var XMLReader|null
      */
-    protected $reader = null;
+    protected ?XMLReader $reader = null;
 
     /**
      * Constructor
      *
-     * @param XMLReader $reader
+     * @param null|XMLReader $reader
      */
-    public function __construct( $reader = null )
+    public function __construct( ? XMLReader $reader = null )
     {
         $this->logger = LoggerDepot::getLogger( __CLASS__ );
         if( ! empty( $reader )) {
@@ -103,12 +101,12 @@ abstract class Sie5ParserBase extends LogLevel implements Sie5Interface, Sie5XML
     /**
      * Factory
      *
-     * @param XMLReader $reader
+     * @param null|XMLReader $reader
      * @return static
      */
-    public static function factory( $reader = null  ) : self
+    public static function factory( ? XMLReader $reader = null  ) : self
     {
-        $class = get_called_class();
+        $class = static::class;
         return new $class( $reader );
     }
 }

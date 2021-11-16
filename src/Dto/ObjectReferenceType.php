@@ -37,21 +37,21 @@ class ObjectReferenceType
     implements BaseBalanceTypesInterface, LedgerEntryTypesInterface, LedgerEntryTypeEntriesInterface
 {
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="dimId" type="xsd:positiveInteger" use="required"
      * Dimension identifier.
      * Must correspond to a dimension specified under Dimensions
      */
-    private $dimId = null;
+    private ?int $dimId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="objectId" type="xsd:string" use="required"
      * Object identifier
      */
-    private $objectId = null;
+    private ?string $objectId = null;
 
     /**
      * Factory method, set dimId and objectId
@@ -59,7 +59,6 @@ class ObjectReferenceType
      * @param mixed $dimId
      * @param string $objectId
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryDimIdObjectId( $dimId, string $objectId ) : self
     {
@@ -71,10 +70,10 @@ class ObjectReferenceType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->dimId ) {
@@ -93,7 +92,7 @@ class ObjectReferenceType
     /**
      * @return null|int
      */
-    public function getDimId()
+    public function getDimId() : ?int
     {
         return $this->dimId;
     }
@@ -112,7 +111,7 @@ class ObjectReferenceType
     /**
      * @return null|string
      */
-    public function getObjectId()
+    public function getObjectId() : ?string
     {
         return $this->objectId;
     }

@@ -41,40 +41,40 @@ use DateTime;
 class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="SupplierId" type="xsd:string" use="required"
      */
-    private $supplierId = null;
+    private ?string $supplierId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="invoiceNumber" type="xsd:string" use="required"
      */
-    private $invoiceNumber = null;
+    private ?string $invoiceNumber = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="ocrNumber"     type="xsd:string"
      */
-    private $ocrNumber = null;
+    private ?string $ocrNumber = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="dueDate"       type="xsd:date"
      */
-    private $dueDate = null;
+    private ?DateTime $dueDate = null;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if(( null === $this->id ) && ( null === $this->invoiceNumber )) {
@@ -94,7 +94,7 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * @return null|string
      */
-    public function getSupplierId()
+    public function getSupplierId() : ?string
     {
         return $this->supplierId;
     }
@@ -112,7 +112,7 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * @return null|string
      */
-    public function getInvoiceNumber()
+    public function getInvoiceNumber() : ?string
     {
         return $this->invoiceNumber;
     }
@@ -130,7 +130,7 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * @return null|string
      */
-    public function getOcrNumber()
+    public function getOcrNumber() : ?string
     {
         return $this->ocrNumber;
     }
@@ -148,7 +148,7 @@ class SupplierInvoiceTypeEntry extends SubdividedAccountObjectTypeEntry
     /**
      * @return null|DateTime
      */
-    public function getDueDate()
+    public function getDueDate() : ?DateTime
     {
         return $this->dueDate;
     }

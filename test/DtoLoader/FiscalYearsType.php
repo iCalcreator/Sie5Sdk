@@ -28,7 +28,6 @@
  */
 namespace Kigkonsult\Sie5Sdk\DtoLoader;
 
-use DateTime;
 use Faker;
 use Kigkonsult\Sie5Sdk\Dto\FiscalYearsType as Dto;
 
@@ -38,7 +37,8 @@ class FiscalYearsType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
+    public static function loadFromFaker() : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto   = new Dto();

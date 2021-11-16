@@ -41,15 +41,13 @@ class FixedAssetsTypeEntryWriter extends Sie5WriterBase implements Sie5WriterInt
      * @param FixedAssetsTypeEntry $fixedAssetsTypeEntry
      *
      */
-    public function write( FixedAssetsTypeEntry $fixedAssetsTypeEntry )
+    public function write( FixedAssetsTypeEntry $fixedAssetsTypeEntry ) : void
     {
         $XMLattributes = $fixedAssetsTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FIXEDASSETS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FIXEDASSETS, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $fixedAssetsTypeEntry->getPrimaryAccountId()
-        );
-        parent::writeAttribute( $this->writer, self::NAME, $fixedAssetsTypeEntry->getName());
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $fixedAssetsTypeEntry->getPrimaryAccountId() );
+        self::writeAttribute( $this->writer, self::NAME, $fixedAssetsTypeEntry->getName() );
 
         $fixedAssets = $fixedAssetsTypeEntry->getFixedAsset();
         if( is_array( $fixedAssets ) && ! empty( $fixedAssets )) {

@@ -33,8 +33,6 @@ use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 use TypeError;
 
-use function get_called_class;
-
 abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
@@ -46,10 +44,10 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
      *   <xsd:pattern value="[0-9]+"/>
      * </xsd:restriction>
      */
-    protected $secondaryAccountRef = [];
+    protected array $secondaryAccountRef = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="primaryAccountId" type="sie:AccountNumber" use="required"
      * <xsd:restriction base="xsd:string">
@@ -57,16 +55,16 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
      * </xsd:restriction>
      * Subordinate account identifier. The primary account of the subdivided account.
      */
-    protected $primaryAccountId = null;
+    protected ?string $primaryAccountId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="optional"
      * Name of the subdivided account or account group.
      * If omitted the acount name of the referenced account may be used.
      */
-    protected $name = null;
+    protected ?string $name = null;
 
     /**
      * Factory method, set primaryAccountId
@@ -76,7 +74,7 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
      */
     public static function factoryPrimaryAccountId( string $primaryAccountId ) : self
     {
-        $class    = get_called_class();
+        $class    = static::class;
         $instance = new $class();
         return $instance->setPrimaryAccountId( $primaryAccountId );
     }
@@ -120,7 +118,7 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     /**
      * @return null|string
      */
-    public function getPrimaryAccountId()
+    public function getPrimaryAccountId() : ?string
     {
         return $this->primaryAccountId;
     }
@@ -139,7 +137,7 @@ abstract class BaseSubdividedAccountType extends Sie5DtoBase implements Sie5DtoI
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

@@ -35,29 +35,28 @@ use Kigkonsult\Sie5Sdk\Sie5XMLAttributesInterface;
 use Psr\Log\LogLevel;
 use XMLWriter;
 
-use function get_called_class;
 use function sprintf;
 use function strtolower;
-use function substr;
+use function strpos;
 
 abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
 {
     /**
      * @var mixed
      */
-    protected $logger = null;
+    protected $logger;
 
     /**
-     * @var XMLWriter
+     * @var XMLWriter|null
      */
-    protected $writer = null;
+    protected ?XMLWriter $writer = null;
 
     /**
      * Constructor
      *
-     * @param XMLWriter $writer
+     * @param null|XMLWriter $writer
      */
-    public function __construct( XMLWriter $writer = null )
+    public function __construct( ? XMLWriter $writer = null )
     {
         $this->logger = LoggerDepot::getLogger( __CLASS__ );
         if( null !== $writer ) {
@@ -68,27 +67,27 @@ abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XML
     /**
      * Factory
      *
-     * @param XMLWriter $writer
+     * @param null|XMLWriter $writer
      * @return static
      */
-    public static function factory( XMLWriter $writer = null ) : self
+    public static function factory( ? XMLWriter $writer = null ) : self
     {
-        $class = get_called_class();
+        $class = static::class;
         return new $class( $writer );
     }
 
     /**
      * Set writer start element
      *
-     * @param XMLWriter $writer
-     * @param string    $elementName
-     * @param array     $XMLattributes
+     * @param XMLWriter   $writer
+     * @param null|string $elementName
+     * @param null|array  $XMLattributes
      */
     protected static function setWriterStartElement(
         XMLWriter $writer,
-        string $elementName = null,
-        array $XMLattributes = []
-    )
+        ? string $elementName = null,
+        ? array $XMLattributes = []
+    ) : void
     {
         $FMTNAME = '%s:%s';
         if( empty( $elementName )) {
@@ -98,16 +97,16 @@ abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XML
             $elementName = sprintf( $FMTNAME, $XMLattributes[self::PREFIX], $elementName );
         }
         $writer->startElement( $elementName );
-        foreach( $XMLattributes as $key => $value ) {
+        foreach((array) $XMLattributes as $key => $value ) {
             $found = false;
             $lKey  = strtolower( $key );
             foreach( self::XMLSCHEMAKEYS as $schemaKey ) {
-                if( $lKey == strtolower( $schemaKey )) {
+                if( $lKey === strtolower( $schemaKey )) {
                     $found = true;
                     break;
                 }
             } // end foreach
-            if( $found || ( self::XMLNS == substr( $key, 0, 5 ))) {
+            if( $found || ( strpos( $key, self::XMLNS ) === 0 )) {
                 self::writeAttribute( $writer, $key, $value );
             }
         }
@@ -120,11 +119,11 @@ abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XML
      * @param string      $elementName
      * @param null|string $value
      */
-    protected static function writeAttribute( XMLWriter $writer, string $elementName, $value = '' )
+    protected static function writeAttribute( XMLWriter $writer, string $elementName, ? string $value = '' ) : void
     {
         if( ! empty( $value )) {
             $writer->startAttribute($elementName );
-            $writer->text((string) $value );
+            $writer->text( $value );
             $writer->endAttribute();
         }
     }

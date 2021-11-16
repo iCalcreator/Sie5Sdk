@@ -39,46 +39,46 @@ class CustomerTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param CustomerType $customerType
      *
      */
-    public function write( CustomerType $customerType )
+    public function write( CustomerType $customerType ) : void
     {
         $XMLattributes = $customerType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CUSTOMER, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CUSTOMER, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID, $customerType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $customerType->getName());
+        self::writeAttribute( $this->writer, self::ID, $customerType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $customerType->getName() );
         $var = $customerType->getOrganizationId();
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::ORGANIZATIONID, $var);
+            self::writeAttribute( $this->writer, self::ORGANIZATIONID, $var );
             $var = $customerType->getVatNr();
         }
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::VATNR, $var );
+            self::writeAttribute( $this->writer, self::VATNR, $var );
         }
         $var = $customerType->getAddress1();
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::ADDRESS1, $var );
+            self::writeAttribute( $this->writer, self::ADDRESS1, $var );
         }
         $var = $customerType->getAddress2();
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::ADDRESS2, $var );
+            self::writeAttribute( $this->writer, self::ADDRESS2, $var );
         }
         $var = $customerType->getZipcode();
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::ZIPCODE, $var );
+            self::writeAttribute( $this->writer, self::ZIPCODE, $var );
         }
         $var = $customerType->getCity();
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::CITY, $var );
+            self::writeAttribute( $this->writer, self::CITY, $var );
         }
         $var = $customerType->getCountry();
         if ( ! empty($var)) {
-            parent::writeAttribute( $this->writer, self::COUNTRY, $var );
+            self::writeAttribute( $this->writer, self::COUNTRY, $var );
         }
         foreach ($customerType->getExtensionAttributes() as $key => $value) {
-            if (self::TYPE == $key) {
+            if (self::TYPE === $key) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute($this->writer, $key, $value);
+            self::writeAttribute( $this->writer, (string) $key, $value );
         } // end foreach
 
         $this->writer->endElement();

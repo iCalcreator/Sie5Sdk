@@ -38,24 +38,24 @@ class ForeignCurrencyAmountType
 {
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="amount" type="sie:Amount" use="required"
      * <xsd:restriction base="xsd:decimal">
      *   <xsd:fractionDigits value="2"/>
      * </xsd:restriction>
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="currency" type="sie:Currency" use="required"
      * <xsd:restriction base="xsd:string">
      *   <xsd:pattern value="[A-Z][A-Z][A-Z]"/>
      * </xsd:restriction>
      */
-    private $currency = null;
+    private ?string $currency = null;
 
     /**
      * Factory method, set amount and currency
@@ -63,7 +63,6 @@ class ForeignCurrencyAmountType
      * @param mixed $amount
      * @param string $currency
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryAmountCurrency( $amount, string $currency ) : self
     {
@@ -75,10 +74,10 @@ class ForeignCurrencyAmountType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->amount ) {
@@ -124,7 +123,6 @@ class ForeignCurrencyAmountType
     /**
      * @param string $currency
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setCurrency( string $currency ) : self
     {

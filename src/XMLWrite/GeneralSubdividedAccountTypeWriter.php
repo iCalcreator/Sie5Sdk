@@ -41,26 +41,26 @@ class GeneralSubdividedAccountTypeWriter extends Sie5WriterBase implements Sie5W
      * @param GeneralSubdividedAccountType $generalSubdividedAccountType
      *
      */
-    public function write( GeneralSubdividedAccountType $generalSubdividedAccountType )
+    public function write( GeneralSubdividedAccountType $generalSubdividedAccountType ) : void
     {
         $XMLattributes = $generalSubdividedAccountType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::GENERALSUBDIVIDEDACCOUNT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::GENERALSUBDIVIDEDACCOUNT, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $generalSubdividedAccountType->getPrimaryAccountId()
-        );
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $generalSubdividedAccountType->getPrimaryAccountId() );
         $var = $generalSubdividedAccountType->getName();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::NAME, $var );
+            self::writeAttribute( $this->writer, self::NAME, $var );
         }
 
         $var = $generalSubdividedAccountType->getSecondaryAccountRef();
         if( is_array( $var ) && ! empty( $var )) {
             foreach( $var as $accountId ) {
-                parent::setWriterStartElement(
-                    $this->writer, self::SECONDARYACCOUNTREF, $generalSubdividedAccountType->getXMLattributes()
+                self::setWriterStartElement(
+                    $this->writer,
+                    self::SECONDARYACCOUNTREF,
+                    $generalSubdividedAccountType->getXMLattributes()
                 );
-                parent::writeAttribute( $this->writer, self::ACCOUNTID, $accountId );
+                self::writeAttribute( $this->writer, self::ACCOUNTID, $accountId );
                 $this->writer->endElement();
             } // end foreach
         } // end if

@@ -51,11 +51,9 @@ class SubdividedAccountObjectReferenceTypeParser extends Sie5ParserBase
                 $this->logger->debug(
                     sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                 );
-                switch( $this->reader->name ) {
-                    case self::OBJECTID :
-                        $subdividedAccountObjectReferenceType->setObjectId( $this->reader->value );
-                        break;
-                } // end switch
+                if( self::OBJECTID === $this->reader->name ) {
+                    $subdividedAccountObjectReferenceType->setObjectId( $this->reader->value );
+                }
             } // end while
         } // end if
         $this->reader->moveToElement();

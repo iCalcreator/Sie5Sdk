@@ -36,26 +36,26 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var ForeignCurrencyAmountType
+     * @var ForeignCurrencyAmountType|null
      *
      * MaxOccurs="1" minOccurs="0"
      */
-    private $foreignCurrencyAmount = null;
+    private ?ForeignCurrencyAmountType $foreignCurrencyAmount = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="date" type="xsd:date" use="required"
      */
-    private $date = null;
+    private ?DateTime $date;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Amount. Positive for debit, negative for credit
      * Attribute type="sie:Amount" use="required"
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
      * Factory method, set date and amount
@@ -85,10 +85,10 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( empty( $this->date )) {
@@ -107,7 +107,7 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|ForeignCurrencyAmountType
      */
-    public function getForeignCurrencyAmount()
+    public function getForeignCurrencyAmount() : ?ForeignCurrencyAmountType
     {
         return $this->foreignCurrencyAmount;
     }
@@ -125,7 +125,7 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DateTime
      */
-    public function getDate()
+    public function getDate() : ?DateTime
     {
         return $this->date;
     }
@@ -143,7 +143,7 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|float
      */
-    public function getAmount()
+    public function getAmount() : ?float
     {
         return $this->amount;
     }

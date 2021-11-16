@@ -62,19 +62,19 @@ class FiscalYearTypeParser extends Sie5ParserBase
                         $fiscalYearType->setEnd( $this->reader->value );
                         break;
                     case self::PRIMARY :
-                        $fiscalYearType->setPrimary( self::TRUE == $this->reader->value );
+                        $fiscalYearType->setPrimary( self::TRUE === $this->reader->value );
                         break;
                     case self::CLOSED :
-                        $fiscalYearType->setClosed( self::TRUE == $this->reader->value );
+                        $fiscalYearType->setClosed( self::TRUE === $this->reader->value );
                         break;
                     case self::HASLEDGERENTRIES :
-                        $fiscalYearType->setHasLedgerEntries( self::TRUE == $this->reader->value );
+                        $fiscalYearType->setHasLedgerEntries( self::TRUE === $this->reader->value );
                         break;
                     case self::HASSUBORDINATEACCOUNTS :
-                        $fiscalYearType->setHasSubordinateAccounts( self::TRUE == $this->reader->value );
+                        $fiscalYearType->setHasSubordinateAccounts( self::TRUE === $this->reader->value );
                         break;
                     case self::HASATTACHEDVOUCHERFILES :
-                        $fiscalYearType->setHasAttachedVoucherFiles( self::TRUE == $this->reader->value );
+                        $fiscalYearType->setHasAttachedVoucherFiles( self::TRUE === $this->reader->value );
                         break;
                     case self::LASTCOVEREDDATE :
                         try {

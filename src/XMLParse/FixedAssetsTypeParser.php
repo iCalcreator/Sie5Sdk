@@ -71,35 +71,33 @@ class FixedAssetsTypeParser extends Sie5ParserBase
         $headElement    = $this->reader->localName;
         $parser         = new FixedAssetTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::SECONDARYACCOUNTREF == $this->reader->localName ) :
+                case ( self::SECONDARYACCOUNTREF === $this->reader->localName ) :
                     if( $this->reader->hasAttributes ) {
                         while( $this->reader->moveToNextAttribute()) {
                             $this->logger->debug(
                                 sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                             );
-                            switch( $this->reader->name ) {
-                                case self::ACCOUNTID :
-                                    $fixedAssetsType->addSecondaryAccountRef( $this->reader->value );
-                                    break;
+                            if( self::ACCOUNTID === $this->reader->name ) {
+                                $fixedAssetsType->addSecondaryAccountRef( $this->reader->value );
                             }
                         }
                         $this->reader->moveToElement();
                     } // end if
                     break;
-                case ( self::FIXEDASSET == $this->reader->localName ) :
+                case ( self::FIXEDASSET === $this->reader->localName ) :
                     $fixedAssetsType->addFixedAsset( $parser->parse());
                     break;
             } // end switch

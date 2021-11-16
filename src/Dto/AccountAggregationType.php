@@ -29,7 +29,6 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use InvalidArgumentException;
 use TypeError;
 
 use function array_keys;
@@ -40,25 +39,25 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
      * @var TagType[]
      *          minOccurs="1" maxOccurs="unbounded"
      */
-    private $tag = [];
+    private array $tag = [];
 
     /**
-     * @var string
+     * @var string|null
      *            Attribute name="id" type="xsd:string" use="required"
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *            Attribute name="name" type="xsd:string" use="required"
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @var string|null
      *            Attribute name="taxonomy" type="xsd:string" use="optional"
      */
-    private $taxonomy = null;
+    private ?string $taxonomy = null;
 
     /**
      * Factory method, set id, name and type
@@ -66,7 +65,6 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
      * @param string $id
      * @param string $name
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdName( string $id, string $name ) : self
     {
@@ -78,10 +76,10 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( empty( $this->tag )) {
@@ -151,7 +149,7 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -169,7 +167,7 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -187,7 +185,7 @@ class AccountAggregationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return string
      */
-    public function getTaxonomy()
+    public function getTaxonomy() : ?string
     {
         return $this->taxonomy;
     }

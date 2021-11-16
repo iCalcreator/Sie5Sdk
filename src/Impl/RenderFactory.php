@@ -34,7 +34,6 @@ use Exception;
 use Kigkonsult\Sie5Sdk\Dto\Sie5DtoBase;
 use RuntimeException;
 use ReflectionClass;
-use ReflectionException;
 use ReflectionProperty;
 
 use function get_class;
@@ -52,7 +51,6 @@ class RenderFactory
     /**
      * @param Sie5DtoBase $instance
      * @return array
-     * @throws ReflectionException
      */
     public static function getInstancePropValues( Sie5DtoBase $instance ) : array {
         $output          = [];
@@ -68,12 +66,12 @@ class RenderFactory
         return $output;
     }
 
-    private static $NULL   = ' <null> ';
-    private static $SP1    = ' ';
-    private static $SP1C   = ' : ';
-    private static $YMDHIS = 'YmdHis';
-    private static $TS     = 'toString';
-    private static $Q2     = '??';
+    private static string $NULL   = ' <null> ';
+    private static string $SP1    = ' ';
+    private static string $SP1C   = ' : ';
+    private static string $YMDHIS = 'YmdHis';
+    private static string $TS     = 'toString';
+    private static string $Q2     = '??';
 
     /**
      * Return string
@@ -99,10 +97,10 @@ class RenderFactory
             $propArr = self::getInstancePropValues( $instance );
         }
         catch( Exception $e ) {
-            throw new RuntimeException( $e->getMessage(), null, $e );
+            throw new RuntimeException( $e->getMessage(), 2001, $e );
         }
         foreach( $propArr as $propName => $propValue ) {
-            if( $XATTRST == $propName ) {
+            if( $XATTRST === $propName ) {
                 continue;
             }
             switch( true ) {
@@ -136,7 +134,7 @@ class RenderFactory
      * Return string
      *
      * @param string $propName
-     * @param array  $arrVal
+     * @param array $arrVal
      * @return string
      */
     private static function dispArray( string $propName, array $arrVal ) : string {

@@ -33,33 +33,33 @@ Interface Sie5XMLAttributesInterface
     /**
      * const XML root element attributes
      */
-    const XMLNS_XSI                = 'xmlns:xsi';
-    const XMLNS_XSD                = 'xmlns:xsd';
-    const XSI_SCHEMALOCATION       = 'xsi:schemaLocation';
-    const XMLNS                    = 'xmlns';
+    public const XMLNS_XSI                = 'xmlns:xsi';
+    public const XMLNS_XSD                = 'xmlns:xsd';
+    public const XSI_SCHEMALOCATION       = 'xsi:schemaLocation';
+    public const XMLNS                    = 'xmlns';
 
     /**
      * const extended Sie XML element attributes
      */
-    const XSITYPE                  =  'xsi:type';
+    public const XSITYPE                  =  'xsi:type';
 
     /**
      * const XML Schema keys
      */
-    const XMLSCHEMAKEYS            = [ self::XMLNS, self::XMLNS_XSI, self::XMLNS_XSD, self::XSI_SCHEMALOCATION ];
+    public const XMLSCHEMAKEYS            = [ self::XMLNS, self::XMLNS_XSI, self::XMLNS_XSD, self::XSI_SCHEMALOCATION ];
 
     /**
      * const XML URis
      */
-    const XMLSCHEMAINSTANCE        = "http://www.w3.org/2001/XMLSchema-instance";
-    const XMLSCHEMA                = "http://www.w3.org/2001/XMLSchema";
+    public const XMLSCHEMAINSTANCE        = "http://www.w3.org/2001/XMLSchema-instance";
+    public const XMLSCHEMA                = "http://www.w3.org/2001/XMLSchema";
 
     /**
      * const XMLreader element node properties
      */
-    const BASEURI                  = 'baseURI';      // The base URI of the node
-    const LOCALNAME                = 'localName';    // The local name of the node
+    public const BASEURI                  = 'baseURI';      // The base URI of the node
+    public const LOCALNAME                = 'localName';    // The local name of the node
 //  const NAME                     = 'name';         // The qualified name of the node -- dupl const in Sie5DtoInterface
-    const NAMESPACEURI             = 'namespaceURI'; // The URI of the namespace associated with the node
-    const PREFIX                   = 'prefix';       // The prefix of the namespace associated with the node
+    public const NAMESPACEURI             = 'namespaceURI'; // The URI of the namespace associated with the node
+    public const PREFIX                   = 'prefix';       // The prefix of the namespace associated with the node
 }

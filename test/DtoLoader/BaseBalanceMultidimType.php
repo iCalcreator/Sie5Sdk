@@ -38,7 +38,8 @@ class BaseBalanceMultidimType implements Sie5Interface
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
+    public static function loadFromFaker() : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factoryMonthAmount(
@@ -49,12 +50,12 @@ class BaseBalanceMultidimType implements Sie5Interface
         $max  = $faker->numberBetween( 2, 9 );
         $load = [];
         for( $x = 0; $x <= $max; $x++ ) {
-            if( 1 == ( $faker->numberBetween( 1, 2 ))) {
+            if( 1 === ( $faker->numberBetween( 1, 2 ))) {
                 $load[] = [ self::FOREIGNCURRENCYAMOUNT  => ForeignCurrencyAmountType::loadFromFaker() ];
             }
             $load[] = [ self::OBJECTREFERENCE => ObjectReferenceType::loadFromFaker() ];
             $load[] = [ self::OBJECTREFERENCE => ObjectReferenceType::loadFromFaker() ];
-            if( 1 == ( $faker->numberBetween( 1, 2 ))) {
+            if( 1 === ( $faker->numberBetween( 1, 2 ))) {
                 $load[] = [ self::OBJECTREFERENCE => ObjectReferenceType::loadFromFaker() ];
             }
         }

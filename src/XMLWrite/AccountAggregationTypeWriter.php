@@ -41,14 +41,14 @@ class AccountAggregationTypeWriter extends Sie5WriterBase implements Sie5WriterI
      * @param AccountAggregationType $accountAggregationType
      *
      */
-    public function write( AccountAggregationType $accountAggregationType )
+    public function write( AccountAggregationType $accountAggregationType ) : void
     {
         $XMLattributes = $accountAggregationType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ACCOUNTAGGREGATION, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ACCOUNTAGGREGATION, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,       $accountAggregationType->getId());
-        parent::writeAttribute( $this->writer, self::NAME,     $accountAggregationType->getName());
-        parent::writeAttribute( $this->writer, self::TAXONOMY, $accountAggregationType->getTaxonomy());
+        self::writeAttribute( $this->writer, self::ID, $accountAggregationType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $accountAggregationType->getName() );
+        self::writeAttribute( $this->writer, self::TAXONOMY, $accountAggregationType->getTaxonomy() );
 
         $writer = new TagTypeWriter( $this->writer );
         $tags   = $accountAggregationType->getTag();

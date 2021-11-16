@@ -29,25 +29,23 @@
 declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
-use function get_called_class;
-
 abstract class SubdividedAccountObjectTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id" type="xsd:string" use="required"
      * Item identifier
      */
-    protected $id = null;
+    protected ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="optional"
      * Item name
      */
-    protected $name = null;
+    protected ?string $name = null;
 
     /**
      * Factory method, set id
@@ -57,15 +55,15 @@ abstract class SubdividedAccountObjectTypeEntry extends Sie5DtoBase implements S
      */
     public static function factoryId( string $id ) : self
     {
-        $class    = get_called_class();
+        $class    = static::class;
         $instance = new $class();
         return $instance->setId( $id );
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getId() : string
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -83,7 +81,7 @@ abstract class SubdividedAccountObjectTypeEntry extends Sie5DtoBase implements S
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

@@ -38,7 +38,7 @@ trait ExtensionAttributeTrait
      *
      * @var array
      */
-    private $extensionAttributes = [];
+    private array $extensionAttributes = [];
 
     /**
      * @param string $name

@@ -39,23 +39,23 @@ class CompanyTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param CompanyType $companyType
      *
      */
-    public function write( CompanyType $companyType )
+    public function write( CompanyType $companyType ) : void
     {
         $XMLattributes = $companyType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::COMPANY, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::COMPANY, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ORGANIZATIONID, $companyType->getOrganizationId());
+        self::writeAttribute( $this->writer, self::ORGANIZATIONID, $companyType->getOrganizationId() );
         $multiple = $companyType->getMultiple();
         if( ! empty( $multiple)) {
-            parent::writeAttribute( $this->writer, self::MULTIPLE, $multiple );
+            self::writeAttribute( $this->writer, self::MULTIPLE, (string) $multiple );
         }
-        parent::writeAttribute( $this->writer, self::NAME,           $companyType->getName());
-        parent::writeAttribute( $this->writer, self::CLIENTID,       $companyType->getClientId());
+        self::writeAttribute( $this->writer, self::NAME, $companyType->getName() );
+        self::writeAttribute( $this->writer, self::CLIENTID, $companyType->getClientId() );
         foreach( $companyType->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $this->writer->endElement();

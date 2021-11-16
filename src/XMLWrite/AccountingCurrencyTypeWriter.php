@@ -39,12 +39,12 @@ class AccountingCurrencyTypeWriter extends Sie5WriterBase implements Sie5WriterI
      * @param AccountingCurrencyType $accountingCurrencyType
      *
      */
-    public function write( AccountingCurrencyType $accountingCurrencyType )
+    public function write( AccountingCurrencyType $accountingCurrencyType ) : void
     {
         $XMLattributes = $accountingCurrencyType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ACCOUNTINGCURRENCY, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ACCOUNTINGCURRENCY, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::CURRENCY, $accountingCurrencyType->getCurrency());
+        self::writeAttribute( $this->writer, self::CURRENCY, $accountingCurrencyType->getCurrency() );
 
         $this->writer->endElement();
     }

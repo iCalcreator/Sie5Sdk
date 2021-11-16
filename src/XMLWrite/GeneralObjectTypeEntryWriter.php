@@ -39,18 +39,18 @@ class GeneralObjectTypeEntryWriter extends Sie5WriterBase implements Sie5WriterI
      * @param GeneralObjectTypeEntry $generalObjectTypeEntry
      *
      */
-    public function write( GeneralObjectTypeEntry $generalObjectTypeEntry )
+    public function write( GeneralObjectTypeEntry $generalObjectTypeEntry ) : void
     {
         $XMLattributes = $generalObjectTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::GENERALOBEJCT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::GENERALOBEJCT, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $generalObjectTypeEntry->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $generalObjectTypeEntry->getName());
+        self::writeAttribute( $this->writer, self::ID, $generalObjectTypeEntry->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $generalObjectTypeEntry->getName() );
         foreach( $generalObjectTypeEntry->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $this->writer->endElement();

@@ -52,10 +52,8 @@ class BalancesTypeParser extends Sie5ParserBase
                 $this->logger->debug(
                     sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                 );
-                switch( $this->reader->name ) {
-                    case ( self::ACCOUNTID ) :
-                        $balancesType->setAccountId( $this->reader->value );
-                        break;
+                if( self::ACCOUNTID === $this->reader->name ) {
+                    $balancesType->setAccountId( $this->reader->value );
                 }
             } // end while
             $this->reader->moveToElement();
@@ -66,24 +64,24 @@ class BalancesTypeParser extends Sie5ParserBase
         $headElement = $this->reader->localName;
         $parser      = new BaseBalanceTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
                     // choice minOccurs="0" maxOccurs="unbounded"
-                case ( self::OPENINGBALANCE == $this->reader->localName ) :
+                case ( self::OPENINGBALANCE === $this->reader->localName ) :
                     $balancesType->addBalancesType( self::OPENINGBALANCE, $parser->parse());
                     break;
-                case ( self::CLOSINGBALANCE == $this->reader->localName ) :
+                case ( self::CLOSINGBALANCE === $this->reader->localName ) :
                     $balancesType->addBalancesType( self::CLOSINGBALANCE, $parser->parse());
                     break;
             } // end switch

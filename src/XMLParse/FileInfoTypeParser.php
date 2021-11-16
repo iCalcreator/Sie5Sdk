@@ -58,14 +58,8 @@ class FileInfoTypeParser extends Sie5ParserBase
                 $this->logger->debug(
                     sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                 );
-                switch( $this->reader->name ) {
-                    case self::XSITYPE :
-                        $extensionAttributes[$this->reader->name] = $this->reader->value;
-                        break;
-                    default :
-                        $extensionAttributes[$this->reader->name] = $this->reader->value;
-                        break;
-                } // end switch
+                // self::XSITYPE expected but all accepted
+                $extensionAttributes[$this->reader->name] = $this->reader->value;
             } // end while
             if( isset( $extensionAttributes[self::XSITYPE] ) && ( 2 <= count( $extensionAttributes ))) {
                 $this->logger->debug(
@@ -78,37 +72,37 @@ class FileInfoTypeParser extends Sie5ParserBase
 
         $headElement = $this->reader->localName;
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
 
-                case ( self::SOFTWAREPRODUCT == $this->reader->localName ) :  // occurs 1
+                case ( self::SOFTWAREPRODUCT === $this->reader->localName ) :  // occurs 1
                     $fileInfoType->setSoftwareProduct( SoftwareProductTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::FILECREATION == $this->reader->localName ) :  // occurs 1
+                case ( self::FILECREATION === $this->reader->localName ) :  // occurs 1
                     $fileInfoType->setFileCreation( FileCreationTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::COMPANY == $this->reader->localName ) :  // occurs 1
+                case ( self::COMPANY === $this->reader->localName ) :  // occurs 1
                     $fileInfoType->setCompany( CompanyTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::FISCALYEARS == $this->reader->localName ) :  // occurs 1
+                case ( self::FISCALYEARS === $this->reader->localName ) :  // occurs 1
                     $fileInfoType->setFiscalYears( FiscalYearsTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::ACCOUNTINGCURRENCY == $this->reader->localName ) :  // occurs 1
+                case ( self::ACCOUNTINGCURRENCY === $this->reader->localName ) :  // occurs 1
                     $fileInfoType->setAccountingCurrency( AccountingCurrencyTypeParser::factory( $this->reader )->parse());
                     break;
             } // end switch

@@ -46,26 +46,26 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @var array   [ *( key => OpeningBalance/ClosingBalance)]
      */
-    private $balancesTypes = [];
+    private array $balancesTypes = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="accountId" type="sie:AccountNumber" use="optional"
      * The account that the balances specify.
      * If ommitted this element contains the balances for the object
      * on the primary account of the subdivided account group.
      */
-    private $accountId = null;
+    private ?string $accountId = null;
 
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -99,7 +99,7 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
     public function addBalancesType( string $key, BaseBalanceType $balancesType ) : self
     {
         static $KEYTYPES = [ self::OPENINGBALANCE, self::CLOSINGBALANCE ];
-        if( ! in_array( $key, $KEYTYPES )) {
+        if( ! in_array( $key, $KEYTYPES, true ) ) {
             throw new InvalidArgumentException(
                 sprintf( self::$FMTERR5, self::BASEBALANCE, $key, get_class( $balancesType ))
             );
@@ -133,7 +133,7 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
                 $element = [ $ix => $element ];
             }
             reset( $element );
-            $key = key( $element );
+            $key = (string) key( $element );
             $this->addBalancesType( $key, current( $element ));
         } // end foreach
         return $this;
@@ -142,7 +142,7 @@ class BalancesType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getAccountId()
+    public function getAccountId() : ?string
     {
         return $this->accountId;
     }

@@ -52,39 +52,39 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
      *   ObjectReference       - 2-unbound  ObjectReferenceType
      * List of objects associated with this balance
      */
-    private $baseBalanceMultidimTypes = [];
+    private array $baseBalanceMultidimTypes = [];
 
     /**
-     * @var string
+     * @var string|null
      */
-    private $previousElement          = null;
+    private ?string $previousElement          = null;
 
     /**
      * @var int
      */
-    private $elementSetIndex          = 0;
+    private int $elementSetIndex          = 0;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="month" type="xsd:gYearMonth" use="required" ( '2001-10')
      */
-    private $month = null;
+    private ?string $month = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="amount" type="sie:Amount" use="required"
      * Amount. Positive for debit, negative for credit.
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="quantity" type="xsd:decimal"
      */
-    private $quantity = null;
+    private ?float $quantity = null;
 
     /**
      * Factory method, set month and amount
@@ -104,10 +104,10 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -161,13 +161,13 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     ) : self
     {
         switch( true ) {
-            case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
+            case (( self::FOREIGNCURRENCYAMOUNT === $key ) &&
                 $baseBalanceMultidimType instanceof ForeignCurrencyAmountType ) :
                 if( ! empty( $this->previousElement )) {
-                    $this->elementSetIndex += 1;
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::OBJECTREFERENCE == $key ) &&
+            case (( self::OBJECTREFERENCE === $key ) &&
                 $baseBalanceMultidimType instanceof ObjectReferenceType ) :
                 break;
             default :
@@ -217,8 +217,8 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
                         reset( $element );
                         $key = (string) key( $element );
                         $this->addBaseBalanceMultidimType( $key, current( $element ));
-                        if( self::OBJECTREFERENCE == $key ) {
-                            $cnt += 1;
+                        if( self::OBJECTREFERENCE === $key ) {
+                            ++$cnt;
                         }
                         break;
                     case ( $element instanceof ForeignCurrencyAmountType ) :
@@ -232,18 +232,18 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
                             self::OBJECTREFERENCE,
                             $element
                         );
-                        $cnt += 1;
+                        ++$cnt;
                         break;
                     default :
                         $this->addBaseBalanceMultidimType((string) $ix2, $element );
-                        if( self::OBJECTREFERENCE == $ix2 ) {
-                            $cnt += 1;
+                        if( self::OBJECTREFERENCE === $ix2 ) {
+                            ++$cnt;
                         }
                         break;
                 } // end switch
             } // end foreach
         } // end foreach
-        if( 1 == $cnt ) {
+        if( 1 === $cnt ) {
             throw new InvalidArgumentException(
                 sprintf( self::$FMTERR3, self::BASEBALANCEMULTIDIM, self::OBJECTREFERENCE )
             );
@@ -254,7 +254,7 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     /**
      * @return null|string
      */
-    public function getMonth()
+    public function getMonth() : ?string
     {
         return $this->month;
     }
@@ -273,7 +273,7 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     /**
      * @return null|float
      */
-    public function getAmount()
+    public function getAmount() : ?float
     {
         return $this->amount;
     }
@@ -292,7 +292,7 @@ class BaseBalanceMultidimType extends Sie5DtoBase implements AccountTypesInterfa
     /**
      * @return null|float
      */
-    public function getQuantity()
+    public function getQuantity() : ?float
     {
         return $this->quantity;
     }

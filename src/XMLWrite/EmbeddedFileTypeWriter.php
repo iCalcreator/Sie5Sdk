@@ -39,13 +39,13 @@ class EmbeddedFileTypeWriter extends Sie5WriterBase implements Sie5WriterInterfa
      * @param EmbeddedFileType $embeddedFileType
      *
      */
-    public function write( EmbeddedFileType $embeddedFileType )
+    public function write( EmbeddedFileType $embeddedFileType ) : void
     {
         $XMLattributes = $embeddedFileType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::EMBEDDEDFILE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::EMBEDDEDFILE, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,       (string) $embeddedFileType->getId());
-        parent::writeAttribute( $this->writer, self::FILENAME, $embeddedFileType->getFileName());
+        self::writeAttribute( $this->writer, self::ID, (string)$embeddedFileType->getId() );
+        self::writeAttribute( $this->writer, self::FILENAME, $embeddedFileType->getFileName() );
 
         $embeddedFile = $embeddedFileType->getEmbeddedFile();
         if( ! empty( $embeddedFile )) {

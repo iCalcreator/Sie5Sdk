@@ -40,7 +40,8 @@ class FiscalYearType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $start, $end ) {
+    public static function loadFromFaker( string $start, string $end ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         return Dto::factoryStartEnd( $start, $end )

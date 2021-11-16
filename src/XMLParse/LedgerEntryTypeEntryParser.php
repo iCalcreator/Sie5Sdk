@@ -106,31 +106,31 @@ class LedgerEntryTypeEntryParser extends Sie5ParserBase
         $objectReferenceTypeParser       = new ObjectReferenceTypeParser( $this->reader );
         $subdividedAccountObjectReferenceTypeParser = new SubdividedAccountObjectReferenceTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
                     // sequence maxOccurs="unbounded" minOccurs="0"
-                case ( self::FOREIGNCURRENCYAMOUNT == $this->reader->localName ) : //  minOccurs="0" maxOccurs="1"
+                case ( self::FOREIGNCURRENCYAMOUNT === $this->reader->localName ) : //  minOccurs="0" maxOccurs="1"
                     $ledgerEntryTypeEntry->addLedgerEntryTypeEntry(
                         self::FOREIGNCURRENCYAMOUNT, $foreignCurrencyAmountTypeParser->parse()
                     );
                     break;
-                case ( self::OBJECTREFERENCE == $this->reader->localName ) : //  minOccurs="0" maxOccurs="unbounded"
+                case ( self::OBJECTREFERENCE === $this->reader->localName ) : //  minOccurs="0" maxOccurs="unbounded"
                     $ledgerEntryTypeEntry->addLedgerEntryTypeEntry(
                         self::OBJECTREFERENCE, $objectReferenceTypeParser->parse()
                     );
                     break;
-                case ( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE == $this->reader->localName ) : // minOccurs="0" maxOccurs="1"
+                case ( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE === $this->reader->localName ) : // minOccurs="0" maxOccurs="1"
                     $ledgerEntryTypeEntry->addLedgerEntryTypeEntry(
                         self::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
                         $subdividedAccountObjectReferenceTypeParser->parse()

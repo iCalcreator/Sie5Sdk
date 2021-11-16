@@ -32,12 +32,10 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 use InvalidArgumentException;
 use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 
-use function get_called_class;
-
 abstract class BaseSubdividedAccountTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="primaryAccountId" type="sie:AccountNumber" use="required"
      * <xsd:restriction base="xsd:string">
@@ -45,16 +43,16 @@ abstract class BaseSubdividedAccountTypeEntry extends Sie5DtoBase implements Sie
      * </xsd:restriction>
      * Subordinate account identifier. The primary account of the subdivided account.
      */
-    protected $primaryAccountId = null;
+    protected ?string $primaryAccountId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="optional"
      * Name of the subdivided account or account group.
      * If omitted the account name of the referenced account may be used.
      */
-    protected $name = null;
+    protected ?string $name = null;
 
     /**
      * Factory method, set primaryAccountId
@@ -64,7 +62,7 @@ abstract class BaseSubdividedAccountTypeEntry extends Sie5DtoBase implements Sie
      */
     public static function factoryPrimaryAccountId( string $primaryAccountId ) : self
     {
-        $class    = get_called_class();
+        $class    = static::class;
         $instance = new $class();
         return $instance->setPrimaryAccountId( $primaryAccountId );
     }
@@ -72,7 +70,7 @@ abstract class BaseSubdividedAccountTypeEntry extends Sie5DtoBase implements Sie
     /**
      * @return null|string
      */
-    public function getPrimaryAccountId()
+    public function getPrimaryAccountId() : ?string
     {
         return $this->primaryAccountId;
     }
@@ -91,7 +89,7 @@ abstract class BaseSubdividedAccountTypeEntry extends Sie5DtoBase implements Sie
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

@@ -39,14 +39,14 @@ class CorrectedByTypeWriter extends Sie5WriterBase implements Sie5WriterInterfac
      * @param CorrectedByType $correctedByType
      *
      */
-    public function write( CorrectedByType $correctedByType )
+    public function write( CorrectedByType $correctedByType ) : void
     {
         $XMLattributes = $correctedByType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CORRECTEDBY, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CORRECTEDBY, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::FISCALYEARID,   $correctedByType->getFiscalYearId());
-        parent::writeAttribute( $this->writer, self::JOURNALID,      $correctedByType->getJournalId());
-        parent::writeAttribute( $this->writer, self::JOURNALENTRYID, (string) $correctedByType->getJournalEntryId());
+        self::writeAttribute( $this->writer, self::FISCALYEARID, $correctedByType->getFiscalYearId() );
+        self::writeAttribute( $this->writer, self::JOURNALID, $correctedByType->getJournalId() );
+        self::writeAttribute( $this->writer, self::JOURNALENTRYID, (string)$correctedByType->getJournalEntryId() );
 
         $this->writer->endElement();
     }

@@ -39,16 +39,16 @@ class FileInfoTypeEntryWriter extends Sie5WriterBase implements Sie5WriterInterf
      * @param FileInfoTypeEntry $fileInfoTypeEntry
      *
      */
-    public function write( FileInfoTypeEntry $fileInfoTypeEntry )
+    public function write( FileInfoTypeEntry $fileInfoTypeEntry ) : void
     {
         $XMLattributes = $fileInfoTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FILEINFO, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FILEINFO, $XMLattributes );
 
         foreach( $fileInfoTypeEntry->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $softwareProduct = $fileInfoTypeEntry->getSoftwareProduct();

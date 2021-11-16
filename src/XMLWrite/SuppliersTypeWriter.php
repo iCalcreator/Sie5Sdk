@@ -41,10 +41,10 @@ class SuppliersTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param SuppliersType $suppliersType
      *
      */
-    public function write( SuppliersType $suppliersType )
+    public function write( SuppliersType $suppliersType ) : void
     {
         $XMLattributes = $suppliersType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::SUPPLIERS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SUPPLIERS, $XMLattributes );
 
         $suppliers = $suppliersType->getSupplier();
         if( is_array( $suppliers ) && ! empty( $suppliers )) {

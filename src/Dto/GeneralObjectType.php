@@ -36,10 +36,10 @@ class GeneralObjectType extends SubdividedAccountObjectType
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];

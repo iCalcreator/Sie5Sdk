@@ -76,32 +76,32 @@ class BaseBalanceTypeParser extends Sie5ParserBase
         $foreignCurrencyAmountTypeParser = new ForeignCurrencyAmountTypeParser( $this->reader );
         $objectReferenceTypeParser       = new ObjectReferenceTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
                     // sequence maxOccurs="unbounded" minOccurs="0"
-                case ( self::FOREIGNCURRENCYAMOUNT == $this->reader->localName ) : //  minOccurs="0" maxOccurs="1"
-                    if( self::FOREIGNCURRENCYAMOUNT == $previousElement ) {
-                        $index += 1;
+                case ( self::FOREIGNCURRENCYAMOUNT === $this->reader->localName ) : //  minOccurs="0" maxOccurs="1"
+                    if( self::FOREIGNCURRENCYAMOUNT === $previousElement ) {
+                        ++$index;
                     }
                     $baseBalanceTypes[$index][] = [
                         self::FOREIGNCURRENCYAMOUNT => $foreignCurrencyAmountTypeParser->parse()
                     ];
                     $previousElement = self::FOREIGNCURRENCYAMOUNT;
                     break;
-                case ( self::OBJECTREFERENCE == $this->reader->localName ) : //  minOccurs="0" maxOccurs="1"
-                    if( self::OBJECTREFERENCE == $previousElement ) {
-                        $index += 1;
+                case ( self::OBJECTREFERENCE === $this->reader->localName ) : //  minOccurs="0" maxOccurs="1"
+                    if( self::OBJECTREFERENCE === $previousElement ) {
+                        ++$index;
                     }
                     $baseBalanceTypes[$index][] = [
                         self::OBJECTREFERENCE => $objectReferenceTypeParser->parse()

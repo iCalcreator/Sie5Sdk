@@ -48,7 +48,8 @@ class TestSieEntry extends BaseTest
      *
      * @test
      */
-    public function sieEntryTest2mini() {
+    public function sieEntryTest2mini() : void
+    {
 
         echo PHP_EOL . ' START  (mini) ' . __FUNCTION__ . PHP_EOL;
         $startTime = microtime( true );               // ---- load
@@ -112,7 +113,8 @@ class TestSieEntry extends BaseTest
      *
      * @test
      */
-    public function sieEntryTest3full() {
+    public function sieEntryTest3full() : void
+    {
 
         echo PHP_EOL . ' START  (full) ' . __FUNCTION__ . PHP_EOL;
         $startTime = microtime( true );               // ---- load
@@ -232,7 +234,14 @@ class TestSieEntry extends BaseTest
         if( defined( 'SAVEXML' ) && ( false !== SAVEXML )) {
             file_put_contents( SAVEXML . DIRECTORY_SEPARATOR . __FUNCTION__ . '2.xml', $xml2 );
         }
+        /* will not work... TypeError...
         $this->assertXmlStringEqualsXmlString(
+            $xml1,
+            $xml2,
+            sprintf( self::$CMPERR1, __FUNCTION__ )
+        );
+        */
+        $this->assertSame(
             $xml1,
             $xml2,
             sprintf( self::$CMPERR1, __FUNCTION__ )
@@ -242,7 +251,8 @@ class TestSieEntry extends BaseTest
     /**
      * @ . test
      */
-    public function sieEntryTest9() {
+    public function sieEntryTest9() : void
+    {
         /*
         static $nodeTypes = [
             0  => 'NONE',

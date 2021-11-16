@@ -43,38 +43,37 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
      * List of objects associated with this balance
      * minOccurs="0" maxOccurs="unbounded"
      */
-    private $objectReference = [];
+    private array $objectReference = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="month" type="xsd:gYearMonth"
      * If month is omitted the budget amount is for the full primary fiscal year.
      */
-    private $month = null;
+    private ?string $month = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="amount" type="sie:Amount" use="required"
      * Amount. Positive for debit, negative for credit.
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="quantity" type="xsd:decimal"
      */
-    private $quantity = null;
+    private ?float $quantity = null;
 
     /**
      * Factory method, set month and amount
      *
-     * @param string  $month
-     * @param mixed   $amount
+     * @param string $month
+     * @param mixed $amount
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryMonthAmount( string $month, $amount ) : self
     {
@@ -86,10 +85,10 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -151,7 +150,7 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return string
      */
-    public function getMonth()
+    public function getMonth() : ?string
     {
         return $this->month;
     }
@@ -168,9 +167,9 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getAmount() : float
+    public function getAmount() : ?float
     {
         return $this->amount;
     }
@@ -189,7 +188,7 @@ class BudgetType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return float
      */
-    public function getQuantity()
+    public function getQuantity() : ?float
     {
         return $this->quantity;
     }

@@ -42,23 +42,21 @@ class BudgetTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param BudgetType $budgetType
      *
      */
-    public function write( BudgetType $budgetType )
+    public function write( BudgetType $budgetType ) : void
     {
         $XMLattributes = $budgetType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::BUDGET, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::BUDGET, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::MONTH,    $budgetType->getMonth());
+        self::writeAttribute( $this->writer, self::MONTH, $budgetType->getMonth() );
         $amount = $budgetType->getAmount();
         if( ! empty( $amount ) || ( 0.0 === $amount )) {
-            parent::writeAttribute(
-                $this->writer,
+            self::writeAttribute( $this->writer,
                 self::AMOUNT,
-                CommonFactory::formatAmount( $amount )
-            );
+                CommonFactory::formatAmount( $amount ) );
         }
         $quantity = $budgetType->getQuantity();
         if( ! empty( $quantity )) {
-            parent::writeAttribute($this->writer, self::QUANTITY, $quantity );
+            self::writeAttribute( $this->writer, self::QUANTITY, (string) $quantity );
         }
 
         $objectReferences = $budgetType->getObjectReference();

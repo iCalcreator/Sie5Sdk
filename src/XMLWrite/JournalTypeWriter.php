@@ -41,13 +41,13 @@ class JournalTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param JournalType $journalType
      *
      */
-    public function write( JournalType $journalType )
+    public function write( JournalType $journalType ) : void
     {
         $XMLattributes = $journalType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::JOURNAL, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::JOURNAL, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $journalType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $journalType->getName());
+        self::writeAttribute( $this->writer, self::ID, $journalType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $journalType->getName() );
 
         $journalEntries = $journalType->getJournalEntry();
         if( is_array( $journalEntries ) && ! empty( $journalEntries )) {

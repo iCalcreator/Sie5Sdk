@@ -54,22 +54,22 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      *                 OverstrikeType                        minOccurs="0"
      *                 LockingInfoType                       minOccurs="0"
      */
-    private $ledgerEntryTypes  = [];
+    private array $ledgerEntryTypes  = [];
 
     /**
-     * @var string
+     * @var string|null
      */
-    private $previousElement   = null;
+    private ?string $previousElement   = null;
 
     /**
      * @var int
      */
-    private $elementSetIndex   = 0;
+    private int $elementSetIndex   = 0;
 
     /**
      * @var array
      */
-    private static $PREVIOUS23 = [
+    private static array $PREVIOUS23 = [
         self::SUBDIVIDEDACCOUNTOBJECTREFERENCE,
         self::ENTRYINFO,
         self::OVERSTRIKE,
@@ -79,73 +79,72 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @var array
      */
-    private static $PREVIOUS4  = [ self::ENTRYINFO, self::OVERSTRIKE, self::LOCKINGINFO ];
+    private static array $PREVIOUS4  = [ self::ENTRYINFO, self::OVERSTRIKE, self::LOCKINGINFO ];
 
     /**
      * @var array
      */
-    private static $PREVIOUS5  = [ self::OVERSTRIKE, self::LOCKINGINFO ];
+    private static array $PREVIOUS5  = [ self::OVERSTRIKE, self::LOCKINGINFO ];
 
     /**
      * @var array
      */
-    private static $PREVIOUS6  = [ self::LOCKINGINFO ];
+    private static array $PREVIOUS6  = [ self::LOCKINGINFO ];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="accountId" type="sie:AccountNumber" use="required"
      * Account identifier. Must exist in the chart of accounts
      */
-    private $accountId = null;
+    private ?string $accountId = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="amount" type="xsd:decimal" use="required"
      * Amount. Positive for debit, negative for credit. May not be zero???
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="quantity" type="xsd:decimal"
      */
-    private $quantity = null;
+    private ?float $quantity = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="text" type="xsd:string"
      * Optional text describing the individual ledger entry.
      */
-    private $text = null;
+    private ?string $text = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="ledgerDate" type="xsd:date" use="optional"
      * The date used for posting to the general ledger if different from the
      * journal date specified for the entire journal entry.
      */
-    private $ledgerDate = null;
+    private ?DateTime $ledgerDate = null;
 
     /**
      * Factory method, set account, amount and, opt, quantity
      *
      * @param string $accountId
-     * @param mixed  $amount
-     * @param mixed  $quantity
+     * @param mixed $amount
+     * @param mixed $quantity
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryAccountIdAmount( string $accountId, $amount, $quantity = null ) : self
     {
         $instance = new self();
         $instance->setAccountId( $accountId );
         $instance->setAmount( $amount );
-        if( ! empty( $quantity ) || ( 0 == (int) $quantity )) {
+        if( ! empty( $quantity ) || ( 0 === (int) $quantity )) {
             $instance->setQuantity( $quantity );
         }
         return $instance;
@@ -154,10 +153,10 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( ! empty( $this->ledgerEntryTypes )) {
@@ -203,40 +202,39 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @param string $key
      * @param LedgerEntryTypesInterface $ledgerEntryType
      * @return static
-     * @throws InvalidArgumentException
      */
     public function addLedgerEntryType( string $key, LedgerEntryTypesInterface $ledgerEntryType ) : self
     {
         switch( true ) {
-            case (( self::FOREIGNCURRENCYAMOUNT == $key ) && $ledgerEntryType instanceof ForeignCurrencyAmountType ) :
+            case (( self::FOREIGNCURRENCYAMOUNT === $key ) && $ledgerEntryType instanceof ForeignCurrencyAmountType ) :
                 if( ! empty( $this->previousElement )) {
-                    $this->elementSetIndex += 1;
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::OBJECTREFERENCE == $key ) &&  $ledgerEntryType instanceof ObjectReferenceType ) :
-                if( in_array( $this->previousElement, self::$PREVIOUS23 )) {
-                    $this->elementSetIndex += 1;
+            case (( self::OBJECTREFERENCE === $key ) &&  $ledgerEntryType instanceof ObjectReferenceType ) :
+                if( in_array( $this->previousElement, self::$PREVIOUS23, true ) ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE == $key ) &&
+            case (( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE === $key ) &&
                 $ledgerEntryType instanceof SubdividedAccountObjectReferenceType ) :
-                if( in_array( $this->previousElement, self::$PREVIOUS23 )) {
-                    $this->elementSetIndex += 1;
+                if( in_array( $this->previousElement, self::$PREVIOUS23, true ) ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::ENTRYINFO == $key ) &&  $ledgerEntryType instanceof EntryInfoType ) :
-                if( in_array( $this->previousElement, self::$PREVIOUS4 )) {
-                    $this->elementSetIndex += 1;
+            case (( self::ENTRYINFO === $key ) &&  $ledgerEntryType instanceof EntryInfoType ) :
+                if( in_array( $this->previousElement, self::$PREVIOUS4, true ) ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::OVERSTRIKE == $key ) && $ledgerEntryType instanceof OverstrikeType ) :
-                if( in_array( $this->previousElement, self::$PREVIOUS5 )) {
-                    $this->elementSetIndex += 1;
+            case (( self::OVERSTRIKE === $key ) && $ledgerEntryType instanceof OverstrikeType ) :
+                if( in_array( $this->previousElement, self::$PREVIOUS5, true ) ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::LOCKINGINFO == $key ) &&  $ledgerEntryType instanceof LockingInfoType ) :
-                if( in_array( $this->previousElement, self::$PREVIOUS6 )) {
-                    $this->elementSetIndex += 1;
+            case (( self::LOCKINGINFO === $key ) &&  $ledgerEntryType instanceof LockingInfoType ) :
+                if( in_array( $this->previousElement, self::$PREVIOUS6, true ) ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
             default :
@@ -300,7 +298,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
                         $element = [ $ix2 => $element ];
                 } // end switch
                 reset( $element );
-                $key = key( $element );
+                $key = (string) key( $element );
                 $this->addLedgerEntryType( $key, current( $element ));
             }  // end foreach
         } // end foreach
@@ -310,7 +308,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getAccountId()
+    public function getAccountId() : ?string
     {
         return $this->accountId;
     }
@@ -318,7 +316,6 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @param string $accountId
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setAccountId( string $accountId ) : self
     {
@@ -329,7 +326,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|float
      */
-    public function getAmount()
+    public function getAmount() : ?float
     {
         return $this->amount;
     }
@@ -348,7 +345,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|float
      */
-    public function getQuantity()
+    public function getQuantity() : ?float
     {
         return $this->quantity;
     }
@@ -366,7 +363,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getText()
+    public function getText() : ?string
     {
         return $this->text;
     }
@@ -384,7 +381,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|DateTime
      */
-    public function getLedgerDate()
+    public function getLedgerDate() : ?DateTime
     {
         return $this->ledgerDate;
     }

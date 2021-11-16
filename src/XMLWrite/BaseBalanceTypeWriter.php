@@ -41,22 +41,19 @@ class BaseBalanceTypeWriter extends Sie5WriterBase implements Sie5WriterInterfac
      *
      * @param BaseBalanceType $baseBalanceType
      * @param string $elementName
-     *
      */
-    public function write( BaseBalanceType $baseBalanceType, string $elementName )
+    public function write( BaseBalanceType $baseBalanceType, string $elementName ) : void
     {
         $XMLattributes = $baseBalanceType->getXMLattributes();
-        parent::setWriterStartElement($this->writer, $elementName, $XMLattributes);
+        self::setWriterStartElement( $this->writer, $elementName, $XMLattributes );
 
-        parent::writeAttribute($this->writer, self::MONTH, $baseBalanceType->getMonth());
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer, self::MONTH, $baseBalanceType->getMonth() );
+        self::writeAttribute( $this->writer,
             self::AMOUNT,
-            CommonFactory::formatAmount($baseBalanceType->getAmount())
-        );
+            CommonFactory::formatAmount( $baseBalanceType->getAmount() ) );
         $quantity = $baseBalanceType->getQuantity();
         if ( ! empty( $quantity )) {
-            parent::writeAttribute($this->writer, self::QUANTITY, $quantity );
+            self::writeAttribute( $this->writer, self::QUANTITY, (string) $quantity );
         }
 
         $baseBalanceTypes = $baseBalanceType->getBaseBalanceTypes();

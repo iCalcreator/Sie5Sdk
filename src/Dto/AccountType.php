@@ -54,45 +54,45 @@ class AccountType extends Sie5DtoExtAttrBase
      *     ClosingBalanceMultidim  type BaseBalanceMultidimType
      *     BudgetMultidim          type BudgetMultidimType
      */
-    private $accountType = [];
+    private array $accountType = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id" type="sie:AccountNumber" use="required"
      * pattern value="[0-9]+"
      * Unique account identifier. The account number.
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="required"
      * Account name
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="type" use="required"
      * enumeration : "asset", "liability", "equity", "cost", "income"
      */
-    private $type = null;
+    private ?string $type = null;
 
     /**
      * @var string[]
      */
-    public static $typeEnumeration = [ self::ASSET, self::LIABILITY, self::EQUITY, self::COST, self::INCOME ];
+    public static array $typeEnumeration = [ self::ASSET, self::LIABILITY, self::EQUITY, self::COST, self::INCOME ];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="unit" type="xsd:string"
      * Unit for quantities
      */
-    private $unit = null;
+    private ?string $unit = null;
 
     /**
      * Factory method, set id, name and type
@@ -101,7 +101,6 @@ class AccountType extends Sie5DtoExtAttrBase
      * @param string $name
      * @param string $type
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdNameType( string $id, string $name, string $type ) : self
     {
@@ -114,10 +113,10 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -157,27 +156,26 @@ class AccountType extends Sie5DtoExtAttrBase
      * @param string $key
      * @param AccountTypesInterface $accountType
      * @return static
-     * @throws InvalidArgumentException
      */
     public function addAccountType( string $key, AccountTypesInterface $accountType ) : self
     {
         switch( true ) {
-            case (( self::OPENINGBALANCE == $key ) &&
+            case (( self::OPENINGBALANCE === $key ) &&
                 ( $accountType instanceof BaseBalanceType )) :
                 break;
-            case (( self::CLOSINGBALANCE == $key ) &&
+            case (( self::CLOSINGBALANCE === $key ) &&
                 ( $accountType instanceof BaseBalanceType )) :
                 break;
-            case (( self::BUDGET == $key ) &&
+            case (( self::BUDGET === $key ) &&
                 ( $accountType instanceof BudgetType )) :
                 break;
-            case (( self::OPENINGBALANCEMULTIDIM == $key ) &&
+            case (( self::OPENINGBALANCEMULTIDIM === $key ) &&
                 ( $accountType instanceof BaseBalanceMultidimType )) :
                 break;
-            case (( self::CLOSINGBALANCEMULTIDIM == $key ) &&
+            case (( self::CLOSINGBALANCEMULTIDIM === $key ) &&
                 ( $accountType instanceof BaseBalanceMultidimType )) :
                 break;
-            case (( self::BUDGETMULTIDIM == $key ) &&
+            case (( self::BUDGETMULTIDIM === $key ) &&
                 ( $accountType instanceof BudgetMultidimType )) :
                 break;
             default :
@@ -215,7 +213,7 @@ class AccountType extends Sie5DtoExtAttrBase
                 $element = [ $ix => $element ];
             }
             reset( $element );
-            $key = key( $element );
+            $key = (string) key( $element );
             $this->addAccountType( $key,  current( $element ));
         } // end foreach
         return $this;
@@ -224,7 +222,7 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -232,7 +230,6 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @param string $id
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setId( string $id ) : self
     {
@@ -243,7 +240,7 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -251,7 +248,6 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @param string $name
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setName( string $name ) : self
     {
@@ -262,7 +258,7 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getType()
+    public function getType() : ?string
     {
         return $this->type;
     }
@@ -270,7 +266,6 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @param string $type
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setType( string $type ) : self
     {
@@ -281,7 +276,7 @@ class AccountType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getUnit()
+    public function getUnit() : ?string
     {
         return $this->unit;
     }

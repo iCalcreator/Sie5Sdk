@@ -32,67 +32,67 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id"             type="xsd:string" use="required"
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name"           type="xsd:string" use="required"
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="organizationId" type="xsd:string"
      */
-    private $organizationId = null;
+    private ?string $organizationId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="vatNr"          type="xsd:string"
      */
-    private $vatNr = null;
+    private ?string $vatNr = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="address1"       type="xsd:string"
      */
-    private $address1 = null;
+    private ?string $address1 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="address2"       type="xsd:string"
      */
-    private $address2 = null;
+    private ?string $address2 = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="zipcode"        type="xsd:string"
      */
-    private $zipcode = null;
+    private ?string $zipcode = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="city"           type="xsd:string"
      */
-    private $city = null;
+    private ?string $city = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="country"        type="xsd:string"
      */
-    private $country = null;
+    private ?string $country = null;
 
     use ExtensionAttributeTrait;
 
@@ -113,10 +113,10 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->id ) {
@@ -135,7 +135,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -153,7 +153,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -171,7 +171,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getOrganizationId()
+    public function getOrganizationId() : ?string
     {
         return $this->organizationId;
     }
@@ -189,7 +189,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getVatNr()
+    public function getVatNr() : ?string
     {
         return $this->vatNr;
     }
@@ -207,7 +207,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getAddress1()
+    public function getAddress1() : ?string
     {
         return $this->address1;
     }
@@ -225,7 +225,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getAddress2()
+    public function getAddress2() : ?string
     {
         return $this->address2;
     }
@@ -243,7 +243,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getZipcode()
+    public function getZipcode() : ?string
     {
         return $this->zipcode;
     }
@@ -261,7 +261,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getCity()
+    public function getCity() : ?string
     {
         return $this->city;
     }
@@ -279,7 +279,7 @@ class CustomerType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getCountry()
+    public function getCountry() : ?string
     {
         return $this->country;
     }

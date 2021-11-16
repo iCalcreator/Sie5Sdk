@@ -38,26 +38,27 @@ class ObjectType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
+    public static function loadFromFaker() : Dto
+    {
 
         $faker = Faker\Factory::create();
 
         static $words = [];
         static $ids   = [];
         $word = $faker->word;
-        while( in_array( $word, $words)) {
+        while( in_array( $word, $words, true ) ) {
             $word = $faker->word;
         }
         $words[] = $word;
 
         $id = (string) $faker->numberBetween( 1000, 9999 );
-        while( in_array( $id, $ids ))  {
+        while( in_array( $id, $ids, true ) )  {
             $id = (string) $faker->numberBetween( 1000, 9999 );
         }
         $ids[] = $id;
 
         return Dto::factoryIdName(
-            ( 1 == $faker->numberBetween( 1, 2 ) ? $id : $word ),
+            ( 1 === $faker->numberBetween( 1, 2 ) ? $id : $word ),
             $faker->word
         );
     }

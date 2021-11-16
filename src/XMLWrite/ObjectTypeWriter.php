@@ -39,13 +39,13 @@ class ObjectTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param ObjectType $objectType
      *
      */
-    public function write( ObjectType $objectType )
+    public function write( ObjectType $objectType ) : void
     {
         $XMLattributes = $objectType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::OBJECT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::OBJECT, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $objectType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $objectType->getName());
+        self::writeAttribute( $this->writer, self::ID, $objectType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $objectType->getName() );
 
         $this->writer->endElement();
     }

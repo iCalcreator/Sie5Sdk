@@ -38,10 +38,10 @@ class AccountAggregationsTypeWriter extends Sie5WriterBase implements Sie5Writer
      *
      * @param AccountAggregationsType $accountAggregationsType
      */
-    public function write( AccountAggregationsType $accountAggregationsType )
+    public function write( AccountAggregationsType $accountAggregationsType ) : void
     {
         $XMLattributes = $accountAggregationsType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ACCOUNTAGGREGATIONS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ACCOUNTAGGREGATIONS, $XMLattributes );
 
         $accAggs = $accountAggregationsType->getAccountAggregation();
         if( is_array( $accAggs ) && ! empty( $accAggs )) {

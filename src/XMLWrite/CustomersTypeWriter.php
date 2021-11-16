@@ -41,10 +41,10 @@ class CustomersTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param CustomersType $customersType
      *
      */
-    public function write( CustomersType $customersType )
+    public function write( CustomersType $customersType ) : void
     {
         $XMLattributes = $customersType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CUSTOMERS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CUSTOMERS, $XMLattributes );
 
         $writer = new CustomerTypeWriter( $this->writer );
         $customers = $customersType->getCustomer();

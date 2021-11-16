@@ -32,44 +32,44 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class FileInfoType extends Sie5DtoExtAttrBase
 {
     /**
-     * @var SoftwareProductType
+     * @var SoftwareProductType|null
      *
      * Name of the software that has created the file
      */
-    private $softwareProduct = null;
+    private ?SoftwareProductType $softwareProduct = null;
 
     /**
-     * @var FileCreationType
+     * @var FileCreationType|null
      */
-    private $fileCreation = null;
+    private ?FileCreationType $fileCreation = null;
 
     /**
-     * @var CompanyType
+     * @var CompanyType|null
      *
      * General information about the company (or other organization)
      * whose fiscal data is represented in the file
      */
-    private $company = null;
+    private ?CompanyType $company = null;
 
     /**
-     * @var FiscalYearsType
+     * @var FiscalYearsType|null
      *
      * Container for fiscal years
      */
-    private $fiscalYears = null;
+    private ?FiscalYearsType $fiscalYears = null;
 
     /**
-     * @var AccountingCurrencyType
+     * @var AccountingCurrencyType|null
      */
-    private $accountingCurrency = null;
+    private ?AccountingCurrencyType $accountingCurrency = null;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = $inside = [];
         if( empty( $this->softwareProduct )) {
@@ -115,9 +115,9 @@ class FileInfoType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return SoftwareProductType
+     * @return null|SoftwareProductType
      */
-    public function getSoftwareProduct()
+    public function getSoftwareProduct() : ?SoftwareProductType
     {
         return $this->softwareProduct;
     }
@@ -133,9 +133,9 @@ class FileInfoType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return FileCreationType
+     * @return null|FileCreationType
      */
-    public function getFileCreation()
+    public function getFileCreation() : ?FileCreationType
     {
         return $this->fileCreation;
     }
@@ -151,9 +151,9 @@ class FileInfoType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return CompanyType
+     * @return null|CompanyType
      */
-    public function getCompany() : CompanyType
+    public function getCompany() : ? CompanyType
     {
         return $this->company;
     }
@@ -169,9 +169,9 @@ class FileInfoType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return FiscalYearsType
+     * @return null|FiscalYearsType
      */
-    public function getFiscalYears() : FiscalYearsType
+    public function getFiscalYears() : ? FiscalYearsType
     {
         return $this->fiscalYears;
     }
@@ -187,9 +187,9 @@ class FileInfoType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return AccountingCurrencyType
+     * @return null|AccountingCurrencyType
      */
-    public function getAccountingCurrency() : AccountingCurrencyType
+    public function getAccountingCurrency() : ? AccountingCurrencyType
     {
         return $this->accountingCurrency;
     }

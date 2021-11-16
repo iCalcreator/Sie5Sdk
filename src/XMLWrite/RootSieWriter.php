@@ -43,10 +43,10 @@ class RootSieWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param Sie $sie
      * @throws InvalidArgumentException
      */
-    public function write( Sie $sie )
+    public function write( Sie $sie ) : void
     {
         $XMLattributes = $sie->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::SIE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SIE, $XMLattributes );
 
         $fileInfo = $sie->getFileInfo();
         if( ! empty( $fileInfo )) {

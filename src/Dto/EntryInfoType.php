@@ -34,23 +34,23 @@ use DateTime;
 class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntryTypesInterface
 {
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="date" type="xsd:date" use="required"
      */
-    private $date = null;
+    private ?DateTime $date;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="by" type="xsd:string" use="required"
      */
-    private $by = null;
+    private ?string $by = null;
 
     /**
      * Factory method, set by/date (both required)
      *
-     * @param string   $by
+     * @param string $by
      * @param DateTime $date
      * @return static
      */
@@ -73,10 +73,10 @@ class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntry
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->date ) {
@@ -95,7 +95,7 @@ class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntry
     /**
      * @return null|DateTime
      */
-    public function getDate()
+    public function getDate() : ?DateTime
     {
         return $this->date;
     }
@@ -113,7 +113,7 @@ class EntryInfoType extends Sie5DtoBase implements Sie5DtoInterface, LedgerEntry
     /**
      * @return null|string
      */
-    public function getBy()
+    public function getBy() : ?string
     {
         return $this->by;
     }

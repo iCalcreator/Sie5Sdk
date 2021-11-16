@@ -38,5 +38,5 @@ interface Sie5ParserInterface
      *
      * @return Sie5DtoInterface
      */
-    public function parse();
+    public function parse() : Sie5DtoInterface;
 }

@@ -35,6 +35,7 @@ use TypeError;
 use function array_keys;
 use function current;
 use function get_class;
+use function in_array;
 use function is_array;
 use function is_null;
 use function key;
@@ -49,25 +50,25 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
      * Sets  of  1-x EmbeddedFileType OR single FileReferenceType
      * Individual source document
      */
-    private $documentsTypes  = [];
+    private array $documentsTypes  = [];
 
     /**
-     * @var string
+     * @var string|null
      */
-    private $previousElement = null;
+    private ?string $previousElement = null;
 
     /**
      * @var int
      */
-    private $elementSetIndex = 0;
+    private int $elementSetIndex = 0;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -106,7 +107,6 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
      * @param string $key
      * @param DocumentsTypesInterface $documentsType
      * @return static
-     * @throws InvalidArgumentException
      */
     public function addDocumentsType(
         string $key,
@@ -114,10 +114,10 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
     ) : DocumentsType
     {
         switch( true ) {
-            case (( self::EMBEDDEDFILE == $key ) &&
+            case (( self::EMBEDDEDFILE === $key ) &&
                 ( $documentsType instanceof EmbeddedFileType )) :
                 break;
-            case (( self::FILEREFERENCE == $key ) &&
+            case (( self::FILEREFERENCE === $key ) &&
                 ( $documentsType instanceof FileReferenceType )) :
                 break;
             default :
@@ -131,8 +131,8 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
                 sprintf( self::$FMTERR11, self::DOCUMENTS, self::ID, $documentsType->getId())
             );
         }
-        if( self::FILEREFERENCE == $this->previousElement ) {
-            $this->elementSetIndex += 1;
+        if( self::FILEREFERENCE === $this->previousElement ) {
+            ++$this->elementSetIndex;
         }
         $this->documentsTypes[$this->elementSetIndex][] = [ $key => $documentsType ];
         $this->previousElement = $key;
@@ -142,16 +142,16 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return EmbeddedFileType|FileReferenceType if id given, (bool false on not found) otherwise array all
      *
-     * @param int $id
+     * @param null|int $id
      * @return array|DocumentsTypesInterface|bool
      */
-    public function getDocumentsTypes( int $id = null )
+    public function getDocumentsTypes( ? int $id = null )
     {
         if( ! is_null( $id )) {
             foreach( array_keys( $this->documentsTypes ) as $ix1 ) { // elementSet ix
                 foreach( array_keys( $this->documentsTypes[$ix1] ) as $ix2 ) { // element ix
                     foreach( $this->documentsTypes[$ix1][$ix2] as $element ) { // element
-                        if( $id == $element->getId()) {
+                        if( $id === $element->getId()) {
                             return $element;
                         }
                     } // end foreach
@@ -188,7 +188,7 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function isDocumentIdUnique( int $id ) : bool
     {
-        return ( false === array_search( $id, $this->getAllDocumentsTypeIds()));
+        return ( ! in_array( $id, $this->getAllDocumentsTypeIds(), true ) );
     }
 
     /**
@@ -221,7 +221,7 @@ class DocumentsType extends Sie5DtoBase implements Sie5DtoInterface
                         $element = [ $ix2 => $element ];
                 } // end switch
                 reset( $element );
-                $key = key( $element );
+                $key = (string) key( $element );
                 $this->addDocumentsType( $key, current( $element ));
             } // end foreach
         } // end foreach

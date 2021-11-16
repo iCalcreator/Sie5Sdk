@@ -29,7 +29,7 @@
 namespace Kigkonsult\Sie5Sdk\DtoLoader;
 
 use Kigkonsult\Sie5Sdk\Dto\SieEntry as Dto;
-use Faker;
+// use Faker;
 
 /**
  * Class SieEntry3
@@ -43,8 +43,9 @@ class SieEntry2
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
-        $faker = Faker\Factory::create();
+    public static function loadFromFaker() : Dto
+    {
+//      $faker = Faker\Factory::create();
 
         return Dto::factory()
                   ->setFileInfo( FileInfoTypeEntry::loadFromFaker())

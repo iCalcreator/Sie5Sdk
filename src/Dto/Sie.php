@@ -46,78 +46,78 @@ use function usort;
 class Sie extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var FileInfoType
+     * @var FileInfoType|null
      *
      * Attribute maxOccurs="1" minOccurs="1"
      * General information about the file
      */
-    private $fileInfo = null;
+    private ?FileInfoType $fileInfo = null;
 
     /**
-     * @var AccountsType
+     * @var AccountsType|null
      *
      * Chart of accounts
      */
-    private $accounts = null;
+    private ?AccountsType $accounts = null;
 
     /**
-     * @var DimensionsType
+     * @var DimensionsType|null
      *
      * Attribute minOccurs="0"
      * Container for dimensions
      */
-    private $dimensions = null;
+    private ?DimensionsType $dimensions = null;
 
     /**
      * @var CustomerInvoicesType[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $customerInvoices = [];
+    private array $customerInvoices = [];
 
     /**
      * @var SupplierInvoicesType[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $supplierInvoices = [];
+    private array $supplierInvoices = [];
 
     /**
      * @var FixedAssetsType[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $fixedAssets = [];
+    private array $fixedAssets = [];
 
     /**
      * @var GeneralSubdividedAccountType[]
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    private $generalSubdividedAccount = [];
+    private array $generalSubdividedAccount = [];
 
     /**
-     * @var CustomersType
+     * @var CustomersType|null
      *
      * Container for customers
      * Attribute minOccurs="0"
      */
-    private $customers = null;
+    private ?CustomersType $customers = null;
 
     /**
-     * @var SuppliersType
+     * @var SuppliersType|null
      *
      * Container for suppliers
      * Attribute minOccurs="0"
      */
-    private $suppliers = null;
+    private ?SuppliersType $suppliers = null;
 
     /**
-     * @var AccountAggregationsType
+     * @var AccountAggregationsType|null
      *
      * Attribute minOccurs="0"
      */
-    private $accountAggregations = null;
+    private ?AccountAggregationsType $accountAggregations = null;
 
     /**
      * @var JournalType[]
@@ -125,28 +125,28 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute minOccurs="0" maxOccurs="unbounded"
      * Container for individual journal
      */
-    private $journal = [];
+    private array $journal = [];
 
     /**
-     * @var DocumentsType
+     * @var DocumentsType|null
      *
      * Container for documents
      * minOccurs="0"
      */
-    private $documents = null;
+    private ?DocumentsType $documents = null;
 
     /**
-     * @var SignatureType
+     * @var SignatureType|null
      */
-    private $signature = null;
+    private ?SignatureType $signature = null;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = $inside = [];
         if( empty( $this->fileInfo )) {
@@ -266,7 +266,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|FileInfoType
      */
-    public function getFileInfo()
+    public function getFileInfo() : ?FileInfoType
     {
         return $this->fileInfo;
     }
@@ -284,7 +284,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|AccountsType
      */
-    public function getAccounts()
+    public function getAccounts() : ?AccountsType
     {
         return $this->accounts;
     }
@@ -307,8 +307,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function isAccountIdUnique( string $id )
     {
-        $hitIx = $this->accounts->isAccountIdUnique( $id );
-        return ( true !== $hitIx ) ? $hitIx : true;
+        return $this->accounts->isAccountIdUnique( $id );
     }
 
     /**
@@ -324,7 +323,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DimensionsType
      */
-    public function getDimensions()
+    public function getDimensions() : ?DimensionsType
     {
         return $this->dimensions;
     }
@@ -535,7 +534,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|CustomersType
      */
-    public function getCustomers()
+    public function getCustomers() : ?CustomersType
     {
         return $this->customers;
     }
@@ -553,7 +552,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|SuppliersType
      */
-    public function getSuppliers()
+    public function getSuppliers() : ?SuppliersType
     {
         return $this->suppliers;
     }
@@ -571,7 +570,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|AccountAggregationsType
      */
-    public function getAccountAggregations()
+    public function getAccountAggregations() : ?AccountAggregationsType
     {
         return $this->accountAggregations;
     }
@@ -616,16 +615,19 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     {
         $accountIds = [];
         foreach( array_keys( $this->journal ) as $ix ) {
-            $accountIds = array_merge( $accountIds, $this->journal[$ix]->getAllJournalEntryLedgerEntryAccountIds());
+            foreach( $this->journal[$ix]->getAllJournalEntryLedgerEntryAccountIds() as $accountId ) {
+                $accountIds[] = $accountId;
+            }
         } // end foreach
         sort( $accountIds );
         return array_unique( $accountIds );
     }
 
     /**
-     * Return array with all journalEntry VoucherReference dokumentIds
+     * Return array with all journalEntry VoucherReference documentIds
      *
      * Three level array: journalIx, journalEntryIx, VoucherReferenceIx
+     *
      * @return array
      */
     public function getAllJournalEntryVoucherReferenceDocumentIds() : array
@@ -640,10 +642,10 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true if sum of each journalEntry ledgerEntries amount is zero
      *
-     * @param array $errorIx
+     * @param null|array $errorIx
      * @return bool (bool true on success, on error false, indexes (ix-ix) of ledgerEntry/LedgerEntry)
      */
-    public function hasBalancedJournalLedgerEntries( & $errorIx = [] ) : bool
+    public function hasBalancedJournalLedgerEntries( ? array & $errorIx = [] ) : bool
     {
         foreach( array_keys( $this->journal ) as $ix1 ) {
             $errorIx2 = [];
@@ -687,7 +689,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DocumentsType
      */
-    public function getDocuments()
+    public function getDocuments() : ?DocumentsType
     {
         return $this->documents;
     }
@@ -726,7 +728,7 @@ class Sie extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|SignatureType
      */
-    public function getSignature()
+    public function getSignature() : ?SignatureType
     {
         return $this->signature;
     }

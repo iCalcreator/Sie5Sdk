@@ -39,62 +39,62 @@ class SupplierTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param SupplierType $supplierType
      *
      */
-    public function write( SupplierType $supplierType )
+    public function write( SupplierType $supplierType ) : void
     {
         $XMLattributes = $supplierType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::SUPPLIER, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SUPPLIER, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID, $supplierType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $supplierType->getName());
+        self::writeAttribute( $this->writer, self::ID, $supplierType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $supplierType->getName() );
         $var = $supplierType->getOrganizationId();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::ORGANIZATIONID, $supplierType->getOrganizationId());
+            self::writeAttribute( $this->writer, self::ORGANIZATIONID, $supplierType->getOrganizationId() );
         }
         $var = $supplierType->getVatNr();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::VATNR, $var );
+            self::writeAttribute( $this->writer, self::VATNR, $var );
         }
         $var = $supplierType->getAddress1();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::ADDRESS1, $var );
+            self::writeAttribute( $this->writer, self::ADDRESS1, $var );
         }
         $var = $supplierType->getZipcode();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::ZIPCODE, $var );
+            self::writeAttribute( $this->writer, self::ZIPCODE, $var );
         }
         $var = $supplierType->getAddress2();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::ADDRESS2, $var );
+            self::writeAttribute( $this->writer, self::ADDRESS2, $var );
         }
         $var = $supplierType->getCity();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::CITY, $var );
+            self::writeAttribute( $this->writer, self::CITY, $var );
         }
         $var = $supplierType->getCountry();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::COUNTRY, $var );
+            self::writeAttribute( $this->writer, self::COUNTRY, $var );
         }
         $var = $supplierType->getBgAccount();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::BGACCOUNT, $var );
+            self::writeAttribute( $this->writer, self::BGACCOUNT, $var );
         }
         $var = $supplierType->getPgAccount();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::PGACCOUNT, $var );
+            self::writeAttribute( $this->writer, self::PGACCOUNT, $var );
         }
         $var = $supplierType->getBic();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::BIC, $var );
+            self::writeAttribute( $this->writer, self::BIC, $var );
         }
         $var = $supplierType->getIban();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::IBAN, $var );
+            self::writeAttribute( $this->writer, self::IBAN, $var );
         }
         foreach( $supplierType->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         } // end foreach
 
         $this->writer->endElement();

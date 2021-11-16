@@ -40,15 +40,15 @@ class AccountAggregationsType extends Sie5DtoBase implements Sie5DtoInterface
      *
      * Container element for individual accounts
      */
-    private $accountAggregation = [];
+    private array $accountAggregation = [];
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( empty( $this->accountAggregation )) {

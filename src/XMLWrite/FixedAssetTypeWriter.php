@@ -41,21 +41,21 @@ class FixedAssetTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param FixedAssetType $fixedAssetType
      *
      */
-    public function write( FixedAssetType $fixedAssetType )
+    public function write( FixedAssetType $fixedAssetType ) : void
     {
         $XMLattributes = $fixedAssetType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FIXEDASSET, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FIXEDASSET, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $fixedAssetType->getId());
+        self::writeAttribute( $this->writer, self::ID, $fixedAssetType->getId() );
         $name = $fixedAssetType->getName();
         if( ! empty( $name )) {
-            parent::writeAttribute($this->writer, self::NAME, $name );
+            self::writeAttribute( $this->writer, self::NAME, $name );
         }
         foreach( $fixedAssetType->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $balances = $fixedAssetType->getBalances();
@@ -74,4 +74,3 @@ class FixedAssetTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
         $this->writer->endElement();
     }
 }
-

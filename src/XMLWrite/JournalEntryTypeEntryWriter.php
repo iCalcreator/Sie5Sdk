@@ -41,35 +41,33 @@ class JournalEntryTypeEntryWriter extends Sie5WriterBase implements Sie5WriterIn
      * @param JournalEntryTypeEntry $journalEntryTypeEntry
      *
      */
-    public function write( JournalEntryTypeEntry $journalEntryTypeEntry )
+    public function write( JournalEntryTypeEntry $journalEntryTypeEntry ) : void
     {
         $XMLattributes = $journalEntryTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::JOURNALENTRY, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::JOURNALENTRY, $XMLattributes );
 
         $var = $journalEntryTypeEntry->getId();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::ID, $var );
+            self::writeAttribute( $this->writer, self::ID, (string) $var );
         }
-        $var = $journalEntryTypeEntry->getJournalDate();
-        if( ! empty( $var )) {
-            self::writeAttribute( $this->writer,
-                self::JOURNALDATE,
-                $var->format( self::FMTDATE )
-            );
-        }
+        self::writeAttribute(
+            $this->writer,
+            self::JOURNALDATE,
+            $journalEntryTypeEntry->getJournalDate()->format( self::FMTDATE )
+        );
         $var = $journalEntryTypeEntry->getText();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::TEXT, $var );
+            self::writeAttribute( $this->writer, self::TEXT, $var );
         }
         $var = $journalEntryTypeEntry->getReferenceId();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::REFERENCEID, $var );
+            self::writeAttribute( $this->writer, self::REFERENCEID, $var );
         }
         foreach( $journalEntryTypeEntry->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $originalEntryInfo = $journalEntryTypeEntry->getOriginalEntryInfo();

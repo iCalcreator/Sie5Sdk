@@ -46,26 +46,26 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
      *  BUT 2-unbound  ObjectReferenceType
      * List of objects associated with this balance
      */
-    private $budgetMultidimTypes = [];
+    private array $budgetMultidimTypes = [];
 
     /**
-     * @var string
+     * @var string|null
      *            Attribute name="month" type="xsd:gYearMonth" use="required" ( '2001-10')
      */
-    private $month = null;
+    private ?string $month = null;
 
     /**
-     * @var float
+     * @var float|null
      *          attribute name="amount" type="sie:Amount" use="required"
      *          Amount. Positive for debit, negative for credit.
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var float
+     * @var float|null
      *          attribute name="quantity" type="xsd:decimal"
      */
-    private $quantity = null;
+    private ?float $quantity = null;
 
     /**
      * Factory method, set month and amount
@@ -85,10 +85,10 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -149,9 +149,9 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
         $cnt = 0;
         foreach( $budgetMultidimTypes as $value ) {
             $this->addBudgetMultidimType( $value );
-            $cnt += 1;
+            ++$cnt;
         } // end foreach
-        if( 1 == $cnt ) { // if set, min 2
+        if( 1 === $cnt ) { // if set, min 2
             throw new InvalidArgumentException(
                 sprintf( self::$FMTERR3, self::BUDGETMULTIDIM, self::OBJECTREFERENCE )
             );
@@ -162,7 +162,7 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return null|string
      */
-    public function getMonth()
+    public function getMonth() : ?string
     {
         return $this->month;
     }
@@ -181,7 +181,7 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return null|float
      */
-    public function getAmount()
+    public function getAmount() : ?float
     {
         return $this->amount;
     }
@@ -200,7 +200,7 @@ class BudgetMultidimType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return null|float
      */
-    public function getQuantity()
+    public function getQuantity() : ?float
     {
         return $this->quantity;
     }

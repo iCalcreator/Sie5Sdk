@@ -37,7 +37,8 @@ class CompanyTypeEntry
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
+    public static function loadFromFaker() : Dto
+    {
         $faker = Faker\Factory::create();
 
         return Dto::factory()

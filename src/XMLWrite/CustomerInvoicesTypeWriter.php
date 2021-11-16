@@ -41,26 +41,26 @@ class CustomerInvoicesTypeWriter extends Sie5WriterBase implements Sie5WriterInt
      * @param CustomerInvoicesType $customerInvoicesType
      *
      */
-    public function write( CustomerInvoicesType $customerInvoicesType )
+    public function write( CustomerInvoicesType $customerInvoicesType ) : void
     {
         $XMLattributes = $customerInvoicesType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CUSTOMERINVOICES, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CUSTOMERINVOICES, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $customerInvoicesType->getPrimaryAccountId()
-        );
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $customerInvoicesType->getPrimaryAccountId() );
         $var = $customerInvoicesType->getName();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::NAME, $var );
+            self::writeAttribute( $this->writer, self::NAME, $var );
         }
 
         $var = $customerInvoicesType->getSecondaryAccountRef();
         if( is_array( $var ) && ! empty( $var )) {
             foreach( $var as $accountId ) {
-                parent::setWriterStartElement(
-                    $this->writer, self::SECONDARYACCOUNTREF, $customerInvoicesType->getXMLattributes()
+                self::setWriterStartElement(
+                    $this->writer,
+                    self::SECONDARYACCOUNTREF,
+                    $customerInvoicesType->getXMLattributes()
                 );
-                parent::writeAttribute( $this->writer, self::ACCOUNTID, $accountId );
+                self::writeAttribute( $this->writer, self::ACCOUNTID, $accountId );
                 $this->writer->endElement();
             } // end foreach
         } // end if

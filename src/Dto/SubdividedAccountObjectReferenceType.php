@@ -34,20 +34,20 @@ class SubdividedAccountObjectReferenceType
     implements Sie5DtoInterface, LedgerEntryTypesInterface, LedgerEntryTypeEntriesInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="objectId" type="xsd:string" use="required"
      * Object identifier
      */
-    private $objectId = null;
+    private ?string $objectId = null;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->objectId ) {
@@ -63,7 +63,7 @@ class SubdividedAccountObjectReferenceType
     /**
      * @return null|string
      */
-    public function getObjectId()
+    public function getObjectId() : ?string
     {
         return $this->objectId;
     }

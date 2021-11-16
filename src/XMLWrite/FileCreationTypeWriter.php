@@ -39,16 +39,16 @@ class FileCreationTypeWriter extends Sie5WriterBase implements Sie5WriterInterfa
      * @param FileCreationType $fileCreationType
      *
      */
-    public function write( FileCreationType $fileCreationType )
+    public function write( FileCreationType $fileCreationType ) : void
     {
         $XMLattributes = $fileCreationType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FILECREATION, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FILECREATION, $XMLattributes );
 
         $time = $fileCreationType->getTime();
         if( ! empty( $time )) {
             self::writeAttribute( $this->writer, self::TIME, $time->format( self::FMTDATETIME ));
         }
-        parent::writeAttribute( $this->writer, self::BY, $fileCreationType->getBy());
+        self::writeAttribute( $this->writer, self::BY, $fileCreationType->getBy() );
 
         $this->writer->endElement();
     }

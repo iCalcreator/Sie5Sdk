@@ -41,7 +41,8 @@ class SupplierInvoicesType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( array $ids = [] ) {
+    public static function loadFromFaker( array $ids = [] ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factoryPrimaryAccountId(

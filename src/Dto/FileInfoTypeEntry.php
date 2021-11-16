@@ -32,41 +32,41 @@ namespace Kigkonsult\Sie5Sdk\Dto;
 class FileInfoTypeEntry extends Sie5DtoExtAttrBase
 {
     /**
-     * @var SoftwareProductType
+     * @var SoftwareProductType|null
      *
      * Name of the software that has created the file
      */
-    private $softwareProduct = null;
+    private ?SoftwareProductType $softwareProduct = null;
 
     /**
-     * @var FileCreationType
+     * @var FileCreationType|null
      */
-    private $fileCreation = null;
+    private ?FileCreationType $fileCreation = null;
 
     /**
-     * @var CompanyTypeEntry
+     * @var CompanyTypeEntry|null
      *
      * General information about the company (or other organization)
      * whose fiscal data is represented in the file
      */
-    private $company = null;
+    private ?CompanyTypeEntry $company = null;
 
     /**
-     * @var AccountingCurrencyType
+     * @var AccountingCurrencyType|null
      *
      * Attribute  minOccurs="0"
      */
-    private $accountingCurrency = null;
+    private ?AccountingCurrencyType $accountingCurrency = null;
 
 //  use ExtensionAttributeTrait;
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = $inside = [];
         if( empty( $this->softwareProduct )) {
@@ -104,7 +104,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|SoftwareProductType
      */
-    public function getSoftwareProduct()
+    public function getSoftwareProduct() : ?SoftwareProductType
     {
         return $this->softwareProduct;
     }
@@ -122,7 +122,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|FileCreationType
      */
-    public function getFileCreation()
+    public function getFileCreation() : ?FileCreationType
     {
         return $this->fileCreation;
     }
@@ -140,7 +140,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|CompanyTypeEntry
      */
-    public function getCompany()
+    public function getCompany() : ?CompanyTypeEntry
     {
         return $this->company;
     }
@@ -158,7 +158,7 @@ class FileInfoTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|AccountingCurrencyType
      */
-    public function getAccountingCurrency()
+    public function getAccountingCurrency() : ?AccountingCurrencyType
     {
         return $this->accountingCurrency;
     }

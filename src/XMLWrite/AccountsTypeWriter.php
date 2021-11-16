@@ -41,10 +41,10 @@ class AccountsTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param AccountsType $accountsType
      *
      */
-    public function write( AccountsType $accountsType )
+    public function write( AccountsType $accountsType ) : void
     {
         $XMLattributes = $accountsType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::ACCOUNTS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::ACCOUNTS, $XMLattributes );
 
         $accounts = $accountsType->getAccount();
         if( is_array( $accounts ) && ! empty( $accounts )) {

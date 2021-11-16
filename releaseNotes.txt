@@ -22,12 +22,13 @@
 1.0.6
   composer.json upd
 
+1.1
 
-1.0.7
-  upd file headers
-1.0.8
-  bug fix BaseBalanceType::addBaseBalanceType()
-1.0.10
-  JournalType::isValid() name accept
-1.0.11
-  bug fix and upd dto isValid-methods
+  1.0.7  upd file headers
+  1.0.8  bug fix BaseBalanceType::addBaseBalanceType()
+  1.0.10 JournalType::isValid() name accept
+  1.0.11 bug fix and upd dto isValid-methods
+         Sie / FileInfoTypeEntry / FiscalYearsType : min one FiscalYearType required
+
+1.2 PHP 7.4
+    alter test from fzaninotto/faker to fakerphp/faker

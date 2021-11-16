@@ -49,13 +49,9 @@ class AccountingCurrencyTypeParser extends Sie5ParserBase
                 $this->logger->debug(
                     sprintf( self::$FMTattrFound, __METHOD__, $this->reader->name, $this->reader->value )
                 );
-                switch( $this->reader->name ) {
-                    case self::CURRENCY :
-                        $accountingCurrencyType->setCurrency( $this->reader->value );
-                        break;
-                    default :
-                        break;
-                } // end switch
+                if( self::CURRENCY === $this->reader->name ) {
+                    $accountingCurrencyType->setCurrency( $this->reader->value );
+                }
             } // end while
             $this->reader->moveToElement();
         } // end if

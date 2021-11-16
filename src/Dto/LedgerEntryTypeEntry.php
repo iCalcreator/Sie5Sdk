@@ -49,73 +49,72 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
      *                              0-unbound  ObjectReferenceType
      *                              0-1        SubdividedAccountObjectReferenceType
      */
-    private $ledgerEntryTypeEntries = [];
+    private array $ledgerEntryTypeEntries = [];
 
     /**
-     * @var string
+     * @var string|null
      */
-    private $previousElement        = null;
+    private ?string $previousElement        = null;
 
     /**
      * @var int
      */
-    private $elementSetIndex        = 0;
+    private int $elementSetIndex        = 0;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="accountId" type="xsd:string" use="required"
      * Account identifier. Must exist in the chart of accounts
      */
-    private $accountId = null;
+    private ?string $accountId = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="amount" type="xsd:decimal" use="required"
      * Amount. Positive for debit, negative for credit. May not be zero???
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="quantity" type="xsd:decimal"
      */
-    private $quantity = null;
+    private ?float $quantity = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="text" type="xsd:string"
      * Optional text describing the individual ledger entry.
      */
-    private $text = null;
+    private ?string $text = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="ledgerDate" type="xsd:date" use="optional"
      * The date used for posting to the general ledger
      * if different from the journal date specified for the entire journal entry.
      */
-    private $ledgerDate = null;
+    private ?DateTime $ledgerDate = null;
 
     /**
      * Factory method, set account, amount and, opt, quantity
      *
      * @param string $accountId
-     * @param mixed  $amount
-     * @param mixed  $quantity
+     * @param mixed $amount
+     * @param mixed $quantity
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryAccountAmount( string $accountId, $amount, $quantity = null ) : self
     {
         $instance = new self();
         $instance->setAccountId( $accountId );
         $instance->setAmount( $amount );
-        if( ! empty( $quantity ) || ( 0 == (int) $quantity )) {
+        if( ! empty( $quantity ) || ( 0 === (int) $quantity )) {
             $instance->setQuantity( $quantity );
         }
         return $instance;
@@ -124,10 +123,10 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( ! empty( $this->ledgerEntryTypeEntries )) {
@@ -172,27 +171,26 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
      * @param string $key
      * @param LedgerEntryTypeEntriesInterface $ledgerEntryType
      * @return static
-     * @throws InvalidArgumentException
      */
     public function addLedgerEntryTypeEntry( string $key, LedgerEntryTypeEntriesInterface $ledgerEntryType ) : self
     {
         switch( true ) {
-            case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
+            case (( self::FOREIGNCURRENCYAMOUNT === $key ) &&
                 $ledgerEntryType instanceof ForeignCurrencyAmountType ) :
                 if( ! empty( $this->previousElement )) {
-                    $this->elementSetIndex += 1;
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::OBJECTREFERENCE == $key ) &&
+            case (( self::OBJECTREFERENCE === $key ) &&
                 $ledgerEntryType instanceof ObjectReferenceType ) :
-                if( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE == $this->previousElement ) {
-                    $this->elementSetIndex += 1;
+                if( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE === $this->previousElement ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE == $key ) &&
+            case (( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE === $key ) &&
                 $ledgerEntryType instanceof SubdividedAccountObjectReferenceType ) :
-                if( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE == $this->previousElement ) {
-                    $this->elementSetIndex += 1;
+                if( self::SUBDIVIDEDACCOUNTOBJECTREFERENCE === $this->previousElement ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
             default :
@@ -246,7 +244,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
                         $element = [ $ix2 => $element ];
                 } // end switch
                 reset( $element );
-                $key = key( $element );
+                $key = (string) key( $element );
                 $this->addLedgerEntryTypeEntry( $key,  current( $element ));
             }  // end foreach
         } // end foreach
@@ -256,7 +254,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getAccountId()
+    public function getAccountId() : ?string
     {
         return $this->accountId;
     }
@@ -264,7 +262,6 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @param string $accountId
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setAccountId( string $accountId ) : self
     {
@@ -275,7 +272,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|float
      */
-    public function getAmount()
+    public function getAmount() : ?float
     {
         return $this->amount;
     }
@@ -294,7 +291,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|float
      */
-    public function getQuantity()
+    public function getQuantity() : ?float
     {
         return $this->quantity;
     }
@@ -313,7 +310,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getText()
+    public function getText() : ?string
     {
         return $this->text;
     }
@@ -331,7 +328,7 @@ class LedgerEntryTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|DateTime
      */
-    public function getLedgerDate()
+    public function getLedgerDate() : ?DateTime
     {
         return $this->ledgerDate;
     }

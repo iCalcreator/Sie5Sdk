@@ -39,13 +39,13 @@ class FileReferenceTypeWriter extends Sie5WriterBase implements Sie5WriterInterf
      * @param FileReferenceType $fileReferenceType
      *
      */
-    public function write( FileReferenceType $fileReferenceType )
+    public function write( FileReferenceType $fileReferenceType ) : void
     {
         $XMLattributes = $fileReferenceType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FILEREFERENCE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FILEREFERENCE, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,  (string) $fileReferenceType->getId());
-        parent::writeAttribute( $this->writer, self::URI, $fileReferenceType->getUri());
+        self::writeAttribute( $this->writer, self::ID, (string)$fileReferenceType->getId() );
+        self::writeAttribute( $this->writer, self::URI, $fileReferenceType->getUri() );
 
         $this->writer->endElement();
     }

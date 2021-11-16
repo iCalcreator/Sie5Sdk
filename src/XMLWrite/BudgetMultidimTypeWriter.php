@@ -42,18 +42,16 @@ class BudgetMultidimTypeWriter extends Sie5WriterBase implements Sie5WriterInter
      * @param BudgetMultidimType $budgetMultidimType
      *
      */
-    public function write( BudgetMultidimType $budgetMultidimType )
+    public function write( BudgetMultidimType $budgetMultidimType ) : void
     {
         $XMLattributes = $budgetMultidimType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::BUDGETMULTIDIM, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::BUDGETMULTIDIM, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::MONTH,    $budgetMultidimType->getMonth());
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer, self::MONTH, $budgetMultidimType->getMonth() );
+        self::writeAttribute( $this->writer,
             self::AMOUNT,
-            CommonFactory::formatAmount( $budgetMultidimType->getAmount())
-        );
-        parent::writeAttribute( $this->writer, self::QUANTITY, (string) $budgetMultidimType->getQuantity());
+            CommonFactory::formatAmount( $budgetMultidimType->getAmount() ) );
+        self::writeAttribute( $this->writer, self::QUANTITY, (string)$budgetMultidimType->getQuantity() );
 
         $budgetMultidimTypes = $budgetMultidimType->getBudgetMultidimTypes();
         if( is_array( $budgetMultidimTypes ) && ! empty( $budgetMultidimTypes )) {

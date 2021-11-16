@@ -39,7 +39,8 @@ class LedgerEntryType implements Sie5Interface
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $amount ) {
+    public static function loadFromFaker( float $amount ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factoryAccountIdAmount(
@@ -51,7 +52,7 @@ class LedgerEntryType implements Sie5Interface
                   ->setLedgerDate( $faker->dateTimeThisMonth());
 
         $load = [];
-        if( 1 == $faker->numberBetween( 1, 2 )) {
+        if( 1 === $faker->numberBetween( 1, 2 )) {
             $load[] = [
                 self::FOREIGNCURRENCYAMOUNT =>
                     ForeignCurrencyAmountType::loadFromFaker(),
@@ -64,25 +65,25 @@ class LedgerEntryType implements Sie5Interface
                     ObjectReferenceType::loadFromFaker(),
             ];
         }
-        if( 1 == $faker->numberBetween( 1, 2 )) {
+        if( 1 === $faker->numberBetween( 1, 2 )) {
             $load[] = [
                 self::SUBDIVIDEDACCOUNTOBJECTREFERENCE =>
                     SubdividedAccountObjectReferenceType::loadFromFaker(),
             ];
         }
-        if( 1 == $faker->numberBetween( 1, 2 )) {
+        if( 1 === $faker->numberBetween( 1, 2 )) {
             $load[] = [
                 self::ENTRYINFO =>
                     EntryInfoType::loadFromFaker(),
             ];
         }
-        if( 1 == $faker->numberBetween( 1, 2 )) {
+        if( 1 === $faker->numberBetween( 1, 2 )) {
             $load[] = [
                 self::OVERSTRIKE =>
                     OverstrikeType::loadFromFaker(),
             ];
         }
-        if( 1 == $faker->numberBetween( 1, 2 )) {
+        if( 1 === $faker->numberBetween( 1, 2 )) {
             $load[] = [
                 self::LOCKINGINFO =>
                     LockingInfoType::loadFromFaker(),

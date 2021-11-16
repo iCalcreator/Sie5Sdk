@@ -36,7 +36,7 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="start" type="xsd:gYearMonth" use="required"
      * Fiscal year start date in ISO 8601 format.
@@ -44,15 +44,15 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * and is used as a key for references
      * when opening and closing balances are presented in other parts of the file
      */
-    private $start = null;
+    private ?string $start = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="end" type="xsd:gYearMonth" use="required"
      * Fiscal year end date in ISO 8601 format
      */
-    private $end = null;
+    private ?string $end = null;
 
     /**
      * @var bool
@@ -60,12 +60,12 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute name="primary" default="false" type="xsd:boolean"
      * Indicates that this is the primary fiscal year in the SIE file. Exactly one year must be marked as primary.
      */
-    private $primary = false;
+    private bool $primary = false;
 
     /**
      * @var bool
      */
-    public static $primaryDefault = false;
+    public static bool $primaryDefault = false;
 
     /**
      * @var bool
@@ -73,41 +73,41 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute name="closed" default="false" type="xsd:boolean"
      * "true" if fiscal year is closed, otherwise "false"
      */
-    private $closed = false;
+    private bool $closed = false;
 
     /**
      * @var bool
      */
-    public static $closedDefault = false;
+    public static bool $closedDefault = false;
 
     /**
      * @var bool
      *
      * Attribute name="hasLedgerEntries" type="xsd:boolean"
      */
-    private $hasLedgerEntries = null;
+    private ?bool $hasLedgerEntries = null;
 
     /**
      * @var bool
      *
      * Attribute name="hasSubordinateAccounts" type="xsd:boolean"
      */
-    private $hasSubordinateAccounts = null;
+    private ?bool $hasSubordinateAccounts = null;
 
     /**
      * @var bool
      *
      * Attribute name="hasAttachedVoucherFiles" type="xsd:boolean"
      */
-    private $hasAttachedVoucherFiles = null;
+    private ?bool $hasAttachedVoucherFiles = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="lastCoveredDate" type="xsd:date" use="optional"
      * The last date on the fiscal yeare where all transactions are available.
      */
-    private $lastCoveredDate = null;
+    private ?DateTime $lastCoveredDate = null;
 
     /**
      * Factory method, set start and end
@@ -115,7 +115,6 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * @param string $start
      * @param string $end
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryStartEnd( string $start, string $end ) : self
     {
@@ -127,10 +126,10 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->start ) {
@@ -149,7 +148,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getStart()
+    public function getStart() : ?string
     {
         return $this->start;
     }
@@ -157,7 +156,6 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @param string $start
      * @return FiscalYearType
-     * @throws InvalidArgumentException
      */
     public function setStart( string $start ) : self
     {
@@ -168,7 +166,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getEnd()
+    public function getEnd() : ?string
     {
         return $this->end;
     }
@@ -176,7 +174,6 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @param string $end
      * @return FiscalYearType
-     * @throws InvalidArgumentException
      */
     public function setEnd( string $end ) : self
     {
@@ -187,9 +184,9 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return bool|null
      */
-    public function getPrimary()
+    public function getPrimary() : ?bool
     {
-        return ( $this->primary != self::$primaryDefault ) ? $this->primary : null;
+        return ( $this->primary !== self::$primaryDefault ) ? $this->primary : null;
     }
 
     /**
@@ -206,9 +203,9 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return bool|null
      */
-    public function getClosed()
+    public function getClosed() : ?bool
     {
-        return ( $this->closed != self::$closedDefault ) ? $this->closed : null;
+        return ( $this->closed !== self::$closedDefault ) ? $this->closed : null;
     }
 
     /**
@@ -225,7 +222,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|bool
      */
-    public function getHasLedgerEntries()
+    public function getHasLedgerEntries() : ?bool
     {
         return $this->hasLedgerEntries;
     }
@@ -244,7 +241,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|bool
      */
-    public function getHasSubordinateAccounts()
+    public function getHasSubordinateAccounts() : ?bool
     {
         return $this->hasSubordinateAccounts;
     }
@@ -263,7 +260,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|bool
      */
-    public function getHasAttachedVoucherFiles()
+    public function getHasAttachedVoucherFiles() : ?bool
     {
         return $this->hasAttachedVoucherFiles;
     }
@@ -282,7 +279,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DateTime
      */
-    public function getLastCoveredDate()
+    public function getLastCoveredDate() : ?DateTime
     {
         return $this->lastCoveredDate;
     }

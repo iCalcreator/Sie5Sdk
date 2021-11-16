@@ -51,39 +51,39 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
      *  ForeignCurrencyAmount - ForeignCurrencyAmountType
      *  ObjectReference       - ObjectReferenceType
      */
-    private $baseBalanceTypes = [];
+    private array $baseBalanceTypes = [];
 
     /**
-     * @var string
+     * @var string|null
      */
-    private $previousElement  = null;
+    private ?string $previousElement  = null;
 
     /**
      * @var int
      */
-    private $elementSetIndex  = 0;
+    private int $elementSetIndex  = 0;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="month" type="xsd:gYearMonth" use="required" ( '2001-10')
      */
-    private $month = null;
+    private ?string $month = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="amount" type="sie:Amount" use="required"
      * Amount. Positive for debit, negative for credit.
      */
-    private $amount = null;
+    private ?float $amount = null;
 
     /**
-     * @var float
+     * @var float|null
      *
      * Attribute name="quantity" type="xsd:decimal"
      */
-    private $quantity = null;
+    private ?float $quantity = null;
 
     /**
      * Factory method, set month and amount
@@ -103,10 +103,10 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -159,16 +159,16 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     public function addBaseBalanceType( string $key, BaseBalanceTypesInterface $baseBalanceType ) : self
     {
         switch( true ) {
-            case (( self::FOREIGNCURRENCYAMOUNT == $key ) &&
+            case (( self::FOREIGNCURRENCYAMOUNT === $key ) &&
                 $baseBalanceType instanceof ForeignCurrencyAmountType ) :
                 if( ! empty( $this->previousElement )) {
-                    $this->elementSetIndex += 1;
+                    ++$this->elementSetIndex;
                 }
                 break;
-            case (( self::OBJECTREFERENCE == $key ) &&
+            case (( self::OBJECTREFERENCE === $key ) &&
                 $baseBalanceType instanceof ObjectReferenceType ) :
-                if( self::OBJECTREFERENCE == $this->previousElement ) {
-                    $this->elementSetIndex += 1;
+                if( self::OBJECTREFERENCE === $this->previousElement ) {
+                    ++$this->elementSetIndex;
                 }
                 break;
             default :
@@ -209,7 +209,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
                 switch( true ) {
                     case is_array( $element ) :
                         reset( $element );
-                        $key = key( $element );
+                        $key = (string) key( $element );
                         $this->addBaseBalanceType( $key, current( $element ));
                         break;
                     case ( $element instanceof ForeignCurrencyAmountType ) :
@@ -230,7 +230,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return null|string
      */
-    public function getMonth()
+    public function getMonth() : ?string
     {
         return $this->month;
     }
@@ -249,7 +249,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return null|float
      */
-    public function getAmount()
+    public function getAmount() : ?float
     {
         return $this->amount;
     }
@@ -268,7 +268,7 @@ class BaseBalanceType extends Sie5DtoBase implements AccountTypesInterface
     /**
      * @return null|float
      */
-    public function getQuantity()
+    public function getQuantity() : ?float
     {
         return $this->quantity;
     }

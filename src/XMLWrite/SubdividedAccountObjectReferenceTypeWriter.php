@@ -39,14 +39,12 @@ class SubdividedAccountObjectReferenceTypeWriter extends Sie5WriterBase implemen
      * @param SubdividedAccountObjectReferenceType $subdividedAccountObjectReferenceType
      *
      */
-    public function write( SubdividedAccountObjectReferenceType $subdividedAccountObjectReferenceType )
+    public function write( SubdividedAccountObjectReferenceType $subdividedAccountObjectReferenceType ) : void
     {
         $XMLattributes = $subdividedAccountObjectReferenceType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer,self::SUBDIVIDEDACCOUNTOBJECTREFERENCE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SUBDIVIDEDACCOUNTOBJECTREFERENCE, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::OBJECTID, $subdividedAccountObjectReferenceType->getObjectId()
-        );
+        self::writeAttribute( $this->writer, self::OBJECTID, $subdividedAccountObjectReferenceType->getObjectId() );
 
         $this->writer->endElement();
     }

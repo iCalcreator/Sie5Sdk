@@ -38,15 +38,15 @@ class SuppliersType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @var SupplierType[]
      */
-    private $supplier = [];
+    private array $supplier = [];
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( ! empty( $this->supplier )) {

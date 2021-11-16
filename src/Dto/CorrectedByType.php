@@ -35,33 +35,32 @@ use Kigkonsult\Sie5Sdk\Impl\CommonFactory;
 class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="fiscalYearId" type="xsd:gYearMonth"
      */
-    private $fiscalYearId = null;
+    private ?string $fiscalYearId = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="journalId" type="xsd:string" use="required"
      */
-    private $journalId = null;
+    private ?string $journalId = null;
 
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="journalEntryId" type="xsd:nonNegativeInteger" use="required"
      */
-    private $journalEntryId = null;
+    private ?int $journalEntryId = null;
 
     /**
      * Factory method, set id, name and type
      *
      * @param string $journalId
-     * @param mixed  $journalEntryId
+     * @param mixed $journalEntryId
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryJournalIdJournalEntryId( string $journalId, $journalEntryId ) : self
     {
@@ -73,10 +72,10 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->journalId ) {
@@ -95,7 +94,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getFiscalYearId()
+    public function getFiscalYearId() : ?string
     {
         return $this->fiscalYearId;
     }
@@ -114,7 +113,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getJournalId()
+    public function getJournalId() : ?string
     {
         return $this->journalId;
     }
@@ -132,7 +131,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|int
      */
-    public function getJournalEntryId()
+    public function getJournalEntryId() : ?int
     {
         return $this->journalEntryId;
     }

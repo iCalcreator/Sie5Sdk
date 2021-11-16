@@ -35,24 +35,20 @@ use Kigkonsult\Sie5Sdk\Sie5Interface;
 class DocumentsType implements Sie5Interface
 {
     /**
-     * $param array $docIds
+     * @param array $docIds
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( array $docIds ) {
+    public static function loadFromFaker( array $docIds ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto  = new Dto();
         $load = [];
-        $ix   = 0;
         foreach( $docIds as $docId ) {
-            $ix += 1;
-            if( 1 == $faker->numberBetween( 1, 2 )) {
-                $load[] = [ self::EMBEDDEDFILE => EmbeddedFileType::loadFromFaker( $docId ) ];
-            } // end if
-            else {
-                $load[] = [ self::FILEREFERENCE => FileReferenceType::loadFromFaker( $docId ) ];
-            } // end else
+            $load[] = ( 1 === $faker->numberBetween( 1, 2 ))
+                ? [ self::EMBEDDEDFILE  => EmbeddedFileType::loadFromFaker( $docId ) ]
+                : [ self::FILEREFERENCE => FileReferenceType::loadFromFaker( $docId ) ];
         } // end foreach
         $dto->setDocumentsTypes( $load );
 

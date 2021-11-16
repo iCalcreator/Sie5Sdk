@@ -103,39 +103,39 @@ class JournalEntryTypeParser extends Sie5ParserBase
         $voucherReferenceTypeParser = new VoucherReferenceTypeParser( $this->reader );
         $correctedByTypeParser      = new CorrectedByTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::ENTRYINFO == $this->reader->localName ) :
+                case ( self::ENTRYINFO === $this->reader->localName ) :
                     $journalEntryType->setEntryInfo(
                         EntryInfoTypeParser::factory( $this->reader )->parse()
                     );
                     break;
-                case ( self::ORIGINALENTRYINFO == $this->reader->localName ) :
+                case ( self::ORIGINALENTRYINFO === $this->reader->localName ) :
                     $journalEntryType->setOriginalEntryInfo(
                         OriginalEntryInfoTypeParser::factory( $this->reader )->parse()
                     );
                     break;
-                case ( self::LEDGERENTRY == $this->reader->localName ) :
+                case ( self::LEDGERENTRY === $this->reader->localName ) :
                     $journalEntryType->addLedgerEntry( $ledgerEntryTypeParser->parse());
                     break;
-                case ( self::LOCKINGINFO == $this->reader->localName ) :
+                case ( self::LOCKINGINFO === $this->reader->localName ) :
                     $journalEntryType->setLockingInfo( LockingInfoTypeParser::factory ($this->reader )->parse());
                     break;
-                case (self::VOUCHERREFERENCE == $this->reader->localName ):
+                case (self::VOUCHERREFERENCE === $this->reader->localName ):
                     $journalEntryType->addVoucherReference( $voucherReferenceTypeParser->parse());
                     break;
-                case (self::CORRECTEDBY == $this->reader->localName ):
+                case (self::CORRECTEDBY === $this->reader->localName ):
                     $journalEntryType->addCorrectedBy( $correctedByTypeParser->parse());
                     break;
             } // end switch

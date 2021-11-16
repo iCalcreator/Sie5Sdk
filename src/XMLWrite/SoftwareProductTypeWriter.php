@@ -39,13 +39,13 @@ class SoftwareProductTypeWriter extends Sie5WriterBase implements Sie5WriterInte
      * @param SoftwareProductType $softwareProductType
      *
      */
-    public function write( SoftwareProductType $softwareProductType )
+    public function write( SoftwareProductType $softwareProductType ) : void
     {
         $XMLattributes = $softwareProductType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::SOFTWAREPRODUCT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::SOFTWAREPRODUCT, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::NAME,    $softwareProductType->getName());
-        parent::writeAttribute( $this->writer, self::VERSION, $softwareProductType->getVersion());
+        self::writeAttribute( $this->writer, self::NAME, $softwareProductType->getName() );
+        self::writeAttribute( $this->writer, self::VERSION, $softwareProductType->getVersion() );
 
         $this->writer->endElement();
     }

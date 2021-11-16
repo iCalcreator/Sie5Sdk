@@ -73,26 +73,26 @@ class BaseBalanceMultidimTypeParser extends Sie5ParserBase
         $foreignCurrencyAmountTypeParser = new ForeignCurrencyAmountTypeParser( $this->reader );
         $objectReferenceTypeParser = new ObjectReferenceTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::FOREIGNCURRENCYAMOUNT == $this->reader->localName ) :
+                case ( self::FOREIGNCURRENCYAMOUNT === $this->reader->localName ) :
                     $baseBalanceMultidimType->addBaseBalanceMultidimType(
                         self::FOREIGNCURRENCYAMOUNT,
                         $foreignCurrencyAmountTypeParser->parse()
                     );
                     break;
-                case ( self::OBJECTREFERENCE == $this->reader->localName ) :
+                case ( self::OBJECTREFERENCE === $this->reader->localName ) :
                     $baseBalanceMultidimType->addBaseBalanceMultidimType(
                         self::OBJECTREFERENCE,
                         $objectReferenceTypeParser->parse()

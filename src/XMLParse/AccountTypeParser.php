@@ -93,39 +93,39 @@ class AccountTypeParser extends Sie5ParserBase
         $baseBalanceMultidimTypeParser = new BaseBalanceMultidimTypeParser( $this->reader );
         $budgetMultidimTypeParser      = new BudgetMultidimTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
-                case ( self::OPENINGBALANCE == $this->reader->localName ) :
+                case ( self::OPENINGBALANCE === $this->reader->localName ) :
                     $accountType->addAccountType( self::OPENINGBALANCE, $baseBalanceTypeParser->parse());
                     break;
-                case ( self::CLOSINGBALANCE == $this->reader->localName ) :
+                case ( self::CLOSINGBALANCE === $this->reader->localName ) :
                     $accountType->addAccountType( self::CLOSINGBALANCE, $baseBalanceTypeParser->parse());
                     break;
-                case ( self::BUDGET == $this->reader->localName ) :
+                case ( self::BUDGET === $this->reader->localName ) :
                     $accountType->addAccountType( self::BUDGET, $budgetTypeParser->parse());
                     break;
-                case ( self::OPENINGBALANCEMULTIDIM == $this->reader->localName ) :
+                case ( self::OPENINGBALANCEMULTIDIM === $this->reader->localName ) :
                     $accountType->addAccountType(
                         self::OPENINGBALANCEMULTIDIM, $baseBalanceMultidimTypeParser->parse()
                     );
                     break;
-                case ( self::CLOSINGBALANCEMULTIDIM == $this->reader->localName ) :
+                case ( self::CLOSINGBALANCEMULTIDIM === $this->reader->localName ) :
                     $accountType->addAccountType(
                         self::CLOSINGBALANCEMULTIDIM, $baseBalanceMultidimTypeParser->parse()
                     );
                     break;
-                case ( self::BUDGETMULTIDIM == $this->reader->localName ) :
+                case ( self::BUDGETMULTIDIM === $this->reader->localName ) :
                     $accountType->addAccountType( self::BUDGETMULTIDIM, $budgetMultidimTypeParser->parse());
                     break;
             } // end switch

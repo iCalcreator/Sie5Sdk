@@ -38,13 +38,14 @@ class JournalEntryType
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker() {
+    public static function loadFromFaker() : Dto
+    {
         $faker = Faker\Factory::create();
 
         $dto = Dto::factoryByDateIdText(
             $faker->word,
             $faker->dateTimeThisMonth(),
-            $faker->numberBetween( 1, 9999999 ),
+            (string) $faker->numberBetween( 1, 9999999 ),
             $faker->text()
         )
             ->setOriginalEntryInfo( OriginalEntryInfoType::loadFromFaker())

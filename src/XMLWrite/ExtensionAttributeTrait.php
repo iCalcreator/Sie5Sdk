@@ -38,7 +38,7 @@ trait ExtensionAttributeTrait
      * @param XMLWriter $writer
      * @param array     $XMLattributes
      */
-    private static function writeXMLExtensionAttribute( XMLWriter $writer, array $XMLattributes )
+    private static function writeXMLExtensionAttribute( XMLWriter $writer, array $XMLattributes ) : void
     {
         if( isset( $XMLattributes[XmlAttr::XSITYPE] )) {
             Sie5WriterBase::writeAttribute(
@@ -53,7 +53,7 @@ trait ExtensionAttributeTrait
      * @param XMLWriter $writer
      * @param array     $extensionAttributes
      */
-    private static function writeExtensionAttributes( XMLWriter $writer, array $extensionAttributes )
+    private static function writeExtensionAttributes( XMLWriter $writer, array $extensionAttributes ) : void
     {
         foreach( $extensionAttributes as $name => $value ) {
             Sie5WriterBase::writeAttribute( $writer, $name, $value );

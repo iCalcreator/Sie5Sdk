@@ -38,15 +38,15 @@ class CustomerInvoicesTypeEntry extends BaseSubdividedAccountTypeEntry
     /**
      * @var CustomerInvoiceTypeEntry[]
      */
-    private $customerInvoice = [];
+    private array $customerInvoice = [];
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->primaryAccountId ) {

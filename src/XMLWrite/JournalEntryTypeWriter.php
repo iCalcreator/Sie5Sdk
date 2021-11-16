@@ -41,12 +41,12 @@ class JournalEntryTypeWriter extends Sie5WriterBase implements Sie5WriterInterfa
      * @param JournalEntryType $journalEntryType
      *
      */
-    public function write( JournalEntryType $journalEntryType )
+    public function write( JournalEntryType $journalEntryType ) : void
     {
         $XMLattributes = $journalEntryType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::JOURNALENTRY, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::JOURNALENTRY, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID, (string) $journalEntryType->getId());
+        self::writeAttribute( $this->writer, self::ID, (string)$journalEntryType->getId() );
         $journalDate = $journalEntryType->getJournalDate();
         if( ! empty( $journalDate )) {
             self::writeAttribute(
@@ -57,17 +57,17 @@ class JournalEntryTypeWriter extends Sie5WriterBase implements Sie5WriterInterfa
         }
         $var = $journalEntryType->getText();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::TEXT, $var );
+            self::writeAttribute( $this->writer, self::TEXT, $var );
         }
         $var = $journalEntryType->getReferenceId();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::REFERENCEID, $var );
+            self::writeAttribute( $this->writer, self::REFERENCEID, $var );
         }
         foreach( $journalEntryType->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $entryInfo = $journalEntryType->getEntryInfo();

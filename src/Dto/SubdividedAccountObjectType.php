@@ -30,7 +30,6 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use DateTime;
-use InvalidArgumentException;
 use TypeError;
 
 abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5DtoInterface
@@ -40,41 +39,40 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
      *
      * Attribute minOccurs="0" maxOccurs="unbounded"
      */
-    protected $balances = [];
+    protected array $balances = [];
 
     /**
-     * @var OriginalAmountType
+     * @var OriginalAmountType|null
      *
      * maxOccurs="1"  minOccurs="1"
      */
-    protected $originalAmount = null;
+    protected ?OriginalAmountType $originalAmount = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id" type="xsd:string" use="required"
      * Item identifier
      */
-    protected $id = null;
+    protected ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="optional"
      * Item name
      */
-    protected $name = null;
+    protected ?string $name = null;
 
     use ExtensionAttributeTrait;
 
     /**
      * Factory method, set id and OriginalAmountType (date, amount)
      *
-     * @param string   $id
+     * @param string $id
      * @param DateTime $date
-     * @param mixed    $amount
+     * @param mixed $amount
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdDateAmount( string $id, DateTime $date, $amount ) : self
     {
@@ -121,7 +119,7 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     /**
      * @return null|OriginalAmountType
      */
-    public function getOriginalAmount()
+    public function getOriginalAmount() : ?OriginalAmountType
     {
         return $this->originalAmount;
     }
@@ -139,7 +137,7 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -147,7 +145,6 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     /**
      * @param string $id
      * @return static
-     * @throws InvalidArgumentException
      */
     public function setId( string $id ) : self
     {
@@ -158,7 +155,7 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

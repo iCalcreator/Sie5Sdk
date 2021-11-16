@@ -41,21 +41,21 @@ use function sort;
 class JournalEntryType extends Sie5DtoExtAttrBase
 {
     /**
-     * @var EntryInfoType
+     * @var EntryInfoType|null
      *
      * Information about how and when this record was entered (registered) into the system.
      * Applies to all subitems if not otherwise specified.
      */
-    private $entryInfo = null;
+    private ?EntryInfoType $entryInfo = null;
 
     /**
-     * @var OriginalEntryInfoType
+     * @var OriginalEntryInfoType|null
      *
      * minOccurs="0"
      * Information about how and when this record originally was entered (registered)
      * into some pre-system.
      */
-    private $originalEntryInfo = null;
+    private ?OriginalEntryInfoType $originalEntryInfo = null;
 
     /**
      * Container for ledger entries
@@ -64,16 +64,16 @@ class JournalEntryType extends Sie5DtoExtAttrBase
      *
      * Attribute  minOccurs="0" maxOccurs="unbounded"
      */
-    private $ledgerEntry = [];
+    private array $ledgerEntry = [];
 
     /**
-     * @var LockingInfoType
+     * @var LockingInfoType|null
      *
      * minOccurs="0"
      * Information about how and when this record achieved status as "entered"
      * according to BFN AR 2013:2. Applies to all subitems if not otherwise specified.
      */
-    private $lockingInfo = null;
+    private ?LockingInfoType $lockingInfo = null;
 
     /**
      * @var VoucherReferenceType[]
@@ -81,7 +81,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
      * Attribute minOccurs="0" maxOccurs="unbounded"
      * Reference to voucher or other document related to the journal entry
      */
-    private $voucherReference = [];
+    private array $voucherReference = [];
 
     /**
      * @var CorrectedByType[]
@@ -90,41 +90,41 @@ class JournalEntryType extends Sie5DtoExtAttrBase
      * If this entry is corrected by other entries,
      * this is a reference to one correcting journal entry
      */
-    private $correctedBy = [];
+    private array $correctedBy = [];
 
     /**
-     * @var int
+     * @var int|null
      *
      * Attribute name="id" type="xsd:nonNegativeInteger" use="required"
      * Journal entry identifier
      */
-    private $id = null;
+    private ?int $id = null;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="journalDate" type="xsd:date" use="required"
      * Journal date.
      * The date assigned to the entire journal entry at entry time.
      * Normally used as the date for posting to all subitems (ledger entries) to the general ledger.
      */
-    private $journalDate = null;
+    private ?DateTime $journalDate;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="text" type="xsd:string"
      * Optional text describing the journal entry.
      */
-    private $text = null;
+    private ?string $text = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="referenceId" type="xsd:string"
      * Optional reference to identifier assigned befor the entry reached the accounting system.
      */
-    private $referenceId = null;
+    private ?string $referenceId = null;
 
     /**
      * Factory method, set id, journalDate, text and EntryInfoType::date/by (all but text required)
@@ -132,17 +132,17 @@ class JournalEntryType extends Sie5DtoExtAttrBase
      * Same date for JournalEntryType::journalDate and EntryInfoType::date (today if null)
      *
      * @param string        $by
-     * @param DateTime|null $journalDate
-     * @param string|null   $id
-     * @param string|null   $text
+     * @param null|DateTime $journalDate
+     * @param null|string   $id
+     * @param null|string   $text
      * @return static
      * @throws InvalidArgumentException
      */
     public static function factoryByDateIdText(
         string $by,
-        DateTime $journalDate = null,
-        string $id = null,
-        string $text = null
+        ? DateTime $journalDate = null,
+        ? string $id = null,
+        ? string $text = null
     ) : self
     {
         $instance = new self();
@@ -175,10 +175,10 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = $inside = [];
         if( empty( $this->entryInfo )) {
@@ -253,7 +253,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|EntryInfoType
      */
-    public function getEntryInfo()
+    public function getEntryInfo() : ?EntryInfoType
     {
         return $this->entryInfo;
     }
@@ -271,7 +271,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|OriginalEntryInfoType
      */
-    public function getOriginalEntryInfo()
+    public function getOriginalEntryInfo() : ?OriginalEntryInfoType
     {
         return $this->originalEntryInfo;
     }
@@ -332,7 +332,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
         foreach( array_keys( $this->ledgerEntry ) as $ix1 ) {
             $amount += $this->ledgerEntry[$ix1]->getAmount();
         } // end foreach
-        return ( 0.00 == CommonFactory::assertAmount( $amount ));
+        return ( 0.00 === CommonFactory::assertAmount( $amount ));
     }
 
     /**
@@ -353,7 +353,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return LockingInfoType
      */
-    public function getLockingInfo()
+    public function getLockingInfo() : ?LockingInfoType
     {
         return $this->lockingInfo;
     }
@@ -454,7 +454,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|int
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -472,7 +472,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|DateTime
      */
-    public function getJournalDate()
+    public function getJournalDate() : ?DateTime
     {
         return $this->journalDate;
     }
@@ -491,7 +491,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getText()
+    public function getText() : ?string
     {
         return $this->text;
     }
@@ -509,7 +509,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     /**
      * @return string
      */
-    public function getReferenceId()
+    public function getReferenceId() : ?string
     {
         return $this->referenceId;
     }

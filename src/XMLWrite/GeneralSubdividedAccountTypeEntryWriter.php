@@ -41,15 +41,13 @@ class GeneralSubdividedAccountTypeEntryWriter extends Sie5WriterBase implements 
      * @param GeneralSubdividedAccountTypeEntry $generalSubdividedAccountTypeEntry
      *
      */
-    public function write( GeneralSubdividedAccountTypeEntry $generalSubdividedAccountTypeEntry )
+    public function write( GeneralSubdividedAccountTypeEntry $generalSubdividedAccountTypeEntry ) : void
     {
         $XMLattributes = $generalSubdividedAccountTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::GENERALSUBDIVIDEDACCOUNT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::GENERALSUBDIVIDEDACCOUNT, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $generalSubdividedAccountTypeEntry->getPrimaryAccountId()
-        );
-        parent::writeAttribute( $this->writer, self::NAME, $generalSubdividedAccountTypeEntry->getName());
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $generalSubdividedAccountTypeEntry->getPrimaryAccountId() );
+        self::writeAttribute( $this->writer, self::NAME, $generalSubdividedAccountTypeEntry->getName() );
 
         $objects = $generalSubdividedAccountTypeEntry->getGeneralObject();
         if( is_array( $objects ) && ! empty( $objects )) {

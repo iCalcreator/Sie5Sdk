@@ -41,15 +41,13 @@ class CustomerInvoicesTypeEntryWriter extends Sie5WriterBase implements Sie5Writ
      * @param CustomerInvoicesTypeEntry $customerInvoicesType
      *
      */
-    public function write( CustomerInvoicesTypeEntry $customerInvoicesType )
+    public function write( CustomerInvoicesTypeEntry $customerInvoicesType ) : void
     {
         $XMLattributes = $customerInvoicesType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::CUSTOMERINVOICES, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::CUSTOMERINVOICES, $XMLattributes );
 
-        parent::writeAttribute(
-            $this->writer, self::PRIMARYACCOUNTID, $customerInvoicesType->getPrimaryAccountId()
-        );
-        parent::writeAttribute( $this->writer, self::NAME, $customerInvoicesType->getName());
+        self::writeAttribute( $this->writer, self::PRIMARYACCOUNTID, $customerInvoicesType->getPrimaryAccountId() );
+        self::writeAttribute( $this->writer, self::NAME, $customerInvoicesType->getName() );
 
         $invoices = $customerInvoicesType->getCustomerInvoice();
         if( is_array( $invoices ) && ! empty( $invoices )) {
@@ -62,4 +60,3 @@ class CustomerInvoicesTypeEntryWriter extends Sie5WriterBase implements Sie5Writ
         $this->writer->endElement();
     }
 }
-

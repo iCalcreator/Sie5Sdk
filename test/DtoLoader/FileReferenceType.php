@@ -35,15 +35,16 @@ class FileReferenceType
 {
 
     /**
-     * $param array $docIds
+     * @param int $docId
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $docIds ) {
+    public static function loadFromFaker( int $docId ) : Dto
+    {
         $faker = Faker\Factory::create();
 
         return Dto::factory()
-                  ->setId( $docIds )
+                  ->setId( $docId )
                   ->setUri( $faker->url );
     }
 

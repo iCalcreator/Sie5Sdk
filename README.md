@@ -178,7 +178,10 @@ composer require kigkonsult/sie5sdk
 }
 ```
 
-[Composer], acquire access
+Version 1.2 supports PHP 7.4, 1.1 7.0.
+
+
+Acquire access
 ``` php
 namespace Kigkonsult\Sie5Sdk;
 ...
@@ -194,11 +197,6 @@ namespace Kigkonsult\Sie5Sdk;
 include 'pathToSource/sie5sdk/autoload.php';
 ```
 
-Run tests
-```
-cd pathToSource/Sie5Sdk
-vendor/bin/phpunit
-```
 
 #### Sponsorship
 Donation using [paypal.me/kigkonsult] are appreciated.

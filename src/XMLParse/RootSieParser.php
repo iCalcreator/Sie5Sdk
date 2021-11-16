@@ -70,68 +70,68 @@ class RootSieParser extends Sie5ParserBase
         $generalSubdividedAccountTypeParser = new GeneralSubdividedAccountTypeParser( $this->reader );
         $journalTypeParser          = new JournalTypeParser( $this->reader );
         while( @$this->reader->read()) {
-            if( XMLReader::SIGNIFICANT_WHITESPACE != $this->reader->nodeType ) {
+            if( XMLReader::SIGNIFICANT_WHITESPACE !== $this->reader->nodeType ) {
                 $this->logger->debug(
                     sprintf( self::$FMTreadNode, __METHOD__, self::$nodeTypes[$this->reader->nodeType], $this->reader->localName )
                 );
             }
             switch( true ) {
-                case ( XMLReader::END_ELEMENT == $this->reader->nodeType ) :
-                    if( $headElement == $this->reader->localName ) {
+                case ( XMLReader::END_ELEMENT === $this->reader->nodeType ) :
+                    if( $headElement === $this->reader->localName ) {
                         break 2;
                     }
                     break;
-                case ( XMLReader::ELEMENT != $this->reader->nodeType ) :
+                case ( XMLReader::ELEMENT !== $this->reader->nodeType ) :
                     break;
 
-                case ( self::FILEINFO == $this->reader->localName ) :  // occurs 1
+                case ( self::FILEINFO === $this->reader->localName ) :  // occurs 1
                     $sie->setFileInfo( FileInfoTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::ACCOUNTS == $this->reader->localName ) :  // occurs 1
+                case ( self::ACCOUNTS === $this->reader->localName ) :  // occurs 1
                     $sie->setAccounts( AccountsTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::DIMENSIONS == $this->reader->localName ) :  // occurs 0-1
+                case ( self::DIMENSIONS === $this->reader->localName ) :  // occurs 0-1
                     $sie->setDimensions( DimensionsTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::CUSTOMERINVOICES == $this->reader->localName ) : // occurs 0-unbounded
+                case ( self::CUSTOMERINVOICES === $this->reader->localName ) : // occurs 0-unbounded
                     $sie->addCustomerInvoices( $customerInvoicesTypeParser->parse());
                     break;
 
-                case ( self::SUPPLIERINVOICES == $this->reader->localName ) : // occurs 0-unbounded
+                case ( self::SUPPLIERINVOICES === $this->reader->localName ) : // occurs 0-unbounded
                     $sie->addSupplierInvoices( $supplierInvoicesTypeParser->parse());
                     break;
-                case ( self::FIXEDASSETS == $this->reader->localName ) : // occurs 0-unbounded
+                case ( self::FIXEDASSETS === $this->reader->localName ) : // occurs 0-unbounded
                     $sie->addFixedAsset( $fixedAssetsTypeParser->parse());
                     break;
 
-                case ( self::GENERALSUBDIVIDEDACCOUNT == $this->reader->localName ) : // occurs 0-unbounded
+                case ( self::GENERALSUBDIVIDEDACCOUNT === $this->reader->localName ) : // occurs 0-unbounded
                     $sie->addGeneralSubdividedAccount( $generalSubdividedAccountTypeParser->parse());
                     break;
 
-                case ( self::CUSTOMERS == $this->reader->localName ) :  // occurs 0-1
+                case ( self::CUSTOMERS === $this->reader->localName ) :  // occurs 0-1
                     $sie->setCustomers( CustomersTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::SUPPLIERS == $this->reader->localName ) :  // occurs 0-1
+                case ( self::SUPPLIERS === $this->reader->localName ) :  // occurs 0-1
                     $sie->setSuppliers( SuppliersTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::ACCOUNTAGGREGATIONS == $this->reader->localName ) :  // occurs 0-1
+                case ( self::ACCOUNTAGGREGATIONS === $this->reader->localName ) :  // occurs 0-1
                     $sie->setAccountAggregations( AccountAggregationsTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::JOURNAL == $this->reader->localName ) : // occurs 0-unbounded
+                case ( self::JOURNAL === $this->reader->localName ) : // occurs 0-unbounded
                     $sie->addJournal( $journalTypeParser->parse());
                     break;
 
-                case ( self::DOCUMENTS == $this->reader->localName ) :  // occurs 0-1
+                case ( self::DOCUMENTS === $this->reader->localName ) :  // occurs 0-1
                     $sie->setDocuments( DocumentsTypeParser::factory( $this->reader )->parse());
                     break;
 
-                case ( self::SIGNATURE == $this->reader->localName ) :  // occurs 1
+                case ( self::SIGNATURE === $this->reader->localName ) :  // occurs 1
                     $sie->setSignature( SignatureTypeParser::factory( $this->reader )->parse());
                     break;
             } // end switch

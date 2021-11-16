@@ -53,43 +53,45 @@ class CommonFactory
     /**
      * @var string
      */
-    public static $FMT1 = ' (argument #%d)';
-    public static $FMT2 = '%s expected%s, \'%s\' given.';
+    public static string $FMT1 = ' (argument #%d)';
+    public static string $FMT2 = '%s expected%s, \'%s\' given.';
+    public static string $SP0  = '';
 
     /**
      * Assert data is an AccountNumber and return string
      *
      * @param int|string $data
-     * @param int   $argIx
+     * @param null|int   $argIx
      * @return string
      * @throws InvalidArgumentException
      * @todo assert pattern "[0-9]+" ?
      */
-    public static function assertAccountNumber( $data, int $argIx = null ) : string
+    public static function assertAccountNumber( $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'AccountNumber';
         if( ctype_digit((string) $data )) {
             return (string) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
     }
 
     /**
-     * Assert data is an Amount and return string
+     * Assert data is an Amount and return float
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return float
      * @throws InvalidArgumentException
      */
-    public static function assertAmount( $data, int $argIx = null ) : float
+    public static function assertAmount( $data, ? int $argIx = null ) : float
     {
         static $SUBJECT = 'Amount';
-        if( ctype_digit((string) $data ) || is_numeric((string) $data )) {
+        $data = trim((string) $data);
+        if( ctype_digit( $data ) || is_numeric( $data )) {
             return (float) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
     }
 
@@ -107,12 +109,12 @@ class CommonFactory
     /**
      * Assert data is an Boolean and return string
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return bool
      * @throws InvalidArgumentException
      */
-    public static function assertBoolean( $data, int $argIx = null ) : bool
+    public static function assertBoolean( $data, ? int $argIx = null ) : bool
     {
         static $TRUE    = 'true';
         static $FALSE   = 'false';
@@ -120,29 +122,29 @@ class CommonFactory
         switch( true ) {
             case is_bool( $data ) :
                 return $data;
-            case (( 1 == $data ) || ( $TRUE == strtolower( $data ))) :
+            case (( 1 === $data ) || ( $TRUE === strtolower((string) $data ))) :
                 return true;
-            case (( 0 == $data ) || ( $FALSE == strtolower( $data ))) :
+            case (( 0 === $data ) || ( $FALSE === strtolower((string) $data ))) :
                 return false;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
     }
 
     /**
      * Assert data is a Currency and return string
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return string
      */
-    public static function assertCurrency( $data, int $argIx = null ) : string
+    public static function assertCurrency( $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'Currency';
-        if( is_string( $data ) && ctype_upper( $data ) && ( 3 == strlen( $data ))) {
+        if( is_string( $data ) && ctype_upper( $data ) && ( 3 === strlen( $data ))) {
             return $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
     }
 
@@ -152,7 +154,7 @@ class CommonFactory
      * @param string $fileName
      * @throws InvalidArgumentException
      */
-    public static function assertFileName( string $fileName )
+    public static function assertFileName( string $fileName ) : void
     {
         static $FMT1 = '%s is no file';
         static $FMT2 = 'Can\'t read %s';
@@ -169,112 +171,114 @@ class CommonFactory
     /**
      * Assert data is a gYearMonth and return string
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed     $data
+     * @param null|int  $argIx
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertGYearMonth( $data, int $argIx = null ) : string
+    public static function assertGYearMonth( $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'Year-month';
         if( is_scalar( $data ) &&
             checkdate((int) substr((string) $data, -2 ), 1, (int) substr((string) $data, 0, 4 ))) {
             return (string) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, gettype( $data )));
     }
 
     /**
      * Assert data is in enumeration (string) array and return string
      *
-     * @param mixed $data
-     * @param array $enumeration
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param array    $enumeration
+     * @param null|int $argIx
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertInEnumeration( $data, array $enumeration, int $argIx = null ) : string
+    public static function assertInEnumeration( $data, array $enumeration, ? int $argIx = null ) : string
     {
         static $FMT2  = '%sexpected in enumeration %s, \'%s\' given.';
         static $COMMA = ',';
-        if( is_string( $data ) && in_array( $data, $enumeration )) {
+        if( is_string( $data ) && in_array( $data, $enumeration, true ) ) {
             return $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
-        throw new InvalidArgumentException( sprintf( $FMT2, $argNoFmt, implode( $COMMA, $enumeration ), $data ));
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
+        throw new InvalidArgumentException(
+            sprintf( $FMT2, $argNoFmt, implode( $COMMA, $enumeration ), (string) $data )
+        );
     }
 
     /**
      * Assert data is an Int and return string
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertInt( $data, int $argIx = null ) : string
+    public static function assertInt( $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'Int';
         if(  is_scalar( $data ) && ctype_digit((string) $data )) {
             return (string) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
-        throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
+        throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, (string) $data ));
     }
 
 
     /**
      * Assert data is an nonNegativeInteger and return int
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return int
      * @throws InvalidArgumentException
      */
-    public static function assertNonNegativeInteger( $data, int $argIx = null ) : int
+    public static function assertNonNegativeInteger( $data, ? int $argIx = null ) : int
     {
         static $SUBJECT = 'nonNegativeInteger';
         if( is_scalar( $data ) && ctype_digit((string) $data ) && ( 0 <= (int) $data )) {
             return (int) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
-        throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
+        throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, (string) $data ));
     }
 
     /**
      * Assert data is an positiveInteger and return int
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return int
      * @throws InvalidArgumentException
      */
-    public static function assertPositiveInteger( $data, int $argIx = null ) : int
+    public static function assertPositiveInteger( $data, ? int $argIx = null ) : int
     {
         static $SUBJECT = 'positiveInteger';
         if( is_scalar( $data ) && ctype_digit((string) $data ) && ( 0 < (int) $data )) {
             return (int) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
-        throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, $data ));
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
+        throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, (string) $data ));
     }
 
     /**
      * Assert data is a string (i.e. is a scalar) and return string
      *
-     * @param mixed $data
-     * @param int   $argIx
+     * @param mixed    $data
+     * @param null|int $argIx
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertString( $data, int $argIx = null ) : string
+    public static function assertString( $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'String';
         if( is_scalar( $data )) {
             return (string) $data;
         }
-        $argNoFmt = ( empty( $argIx )) ? null : sprintf( self::$FMT1, $argIx );
+        $argNoFmt = ( empty( $argIx )) ? self::$SP0 : sprintf( self::$FMT1, $argIx );
         throw new InvalidArgumentException( sprintf( self::$FMT2, $SUBJECT, $argNoFmt, gettype( $data )));
     }
 }

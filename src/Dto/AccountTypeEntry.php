@@ -40,47 +40,47 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @var BudgetType[]
      */
-    private $budget = [];
+    private array $budget = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id" type="sie:AccountNumber" use="required"
      * pattern value="[0-9]+"
      * Unique account identifier. The account number.
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="required"
      * Account name
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="type" use="required"
      * enumeration : "asset", "liability", "equity", "cost", "income", "statistics"
      */
-    private $type = null;
+    private ?string $type = null;
 
     /**
      * @var string[]
      */
-    public static $typeEnumeration = [
+    public static array $typeEnumeration = [
         self::ASSET, self::LIABILITY, self::EQUITY, self::COST, self::INCOME, self::STATISTICS
     ];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="unit" type="xsd:string"
      * Unit for quantities
      */
-    private $unit = null;
+    private ?string $unit = null;
 
     /**
      * Factory method, set id, name and type
@@ -89,7 +89,6 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
      * @param string $name
      * @param string $type
      * @return static
-     * @throws InvalidArgumentException
      */
     public static function factoryIdNameType( string $id, string $name, string $type ) : self
     {
@@ -102,10 +101,10 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local  = [];
         $inside = [];
@@ -173,7 +172,7 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -192,7 +191,7 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -211,7 +210,7 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getType()
+    public function getType() : ?string
     {
         return $this->type;
     }
@@ -230,7 +229,7 @@ class AccountTypeEntry extends Sie5DtoExtAttrBase
     /**
      * @return null|string
      */
-    public function getUnit()
+    public function getUnit() : ?string
     {
         return $this->unit;
     }

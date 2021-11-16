@@ -41,10 +41,10 @@ class FiscalYearsTypeWriter extends Sie5WriterBase implements Sie5WriterInterfac
      * @param FiscalYearsType $fiscalYearsType
      *
      */
-    public function write( FiscalYearsType $fiscalYearsType )
+    public function write( FiscalYearsType $fiscalYearsType ) : void
     {
         $XMLattributes = $fiscalYearsType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::FISCALYEARS, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::FISCALYEARS, $XMLattributes );
 
         $fiscalYears = $fiscalYearsType->getFiscalYear();
         if( is_array( $fiscalYears ) && ! empty( $fiscalYears )) {

@@ -44,15 +44,15 @@ class AccountsType extends Sie5DtoBase implements Sie5DtoInterface
      *
      * Container element for individual accounts
      */
-    private $account = [];
+    private array $account = [];
 
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param null|array $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( ! empty( $this->account )) {
@@ -97,10 +97,10 @@ class AccountsType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return AccountType if (AccountType-)id (AccountNumber) given (bool false on not found) otherwise array all
      *
-     * @param string $id
+     * @param null|string $id
      * @return array|AccountType|bool   if id given AccountType, bool false on not found otherwise array all
      */
-    public function getAccount( string $id = null )
+    public function getAccount( ? string $id = null )
     {
         if( ! empty( $id )) {
             $ix = $this->isAccountIdUnique( $id );
@@ -132,7 +132,7 @@ class AccountsType extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function isAccountIdUnique( string $id )
     {
-        $hitIx = array_search( $id, $this->getAllAccountIds());
+        $hitIx = array_search( $id, $this->getAllAccountIds(), true );
         return ( false !== $hitIx ) ? $hitIx : true;
     }
 

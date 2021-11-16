@@ -33,7 +33,6 @@ use Kigkonsult\Sie5Sdk\Impl\SortFactory;
 use TypeError;
 
 use function array_keys;
-use function array_merge;
 use function array_unique;
 use function sort;
 use function usort;
@@ -46,23 +45,23 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
      * Attribute minOccurs="0" maxOccurs="unbounded"
      * Journal entry
      */
-    private $journalEntry = [];
+    private array $journalEntry = [];
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="id" type="xsd:string" use="required"
      * Journal identifier
      */
-    private $id = null;
+    private ?string $id = null;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="name" type="xsd:string" use="required"
      * Journal name
      */
-    private $name = null;
+    private ?string $name = null;
 
     /**
      * Return instance, set id and name
@@ -81,10 +80,10 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( empty( $this->journalEntry )) {
@@ -146,7 +145,9 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     {
         $accountIds = [];
         foreach( array_keys( $this->journalEntry ) as $ix ) {
-            $accountIds = array_merge( $accountIds, $this->journalEntry[$ix]->getAllLedgerEntryAccountIds());
+            foreach( $this->journalEntry[$ix]->getAllLedgerEntryAccountIds() as $accountId ) {
+                $accountIds[] = $accountId;
+            }
         } // end foreach
         sort( $accountIds );
         return array_unique( $accountIds );
@@ -169,10 +170,10 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true if sum of each journalEntry ledgerEntries amount is zero
      *
-     * @param array $errorIx
-     * @return bool (on error index of journalEntry)
+     * @param null|array $errorIx
+     * @return bool  (on error index of journalEntry)
      */
-    public function hasBalancedJournalEntryLedgerEntries( & $errorIx = [] ) : bool
+    public function hasBalancedJournalEntryLedgerEntries( ? array & $errorIx = [] ) : bool
     {
         foreach( array_keys( $this->journalEntry ) as $ix ) {
             if( ! $this->journalEntry[$ix]->hasBalancedLedgerEntries()) {
@@ -201,7 +202,7 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Sort JournalEntry on journalEntryType id
      */
-    public function sortJournalEntryOnId()
+    public function sortJournalEntryOnId() : void
     {
         usort( $this->journalEntry, SortFactory::$journalEntryTypeSorter );
     }
@@ -209,7 +210,7 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getId()
+    public function getId() : ?string
     {
         return $this->id;
     }
@@ -227,7 +228,7 @@ class JournalType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getName()
+    public function getName() : ?string
     {
         return $this->name;
     }

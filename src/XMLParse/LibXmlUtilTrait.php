@@ -34,20 +34,16 @@ trait LibXmlUtilTrait
      *
      * @param string $fileName
      * @return bool
-     * @throws InvalidArgumentException
      */
     public static function assertIsValidXML( string $fileName ) : bool
     {
         static $CLASS  = 'SimpleXMLElement';
-        static $FMTerr = 'Error validating %s';
+        static $FMTerr = 'Error validating %s ';
         $useInternalXmlErrors = libxml_use_internal_errors( true ); // enable user error handling
         if( false === simplexml_load_file( $fileName, $CLASS, self::$XMLReaderOptions )) {
             throw new InvalidArgumentException(
-                sprintf(
-                    $FMTerr,
-                    basename( $fileName ),
+                sprintf( $FMTerr, basename( $fileName )) .
                     var_export( self::renderXmlError( libxml_get_errors(), $fileName ), true )
-                )
             );
         }
         libxml_use_internal_errors( $useInternalXmlErrors ); // disable user error handling

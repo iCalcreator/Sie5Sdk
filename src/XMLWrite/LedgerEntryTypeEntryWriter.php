@@ -42,24 +42,22 @@ class LedgerEntryTypeEntryWriter extends Sie5WriterBase implements Sie5WriterInt
      * @param LedgerEntryTypeEntry $ledgerEntryTypeEntry
      *
      */
-    public function write( LedgerEntryTypeEntry $ledgerEntryTypeEntry )
+    public function write( LedgerEntryTypeEntry $ledgerEntryTypeEntry ) : void
     {
         $XMLattributes = $ledgerEntryTypeEntry->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::LEDGERENTRY, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::LEDGERENTRY, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ACCOUNTID, $ledgerEntryTypeEntry->getAccountId());
-        parent::writeAttribute(
-            $this->writer,
+        self::writeAttribute( $this->writer, self::ACCOUNTID, $ledgerEntryTypeEntry->getAccountId() );
+        self::writeAttribute( $this->writer,
             self::AMOUNT,
-            CommonFactory::formatAmount( $ledgerEntryTypeEntry->getAmount())
-        );
+            CommonFactory::formatAmount( $ledgerEntryTypeEntry->getAmount() ) );
         $var = $ledgerEntryTypeEntry->getQuantity();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::QUANTITY, $var );
+            self::writeAttribute( $this->writer, self::QUANTITY, (string) $var );
         }
         $var = $ledgerEntryTypeEntry->getText();
         if( ! empty( $var )) {
-            parent::writeAttribute( $this->writer, self::TEXT, $var );
+            self::writeAttribute( $this->writer, self::TEXT, $var );
         }
         $ledgerDate = $ledgerEntryTypeEntry->getLedgerDate();
         if( ! empty( $ledgerDate )) {
@@ -68,10 +66,10 @@ class LedgerEntryTypeEntryWriter extends Sie5WriterBase implements Sie5WriterInt
             );
         }
         foreach( $ledgerEntryTypeEntry->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $var = $ledgerEntryTypeEntry->getLedgerEntryTypeEntries();

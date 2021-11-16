@@ -39,16 +39,16 @@ class OverstrikeTypeWriter extends Sie5WriterBase implements Sie5WriterInterface
      * @param OverstrikeType $overstrikeType
      *
      */
-    public function write( OverstrikeType $overstrikeType )
+    public function write( OverstrikeType $overstrikeType ) : void
     {
         $XMLattributes = $overstrikeType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::OVERSTRIKE, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::OVERSTRIKE, $XMLattributes );
 
         $date = $overstrikeType->getDate();
         if( ! empty( $date )) {
             self::writeAttribute( $this->writer, self::DATE, $date->format( self::FMTDATE ));
         }
-        parent::writeAttribute( $this->writer, self::BY, $overstrikeType->getBy());
+        self::writeAttribute( $this->writer, self::BY, $overstrikeType->getBy() );
 
         $this->writer->endElement();
     }

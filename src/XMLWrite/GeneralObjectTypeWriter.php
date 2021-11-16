@@ -41,18 +41,18 @@ class GeneralObjectTypeWriter extends Sie5WriterBase implements Sie5WriterInterf
      * @param GeneralObjectType $generalObjectType
      *
      */
-    public function write( GeneralObjectType $generalObjectType )
+    public function write( GeneralObjectType $generalObjectType ) : void
     {
         $XMLattributes = $generalObjectType->getXMLattributes();
-        parent::setWriterStartElement( $this->writer, self::GENERALOBEJCT, $XMLattributes );
+        self::setWriterStartElement( $this->writer, self::GENERALOBEJCT, $XMLattributes );
 
-        parent::writeAttribute( $this->writer, self::ID,   $generalObjectType->getId());
-        parent::writeAttribute( $this->writer, self::NAME, $generalObjectType->getName());
+        self::writeAttribute( $this->writer, self::ID, $generalObjectType->getId() );
+        self::writeAttribute( $this->writer, self::NAME, $generalObjectType->getName() );
         foreach( $generalObjectType->getExtensionAttributes() as $key => $value ) {
-            if( self::TYPE == $key ) {
+            if( self::TYPE === $key ) {
                 $key = self::XSITYPE;
             }
-            parent::writeAttribute( $this->writer, $key, $value );
+            self::writeAttribute( $this->writer, (string) $key, $value );
         }
 
         $balances = $generalObjectType->getBalances();
@@ -64,7 +64,7 @@ class GeneralObjectTypeWriter extends Sie5WriterBase implements Sie5WriterInterf
         } // end if
 
         $originalAmount = $generalObjectType->getOriginalAmount();
-        if( null != $originalAmount ) {
+        if( null !== $originalAmount ) {
             OriginalAmountTypeWriter::factory( $this->writer )->write( $originalAmount );
         }
 

@@ -34,29 +34,29 @@ use DateTime;
 class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
 {
     /**
-     * @var DateTime
+     * @var DateTime|null
      *
      * Attribute name="time" type="xsd:dateTime" use="required"
      * UTC time when the file was generated in ISO 8601 extended format (YYYY-MM-DDThh:mm:ssZ)
      */
-    private $time = null;
+    private ?DateTime $time;
 
     /**
-     * @var string
+     * @var string|null
      *
      * Attribute name="by" type="xsd:string" use="required"
      * Name of the person, routine or system which has generated the file
      */
-    private $by = null;
+    private ?string $by = null;
 
     /**
      * Factory method, set by and time (today if null)
      *
-     * @param string        $by
+     * @param string $by
      * @param null|DateTime $time
      * @return FileCreationType|Sie5DtoBase
      */
-    public static function factoryByTime( string $by, $time = null )
+    public static function factoryByTime( string $by, ? DateTime $time = null )
     {
         if( empty( $time )) {
             $time = new DateTime();
@@ -79,10 +79,10 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * Return bool true is instance is valid
      *
-     * @param array $outSide
+     * @param array|null $outSide
      * @return bool
      */
-    public function isValid( array & $outSide = null ) : bool
+    public function isValid( ? array & $outSide = [] ) : bool
     {
         $local = [];
         if( null === $this->time ) {
@@ -101,7 +101,7 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|DateTime
      */
-    public function getTime()
+    public function getTime() : ?DateTime
     {
         return $this->time;
     }
@@ -119,7 +119,7 @@ class FileCreationType extends Sie5DtoBase implements Sie5DtoInterface
     /**
      * @return null|string
      */
-    public function getBy()
+    public function getBy() : ?string
     {
         return $this->by;
     }
