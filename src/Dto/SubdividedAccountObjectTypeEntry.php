@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -53,7 +53,7 @@ abstract class SubdividedAccountObjectTypeEntry extends Sie5DtoBase implements S
      * @param string $id
      * @return static
      */
-    public static function factoryId( string $id ) : self
+    public static function factoryId( string $id ) : static
     {
         $class    = static::class;
         $instance = new $class();
@@ -79,7 +79,7 @@ abstract class SubdividedAccountObjectTypeEntry extends Sie5DtoBase implements S
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName() : ?string
     {

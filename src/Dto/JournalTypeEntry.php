@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -190,7 +190,7 @@ class JournalTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param mixed $id
      * @return static
      */
-    public function setId( $id ) : self
+    public function setId( mixed $id ) : self
     {
         $this->id = (string) $id;
         return $this;

@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -59,7 +59,7 @@ class Sie5Parser extends Sie5ParserBase
      * @return Sie|SieEntry|DOMNode
      * @throws Exception
      */
-    public function parseXmlFromFile( string $fileName, ? bool $asDomNode = false )
+    public function parseXmlFromFile( string $fileName, ? bool $asDomNode = false ) : DOMNode | Sie | SieEntry
     {
         CommonFactory::assertFileName( $fileName );
         self::assertIsValidXML( $fileName );
@@ -76,7 +76,7 @@ class Sie5Parser extends Sie5ParserBase
      * @return Sie|SieEntry|DOMNode
      * @throws Exception
      */
-    public function parseXmlFromString( string $xml, ? bool $asDomNode = false )
+    public function parseXmlFromString( string $xml, ? bool $asDomNode = false ) : DOMNode | Sie | SieEntry
     {
         return $this->parse( $xml, $asDomNode );
     }
@@ -114,7 +114,7 @@ class Sie5Parser extends Sie5ParserBase
      * @return Sie|SieEntry|DOMNode
      * @throws Exception
      */
-    public function parse( string $xml, ? bool $asDomNode = false )
+    public function parse( string $xml, ? bool $asDomNode = false ) : DOMNode | Sie | SieEntry
     {
         static $FMTerr1 = 'Error #%d parsing xml';
         static $FMTerr2 = 'Unknown xml root element \'%s\'';
@@ -162,7 +162,7 @@ class Sie5Parser extends Sie5ParserBase
         libxml_use_internal_errors( $useInternalXmlErrors ); // disable user error handling
         libxml_clear_errors();
         $libXarr = self::renderXmlError( $libxmlErrors, null, $xml );
-        if(( 0 < count( $libXarr )) && self::logLibXmlErrors( LoggerDepot::getLogger( get_class()), $libXarr )) {
+        if(( 0 < count( $libXarr )) && self::logLibXmlErrors( LoggerDepot::getLogger( __CLASS__ ), $libXarr )) {
             throw new RuntimeException( sprintf( $FMTerr1, 2 ));
         }
         if( $xmlInitError ) {

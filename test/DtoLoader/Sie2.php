@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -28,8 +28,9 @@
  */
 namespace Kigkonsult\Sie5Sdk\DtoLoader;
 
+use Exception;
 // use Faker;
-use Kigkonsult\DsigSdk\DsigLoader\SignatureType1 as SignatureType;
+use Kigkonsult\DsigSdk\DsigLoader\Signature1 as SignatureType;
 use Kigkonsult\Sie5Sdk\Dto\Sie as Dto;
 
 class Sie2
@@ -38,6 +39,7 @@ class Sie2
     /**
      * @return Dto
      * @access static
+     * @throws Exception
      */
     public static function loadFromFaker() : Dto
     {

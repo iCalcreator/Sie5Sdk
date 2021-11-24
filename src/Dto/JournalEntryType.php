@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -351,7 +351,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return LockingInfoType
+     * @return LockingInfoType|null
      */
     public function getLockingInfo() : ?LockingInfoType
     {
@@ -463,7 +463,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
      * @param mixed $id
      * @return JournalEntryType
      */
-    public function setId( $id ) : self
+    public function setId( mixed $id ) : self
     {
         $this->id = CommonFactory::assertNonNegativeInteger( $id );
         return $this;
@@ -507,7 +507,7 @@ class JournalEntryType extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getReferenceId() : ?string
     {

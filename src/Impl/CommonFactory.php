@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -66,7 +66,7 @@ class CommonFactory
      * @throws InvalidArgumentException
      * @todo assert pattern "[0-9]+" ?
      */
-    public static function assertAccountNumber( $data, ? int $argIx = null ) : string
+    public static function assertAccountNumber( int | string $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'AccountNumber';
         if( ctype_digit((string) $data )) {
@@ -84,7 +84,7 @@ class CommonFactory
      * @return float
      * @throws InvalidArgumentException
      */
-    public static function assertAmount( $data, ? int $argIx = null ) : float
+    public static function assertAmount( mixed $data, ? int $argIx = null ) : float
     {
         static $SUBJECT = 'Amount';
         $data = trim((string) $data);
@@ -114,7 +114,7 @@ class CommonFactory
      * @return bool
      * @throws InvalidArgumentException
      */
-    public static function assertBoolean( $data, ? int $argIx = null ) : bool
+    public static function assertBoolean( mixed $data, ? int $argIx = null ) : bool
     {
         static $TRUE    = 'true';
         static $FALSE   = 'false';
@@ -138,7 +138,7 @@ class CommonFactory
      * @param null|int $argIx
      * @return string
      */
-    public static function assertCurrency( $data, ? int $argIx = null ) : string
+    public static function assertCurrency( mixed $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'Currency';
         if( is_string( $data ) && ctype_upper( $data ) && ( 3 === strlen( $data ))) {
@@ -176,7 +176,7 @@ class CommonFactory
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertGYearMonth( $data, ? int $argIx = null ) : string
+    public static function assertGYearMonth( mixed $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'Year-month';
         if( is_scalar( $data ) &&
@@ -196,7 +196,7 @@ class CommonFactory
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertInEnumeration( $data, array $enumeration, ? int $argIx = null ) : string
+    public static function assertInEnumeration( mixed $data, array $enumeration, ? int $argIx = null ) : string
     {
         static $FMT2  = '%sexpected in enumeration %s, \'%s\' given.';
         static $COMMA = ',';
@@ -217,7 +217,7 @@ class CommonFactory
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertInt( $data, ? int $argIx = null ) : string
+    public static function assertInt( mixed $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'Int';
         if(  is_scalar( $data ) && ctype_digit((string) $data )) {
@@ -236,7 +236,7 @@ class CommonFactory
      * @return int
      * @throws InvalidArgumentException
      */
-    public static function assertNonNegativeInteger( $data, ? int $argIx = null ) : int
+    public static function assertNonNegativeInteger( mixed $data, ? int $argIx = null ) : int
     {
         static $SUBJECT = 'nonNegativeInteger';
         if( is_scalar( $data ) && ctype_digit((string) $data ) && ( 0 <= (int) $data )) {
@@ -254,7 +254,7 @@ class CommonFactory
      * @return int
      * @throws InvalidArgumentException
      */
-    public static function assertPositiveInteger( $data, ? int $argIx = null ) : int
+    public static function assertPositiveInteger( mixed $data, ? int $argIx = null ) : int
     {
         static $SUBJECT = 'positiveInteger';
         if( is_scalar( $data ) && ctype_digit((string) $data ) && ( 0 < (int) $data )) {
@@ -272,7 +272,7 @@ class CommonFactory
      * @return string
      * @throws InvalidArgumentException
      */
-    public static function assertString( $data, ? int $argIx = null ) : string
+    public static function assertString( mixed $data, ? int $argIx = null ) : string
     {
         static $SUBJECT = 'String';
         if( is_scalar( $data )) {

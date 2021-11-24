@@ -18,7 +18,7 @@ use function var_export;
 trait LibXmlUtilTrait
 {
     /**
-     * @var int
+     * @var string|int
      *           libxml default options
      *             LIBXML_NONET          Disable network access when loading documents
      *             LIBXML_NOERROR        Suppress error reports
@@ -26,7 +26,7 @@ trait LibXmlUtilTrait
      *             LIBXML_NSCLEAN        Remove redundant namespace declarations
      *             LIBXML_HTML_NODEFDTD  Sets HTML_PARSE_NODEFDTD flag, which prevents a default doctype being added when one is not found. ??
      */
-    public static $XMLReaderOptions = LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_HTML_NODEFDTD;
+    public static string | int $XMLReaderOptions = LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NSCLEAN | LIBXML_HTML_NODEFDTD;
     // LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NSCLEAN;
 
     /**
@@ -103,7 +103,7 @@ trait LibXmlUtilTrait
                     break;
                 case LIBXML_ERR_ERROR:      // 2
                     $str3     = $LIBXML_recoverable_Error;
-                    $logLevel = ( 522 == $error->code ) ? $INFO : $WARNING; // Validation failed: no DTD found !
+                    $logLevel = ( 522 === $error->code ) ? $INFO : $WARNING; // Validation failed: no DTD found !
                     break;
                 case LIBXML_ERR_FATAL:      // 3
                 default :

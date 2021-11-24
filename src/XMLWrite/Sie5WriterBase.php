@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -37,14 +37,13 @@ use XMLWriter;
 
 use function sprintf;
 use function strtolower;
-use function strpos;
 
 abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XMLAttributesInterface
 {
     /**
      * @var mixed
      */
-    protected $logger;
+    protected mixed $logger;
 
     /**
      * @var XMLWriter|null
@@ -70,7 +69,7 @@ abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XML
      * @param null|XMLWriter $writer
      * @return static
      */
-    public static function factory( ? XMLWriter $writer = null ) : self
+    public static function factory( ? XMLWriter $writer = null ) : static
     {
         $class = static::class;
         return new $class( $writer );
@@ -106,7 +105,7 @@ abstract class Sie5WriterBase extends LogLevel implements Sie5Interface, Sie5XML
                     break;
                 }
             } // end foreach
-            if( $found || ( strpos( $key, self::XMLNS ) === 0 )) {
+            if( $found || ( str_starts_with( $key, self::XMLNS ) )) {
                 self::writeAttribute( $writer, $key, $value );
             }
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -65,7 +65,7 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function factoryDateAmount( DateTime $date, $amount ) : self
+    public static function factoryDateAmount( DateTime $date, mixed $amount ) : self
     {
         return self::factory()
             ->setDate( $date )
@@ -153,7 +153,7 @@ class OriginalAmountType extends Sie5DtoBase implements Sie5DtoInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setAmount( $amount ) : self
+    public function setAmount( mixed $amount ) : self
     {
         $this->amount = CommonFactory::assertAmount( $amount );
         return $this;

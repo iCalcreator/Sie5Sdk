@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -136,7 +136,7 @@ class CompanyType extends Sie5DtoExtAttrBase
      * @param mixed $multiple
      * @return CompanyType
      */
-    public function setMultiple( $multiple ) : self
+    public function setMultiple( mixed $multiple ) : self
     {
         $this->multiple = (int) $multiple;
         return $this;

@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -74,7 +74,7 @@ abstract class SubdividedAccountObjectType extends Sie5DtoBase implements Sie5Dt
      * @param mixed $amount
      * @return static
      */
-    public static function factoryIdDateAmount( string $id, DateTime $date, $amount ) : self
+    public static function factoryIdDateAmount( string $id, DateTime $date, mixed $amount ) : static
     {
         return self::factory()
             ->setId( $id )

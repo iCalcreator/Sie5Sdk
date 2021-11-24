@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -60,7 +60,7 @@ abstract class BaseSubdividedAccountTypeEntry extends Sie5DtoBase implements Sie
      * @param string $primaryAccountId
      * @return static
      */
-    public static function factoryPrimaryAccountId( string $primaryAccountId ) : self
+    public static function factoryPrimaryAccountId( string $primaryAccountId ) : static
     {
         $class    = static::class;
         $instance = new $class();

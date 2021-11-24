@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -105,6 +105,15 @@ class TestFiles extends BaseTest
         */
         $xml = Sie5Writer::factory()->write( $sie );
 
+        /*
+        // save reproduced xml file
+        $fileNameActual =
+            self::getBasePath() . 'testDocs' . DIRECTORY_SEPARATOR .
+            'actual' . pathinfo( $fileName, PATHINFO_BASENAME );
+        echo $fileNameActual . PHP_EOL;
+        file_put_contents( $fileNameActual, $xml );
+        */
+
         /* will not work... TypeError...
         $this->assertXmlStringEqualsXmlString(
             file_get_contents( $fileName ),
@@ -112,12 +121,12 @@ class TestFiles extends BaseTest
             sprintf( $FMT2, $case, basename( $fileName ))
         );
         */
+
         $this->assertSame(
             file_get_contents( $fileName ),
             $xml,
             sprintf( $FMT2, $case, basename( $fileName ))
         );
-
     }
 
 }

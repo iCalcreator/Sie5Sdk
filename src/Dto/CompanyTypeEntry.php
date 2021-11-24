@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -107,7 +107,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getOrganizationId() : ?string
     {
@@ -143,7 +143,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName() : ?string
     {
@@ -161,7 +161,7 @@ class CompanyTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getClientId() : ?string
     {

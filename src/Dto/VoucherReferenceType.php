@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -48,7 +48,7 @@ class VoucherReferenceType extends Sie5DtoBase implements Sie5DtoInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function factoryId( $id ) : self
+    public static function factoryId( mixed $id ) : self
     {
         return self::factory()
             ->setDocumentId( $id );
@@ -85,7 +85,7 @@ class VoucherReferenceType extends Sie5DtoBase implements Sie5DtoInterface
      * @param mixed $documentId
      * @return static
      */
-    public function setDocumentId( $documentId ) : self
+    public function setDocumentId( mixed $documentId ) : self
     {
         $this->documentId = CommonFactory::assertPositiveInteger( $documentId );
         return $this;

@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -45,7 +45,7 @@ trait ExtensionAttributeTrait
      * @param string $value
      * @return static
      */
-    public function addExtensionAttribute( string $name, string $value ) : self
+    public function addExtensionAttribute( string $name, string $value ) : static
     {
         $this->extensionAttributes[$name] = $value;
         return $this;
@@ -64,7 +64,7 @@ trait ExtensionAttributeTrait
      * @return static
      * @throws TypeError
      */
-    public function setExtensionAttributes( array $extensionAttributes ) : self
+    public function setExtensionAttributes( array $extensionAttributes ) : static
     {
         foreach( $extensionAttributes as $key => $value ) {
             $this->addExtensionAttribute( $key, $value );

@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -52,26 +52,14 @@ class AccountType implements Sie5Interface
         $max  = $faker->numberBetween( 1, 4 );
         $load = [];
         for( $x = 0; $x <= $max; $x++ ) {
-            switch( $faker->numberBetween( 1, 6 )) {
-                case 1 :
-                    $load[] = [ Dto::OPENINGBALANCE => BaseBalanceType::loadFromFaker() ];
-                    break;
-                case 2 :
-                    $load[] = [ Dto::CLOSINGBALANCE => BaseBalanceType::loadFromFaker() ];
-                    break;
-                case 3 :
-                    $load[] = [ Dto::BUDGET => BudgetType::loadFromFaker() ];
-                    break;
-                case 4 :
-                    $load[] = [ Dto::OPENINGBALANCEMULTIDIM => BaseBalanceMultidimType::loadFromFaker() ];
-                    break;
-                case 5 :
-                    $load[] = [ Dto::CLOSINGBALANCEMULTIDIM => BaseBalanceMultidimType::loadFromFaker() ];
-                    break;
-                case 6 :
-                    $load[] = [ Dto::BUDGETMULTIDIM => BudgetMultidimType::loadFromFaker() ];
-                    break;
-            } // end switch
+            $load[] = match ( $faker->numberBetween( 1, 6 ) ) {
+                1 => [ Dto::OPENINGBALANCE => BaseBalanceType::loadFromFaker() ],
+                2 => [ Dto::CLOSINGBALANCE => BaseBalanceType::loadFromFaker() ],
+                3 => [ Dto::BUDGET => BudgetType::loadFromFaker() ],
+                4 => [ Dto::OPENINGBALANCEMULTIDIM => BaseBalanceMultidimType::loadFromFaker() ],
+                5 => [ Dto::CLOSINGBALANCEMULTIDIM => BaseBalanceMultidimType::loadFromFaker() ],
+                6 => [ Dto::BUDGETMULTIDIM => BudgetMultidimType::loadFromFaker() ],
+            }; // end switch
         } // end for
         $dto->setAccountType( $load );
 

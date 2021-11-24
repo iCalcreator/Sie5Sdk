@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -145,29 +145,17 @@ class RenderFactory
         $string = $SP0;
         foreach( $arrVal as $key2 => $value2 ) {
             $string .= $propName . $IB1 . $key2;
-            switch( true ) {
-                case is_null( $value2 ) :
-                    $string .= $IB2 . self::$SP1C . self::$NULL . PHP_EOL;
-                    break;
-                case is_scalar( $value2 ) :
-                    $string .= $IB2 . self::$SP1C . var_export( $value2, true ) . PHP_EOL;
-                    break;
-                case is_array( $value2 ) :
-                    $string .= $IB3 . PHP_EOL . self::$SP1 .
-                        self::dispArray( $propName . $IB1 . $key2 . $IB3, $value2 );
-                    break;
-                case ( $value2 instanceof DateTime ) :
-                    $string .= $IB2 . self::$SP1C . $value2->format( self::$YMDHIS ) . PHP_EOL;
-                    break;
-                case is_object( $value2 ) :
-                    $string .= $IB2 . self::$SP1C . ( method_exists( $value2, self::$TS ))
-                        ? PHP_EOL . $value2->toString()
-                        : self::$Q2 . PHP_EOL;
-                    break;
-                default :
-                    $string .= $IB2 . self::$SP1C . var_export( $value2, true ) . PHP_EOL;
-                    break;
-            } // end switch
+            $string .= match( true ) {
+                is_null( $value2 )   => $IB2 . self::$SP1C . self::$NULL . PHP_EOL,
+                is_scalar( $value2 ) => $IB2 . self::$SP1C . var_export( $value2, true ) . PHP_EOL,
+                is_array( $value2 )  => $IB3 . PHP_EOL . self::$SP1 .
+                    self::dispArray( $propName . $IB1 . $key2 . $IB3, $value2 ),
+                $value2 instanceof DateTime => $IB2 . self::$SP1C . $value2->format( self::$YMDHIS ) . PHP_EOL,
+                is_object( $value2 ) => $IB2 . self::$SP1C . ( method_exists( $value2, self::$TS ) )
+                    ? PHP_EOL . $value2->toString()
+                    : self::$Q2 . PHP_EOL,
+                default              => $IB2 . self::$SP1C . var_export( $value2, true ) . PHP_EOL,
+            }; // end switch
         } // end foreach
         return $string;
     }

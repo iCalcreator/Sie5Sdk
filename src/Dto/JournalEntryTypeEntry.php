@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -105,16 +105,16 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
      *
      * @param null|string   $by
      * @param null|DateTime $journalDate
-     * @param null|mixed    $id
+     * @param mixed|null $id
      * @param null|string   $text
      * @return static
      * @throws InvalidArgumentException
      */
     public static function factoryByDateIdText(
-        ? string $by = null,
+        ? string   $by = null,
         ? DateTime $journalDate = null,
-        $id = null,
-        ? string $text = null
+        mixed      $id = null,
+        ? string   $text = null
     ) : self
     {
         $instance = new self();
@@ -330,7 +330,7 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getId() : ?int
     {
@@ -342,7 +342,7 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setId( $id ) : self
+    public function setId( mixed $id ) : self
     {
         $this->id = CommonFactory::assertNonNegativeInteger( $id );
         return $this;
@@ -367,7 +367,7 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getText() : ?string
     {
@@ -385,7 +385,7 @@ class JournalEntryTypeEntry extends Sie5DtoExtAttrBase
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getReferenceId() : ?string
     {

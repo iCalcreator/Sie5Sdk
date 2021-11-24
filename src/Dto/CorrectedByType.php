@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -62,7 +62,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
      * @param mixed $journalEntryId
      * @return static
      */
-    public static function factoryJournalIdJournalEntryId( string $journalId, $journalEntryId ) : self
+    public static function factoryJournalIdJournalEntryId( string $journalId, mixed $journalEntryId ) : self
     {
         return self::factory()
                    ->setJournalId( $journalId )
@@ -140,7 +140,7 @@ class CorrectedByType extends Sie5DtoBase implements Sie5DtoInterface
      * @param mixed $journalEntryId
      * @return static
      */
-    public function setJournalEntryId( $journalEntryId ) : self
+    public function setJournalEntryId( mixed $journalEntryId ) : self
     {
         $this->journalEntryId = CommonFactory::assertNonNegativeInteger( $journalEntryId );
         return $this;

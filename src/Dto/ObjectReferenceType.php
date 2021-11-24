@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -60,7 +60,7 @@ class ObjectReferenceType
      * @param string $objectId
      * @return static
      */
-    public static function factoryDimIdObjectId( $dimId, string $objectId ) : self
+    public static function factoryDimIdObjectId( mixed $dimId, string $objectId ) : self
     {
         return self::factory()
             ->setDimId( $dimId )
@@ -102,7 +102,7 @@ class ObjectReferenceType
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setDimId( $dimId ) : self
+    public function setDimId( mixed $dimId ) : self
     {
         $this->dimId = CommonFactory::assertPositiveInteger( $dimId );
         return $this;

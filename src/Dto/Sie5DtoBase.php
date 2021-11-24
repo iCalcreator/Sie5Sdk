@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -57,7 +57,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
     /**
      * @var mixed
      */
-    protected $logger;
+    protected mixed $logger;
 
     /**
      * @var array
@@ -84,7 +84,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
      *
      * @return static
      */
-    public static function factory() : self
+    public static function factory() : static
     {
         $class = static::class;
         return new $class();
@@ -131,7 +131,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
             throw new RuntimeException( $e->getMessage(), 1004, $e );
         }
         foreach( $propArr as $propertyValue ) {
-            if( $propertyValue instanceof Sie5DtoBase ) {
+            if( $propertyValue instanceof self ) {
                 $propertyValue->setXMLattribute( self::PREFIX,  $value );
             }
             elseif( is_array( $propertyValue )) {
@@ -149,7 +149,7 @@ abstract class Sie5DtoBase extends LogLevel implements Sie5Interface, Sie5XMLAtt
     protected static function traversPrefixDownArray( array $arrayValue, string $value ) : void
     {
         foreach( $arrayValue as $array2Value ) {
-            if( $array2Value instanceof Sie5DtoBase ) {
+            if( $array2Value instanceof self ) {
                 $array2Value->setXMLattribute( self::PREFIX,  $value );
             }
             elseif( is_array( $array2Value )) {

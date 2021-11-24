@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- SieSdk    PHP SDK for Sie5 export/import format
+ Sie5Sdk   PHP SDK for Sie5 export/import format
            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
 
  This file is a part of DsigSdk.
 
- Author    Kjell-Inge Gustafsson, kigkonsultKjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
+ Author    Kjell-Inge Gustafsson, kigkonsult <ical@kigkonsult.se>
  Copyright 2019-2021 Kjell-Inge Gustafsson, kigkonsult, All rights reserved
  Link      https://kigkonsult.se
  license   Subject matter of licence is the software Sie5Sdk.

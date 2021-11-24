@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -34,7 +34,7 @@ interface Sie5Interface
      * Product constants
      */
     public const PRODUCTNAME              = 'Kigkonsult\Sie5Sdk';
-    public const PRODUCTVERSION           = '1.0';
+    public const PRODUCTVERSION           = '1.4';
 
     /**
      * Sie element constants

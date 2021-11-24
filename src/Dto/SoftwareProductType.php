@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -30,7 +30,6 @@ declare( strict_types = 1 );
 namespace Kigkonsult\Sie5Sdk\Dto;
 
 use function sprintf;
-use function strpos;
 
 class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
 {
@@ -94,7 +93,7 @@ class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function setName( string $name ) : self
     {
-        $this->name = ( false !== strpos( $name, self::PRODUCTNAME ))
+        $this->name = ( str_contains( $name, self::PRODUCTNAME ) )
             ? $name
             : sprintf( self::$FMT, $name, self::PRODUCTNAME );
         return $this;
@@ -114,7 +113,7 @@ class SoftwareProductType  extends Sie5DtoBase implements Sie5DtoInterface
      */
     public function setVersion( string $version ) : self
     {
-        $this->version = ( false !== strpos( $version, self::PRODUCTVERSION ))
+        $this->version = ( str_contains( $version, self::PRODUCTVERSION ) )
             ? $version
             : sprintf( self::$FMT, $version, self::PRODUCTVERSION );
         return $this;

@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -290,7 +290,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param string $id
      * @return int|bool  AccountType index or true if not found i.e. unique
      */
-    public function isAccountIdUnique( string $id )
+    public function isAccountIdUnique( string $id ) : bool | int
     {
         $hitIx = $this->accounts->isAccountIdUnique( $id );
         return ( false !== $hitIx ) ? $hitIx : true;
@@ -330,7 +330,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param int $id
      * @return int|bool  DimensionType index or true if not found i.e. unique
      */
-    public function isDimensionsIdUnique( int $id )
+    public function isDimensionsIdUnique( int $id ) : bool | int
     {
         return $this->dimensions->isDimensionsIdUnique( $id );
     }
@@ -518,7 +518,7 @@ class SieEntry extends Sie5DtoBase implements Sie5DtoInterface
     }
 
     /**
-     * @return CustomersType
+     * @return CustomersType|null
      */
     public function getCustomers() : ?CustomersType
     {

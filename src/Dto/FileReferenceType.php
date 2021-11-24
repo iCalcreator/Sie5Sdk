@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -55,7 +55,7 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
      * @param string $uri
      * @return static
      */
-    public static function factoryIdUri( $id, string $uri ) : self
+    public static function factoryIdUri( mixed $id, string $uri ) : self
     {
         return self::factory()
                    ->setId( $id )
@@ -97,7 +97,7 @@ class FileReferenceType extends Sie5DtoBase implements DocumentsTypesInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setId( $id ) : self
+    public function setId( mixed $id ) : self
     {
         $this->id = CommonFactory::assertPositiveInteger( $id );
         return $this;

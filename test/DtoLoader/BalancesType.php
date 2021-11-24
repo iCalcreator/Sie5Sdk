@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -47,14 +47,10 @@ class BalancesType implements Sie5Interface
         $max  = $faker->numberBetween( 1, 3 );
         $load = [];
         for( $x = 0; $x < $max; $x++ ) {
-            switch( $faker->numberBetween( 1, 2 ) ) {
-                case 1 :
-                    $load[] = [ self::OPENINGBALANCE => BaseBalanceType::loadFromFaker() ];
-                    break;
-                case 2 :
-                    $load[] = [ self::CLOSINGBALANCE => BaseBalanceType::loadFromFaker() ];
-                    break;
-            } // end switch
+            $load[] = match ( $faker->numberBetween( 1, 2 ) ) {
+                1 => [ self::OPENINGBALANCE => BaseBalanceType::loadFromFaker() ],
+                2 => [ self::CLOSINGBALANCE => BaseBalanceType::loadFromFaker() ],
+            }; // end switch
         } // end for
         $dto->setBalancesTypes( $load );
 

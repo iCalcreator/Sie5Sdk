@@ -23,7 +23,6 @@
   composer.json upd
 
 1.1
-
   1.0.7  upd file headers
   1.0.8  bug fix BaseBalanceType::addBaseBalanceType()
   1.0.10 JournalType::isValid() name accept
@@ -32,3 +31,5 @@
 
 1.2 PHP 7.4
     alter test from fzaninotto/faker to fakerphp/faker
+
+1.4 PHP 8.0

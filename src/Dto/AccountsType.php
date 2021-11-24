@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -100,7 +100,7 @@ class AccountsType extends Sie5DtoBase implements Sie5DtoInterface
      * @param null|string $id
      * @return array|AccountType|bool   if id given AccountType, bool false on not found otherwise array all
      */
-    public function getAccount( ? string $id = null )
+    public function getAccount( ? string $id = null ) : AccountType | bool | array
     {
         if( ! empty( $id )) {
             $ix = $this->isAccountIdUnique( $id );
@@ -130,7 +130,7 @@ class AccountsType extends Sie5DtoBase implements Sie5DtoInterface
      * @param string $id
      * @return int|bool  AccountType index or true if not found
      */
-    public function isAccountIdUnique( string $id )
+    public function isAccountIdUnique( string $id ) : bool | int
     {
         $hitIx = array_search( $id, $this->getAllAccountIds(), true );
         return ( false !== $hitIx ) ? $hitIx : true;

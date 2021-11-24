@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -34,11 +34,11 @@ use Faker;
 class CustomerInvoiceType
 {
     /**
-     * @param mixed $id
+     * @param mixed|null $id
      * @return Dto
      * @access static
      */
-    public static function loadFromFaker( $id = null ) : Dto
+    public static function loadFromFaker( mixed $id = null ) : Dto
     {
         $faker = Faker\Factory::create();
 

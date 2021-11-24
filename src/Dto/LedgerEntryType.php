@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -136,10 +136,10 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      *
      * @param string $accountId
      * @param mixed $amount
-     * @param mixed $quantity
+     * @param mixed|null $quantity
      * @return static
      */
-    public static function factoryAccountIdAmount( string $accountId, $amount, $quantity = null ) : self
+    public static function factoryAccountIdAmount( string $accountId, mixed $amount, mixed $quantity = null ) : self
     {
         $instance = new self();
         $instance->setAccountId( $accountId );
@@ -336,7 +336,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setAmount( $amount ) : self
+    public function setAmount( mixed $amount ) : self
     {
         $this->amount = CommonFactory::assertAmount( $amount );
         return $this;
@@ -354,7 +354,7 @@ class LedgerEntryType extends Sie5DtoExtAttrBase
      * @param mixed $quantity
      * @return static
      */
-    public function setQuantity( $quantity ) : self
+    public function setQuantity( mixed $quantity ) : self
     {
         $this->quantity = (float) $quantity;
         return $this;

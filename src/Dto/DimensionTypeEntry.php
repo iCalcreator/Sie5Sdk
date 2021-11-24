@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -67,7 +67,7 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public static function factoryIdName( $id, ? string $name = null ) : self
+    public static function factoryIdName( mixed $id, ? string $name = null ) : self
     {
         $instance = self::factory()
             ->setId( $id );
@@ -157,7 +157,7 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param string $id
      * @return bool|int|string  ObjectType index or true if not found
      */
-    public function isObjectIdUnique( string $id )
+    public function isObjectIdUnique( string $id ) : bool | int | string
     {
         $hitIx = array_search( $id, $this->getAllObjectIds(), true );
         return ( false !== $hitIx ) ? $hitIx : true;
@@ -192,7 +192,7 @@ class DimensionTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @return static
      * @throws InvalidArgumentException
      */
-    public function setId( $id ) : self
+    public function setId( mixed $id ) : self
     {
         $this->id = CommonFactory::assertPositiveInteger( $id );
         return $this;

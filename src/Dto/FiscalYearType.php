@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -194,7 +194,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * @return FiscalYearType
      * @throws InvalidArgumentException
      */
-    public function setPrimary( $primary ) : self
+    public function setPrimary( mixed $primary ) : self
     {
         $this->primary = CommonFactory::assertBoolean( $primary );
         return $this;
@@ -213,7 +213,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * @return FiscalYearType
      * @throws InvalidArgumentException
      */
-    public function setClosed( $closed ) : self
+    public function setClosed( mixed $closed ) : self
     {
         $this->closed  = CommonFactory::assertBoolean( $closed );
         return $this;
@@ -232,7 +232,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * @return FiscalYearType
      * @throws InvalidArgumentException
      */
-    public function setHasLedgerEntries( $hasLedgerEntries ) : self
+    public function setHasLedgerEntries( mixed $hasLedgerEntries ) : self
     {
         $this->hasLedgerEntries = CommonFactory::assertBoolean( $hasLedgerEntries );
         return $this;
@@ -251,7 +251,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * @return FiscalYearType
      * @throws InvalidArgumentException
      */
-    public function setHasSubordinateAccounts( $hasSubordinateAccounts ) : self
+    public function setHasSubordinateAccounts( mixed $hasSubordinateAccounts ) : self
     {
         $this->hasSubordinateAccounts = CommonFactory::assertBoolean( $hasSubordinateAccounts );
         return $this;
@@ -270,7 +270,7 @@ class FiscalYearType extends Sie5DtoBase implements Sie5DtoInterface
      * @return FiscalYearType
      * @throws InvalidArgumentException
      */
-    public function setHasAttachedVoucherFiles( $hasAttachedVoucherFiles ) : self
+    public function setHasAttachedVoucherFiles( mixed $hasAttachedVoucherFiles ) : self
     {
         $this->hasAttachedVoucherFiles = CommonFactory::assertBoolean( $hasAttachedVoucherFiles );
         return $this;

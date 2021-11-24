@@ -1,6 +1,6 @@
 <?php
 /**
- * SieSdk     PHP SDK for Sie5 export/import format
+ * Sie5Sdk    PHP SDK for Sie5 export/import format
  *            based on the Sie5 (http://www.sie.se/sie5.xsd) schema
  *
  * This file is a part of Sie5Sdk.
@@ -99,7 +99,7 @@ class DimensionsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param null|int $id
      * @return array|DimensionTypeEntry|bool   if id given DimensionTypeEntry, bool false on not found otherwise array
      */
-    public function getDimension( ? int $id = null )
+    public function getDimension( ? int $id = null ) : array | bool | DimensionTypeEntry
     {
         if( ! is_null( $id )) {
             $ix = $this->isDimensionsIdUnique( $id );
@@ -129,7 +129,7 @@ class DimensionsTypeEntry extends Sie5DtoBase implements Sie5DtoInterface
      * @param int $id
      * @return bool|int|string  DimensionTypeEntry index or false if not found
      */
-    public function isDimensionsIdUnique( int $id )
+    public function isDimensionsIdUnique( int $id ) : bool | int | string
     {
         $hitIx = array_search( $id, $this->getAllDimensionIds(), true );
         return ( false !== $hitIx ) ? $hitIx : true;
